@@ -1,6 +1,6 @@
 # KEBSmartFarm
 
-# Untitled
+# UML Class Diagram
 
 ```mermaid
 classDiagram
