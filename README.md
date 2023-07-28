@@ -41,7 +41,7 @@ classDiagram
 			+LED_ON()
 		}
 
-		User "1" o-- "1" Kit
+		User "1" o-- "N" Kit
 		Kit "1" o-- "1" Plant
 		User "1" o-- "N" UserPlants
 		Plant "1" o-- "N" UserPlants
