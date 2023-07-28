@@ -50,8 +50,7 @@ classDiagram
 
 #### ER Diagram
 
-```
-mermaid
+```mermaid
 erDiagram
 	Plant ||--|| Plant_info : consist
 	Users ||--|{ Kit : has
