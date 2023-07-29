@@ -4,26 +4,36 @@ import React, { useState } from 'react'
 import Registered from './registered/Registered';
 import NotRegistered from './notRegistered/NotRegistered';
 import AddDevice from './AddDevice';
+import { useSelector } from 'react-redux';
+
 
 function HomeContent() {
 
-    const [plantRegistered, setPlantRegistered] = useState(false);
-    
-    if (plantRegistered) {
-        return (
-            <div>
-                <AddDevice></AddDevice>
-                <Registered setPlantRegistered={setPlantRegistered} />
-            </div>
-        )
+    const isConnected = useSelector(state => state.isConnected.value); // 현재 기기연결 상태 가져오기
+    const isRegistered = useSelector(state => state.isRegistered.value); // 현재 식물등록 상태 가져오기
+
+    if (isConnected) {
+        if (isRegistered) {
+            return(
+                <div>
+                    <Registered/>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <NotRegistered></NotRegistered>
+                </div>
+            )
+        }
     } else {
         return (
             <div>
                 <AddDevice></AddDevice>
-                <NotRegistered setPlantRegistered={setPlantRegistered}/>; // 기기 등록 화면을 보여주는 컴포넌트
             </div>
         )
     }
+
 }
 
 export default HomeContent

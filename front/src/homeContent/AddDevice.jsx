@@ -1,9 +1,12 @@
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
+import { connect } from '../store/isConnectedSlice';
+import { useDispatch } from 'react-redux';
 
 function AddDevice() {
-
+    
+    const dispatch = useDispatch(); // action을 dispatch하는 함수 가져오기
     const [deviceNumber, setDeviceNumber] = useState("");
 
     const handleDeviceNumber = () => {
@@ -21,12 +24,14 @@ function AddDevice() {
             },
             withCredentials: true
         })
-        .then((res) => {
+        .then((res) => { // 여기서 res에 이미 1대를 추가했습니다. 띄우면 좋을듯
+            dispatch(connect())
             console.log("등록성공");
         })
         .catch((error) => {
             console.log(deviceNumber);
-            alert("기기번호를 다시 확인해주세요");
+            dispatch(connect())
+            alert("기기번호를 다시 확인해주세요 일단은 테스트 단계에서 connect처리");
         })
     }
 
@@ -54,7 +59,7 @@ function AddDevice() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" onClick = { handleDeviceNumber }>등록</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick = { handleDeviceNumber }>등록</button>
                         </div>
                     </div>
                 </div>

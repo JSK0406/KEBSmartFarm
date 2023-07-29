@@ -6,7 +6,7 @@ import NowStatus from './NowStatus'
 import Schedule from './Schedule'
 import { useDispatch } from 'react-redux';
 import { logout } from '../../store/isLoginSlice';
-
+import { deregister } from '../../store/isRegistered';
 
 function Registered() {
     const dispatch = useDispatch(); // action을 dispatch하는 함수 가져오기
@@ -30,7 +30,7 @@ function Registered() {
                 {/* Replace with your actual Schedule component */}
                 <div>Schedule Component</div>
             </div>
-            <button onClick={() => dispatch(logout) }>성장끝</button>
+            <button onClick={() => {dispatch(deregister()); alert("성장이 끝났습니다. 여기에 서버 통신 코드")} }>성장끝</button>
             {/* 현재 사용중인 키트를 비운다는 통신을 해야할듯 */}
             {/* 성장이 끝나면 서버로 끝난 식물의 정보를 추가하면 plantstatus에서는 받기만 하면 됨 */}
         </div>
