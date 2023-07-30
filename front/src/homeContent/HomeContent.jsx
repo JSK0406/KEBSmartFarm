@@ -21,14 +21,14 @@ function HomeContent() {
             )
         } else {
             return (
-                <div>
+                <div style={{ display: 'flex', paddingLeft: '20px' }} >
                     <NotRegistered></NotRegistered>
                 </div>
             )
         }
     } else {
         return (
-            <div>
+            <div style={{ display: 'flex', paddingLeft: '20px' }}>
                 <AddDevice></AddDevice>
             </div>
         )

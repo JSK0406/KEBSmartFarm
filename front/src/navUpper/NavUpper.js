@@ -45,9 +45,14 @@ function NavUpper() {
                         <Nav.Link className="nav-link-item" as={Link} to="/intro" ><FontAwesomeIcon icon={faFileLines} style={{ color: "#ffffff", paddingTop: '11px' }} /> Introduction</Nav.Link>
                         <Nav.Link className="nav-link-item" as={Link} to="/status"><FontAwesomeIcon icon={faSeedling} style={{ color: "#ffffff", paddingTop: '11px' }} /> Plant Status</Nav.Link>
                         <Nav.Link className="nav-link-item" as={Link} to="/guide"><FontAwesomeIcon icon={faDroplet} style={{ color: "#ffffff", paddingTop: '11px' }} /> Plant Guide</Nav.Link>
-                        <Nav.Link className="nav-link-item" style={{ color: 'ivory', fontWeight: '900', backgroundColor: 'none' }}>
-                            <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style={{ border: 0, backgroundColor: 'transparent', margin: 0, fontSize: '12p' }}><FontAwesomeIcon icon={faUser} style={{ color: "#ffffff", }} /> User Info</button>
-                        </Nav.Link>
+                        <div data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            <Nav.Link className="nav-link-item" style={{ marginLeft: '7px', color: 'ivory', fontWeight: '900', backgroundColor: 'none' }}>
+                                <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style={{ border: 0, backgroundColor: 'transparent', margin: 0, }}><FontAwesomeIcon icon={faUser} style={{ color: "#ffffff", }} /> User Info</button>
+                            </Nav.Link>
+                        </div>
+                        {/* <Nav.Link className="nav-link-item" style={{ marginLeft: '7px', color: 'ivory', fontWeight: '900', backgroundColor: 'none' }}>
+                            <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style={{ border: 0, backgroundColor: 'transparent', margin: 0, }}><FontAwesomeIcon icon={faUser} style={{ color: "#ffffff", }} /> User Info</button>
+                        </Nav.Link> */}
                         <NavDropdown title="Dropdown" id="basic-nav-dropdown" style={{ display: 'none', marginRight: '10px' }}>
                         </NavDropdown>
                     </Nav>
