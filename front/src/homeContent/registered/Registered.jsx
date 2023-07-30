@@ -15,11 +15,11 @@ function Registered() {
             <div className="main-content" style={{ height: '60vh', margin: '20px' }}>
                 <div className="container-fluid h-100">
                     <div className="row h-100 border border-dark">
-                        <div className="col-6 plant-info">
+                        <div className="col-lg-6 plant-info">
                             {/* Replace with your actual PlantInfo component */}
                             <div>Plant Info Component</div>
                         </div>
-                        <div className="col-6 plant-status border border-dark">
+                        <div className="col-lg-6 plant-status border border-dark">
                             {/* Replace with your actual PlantStatus component */}
                             <div>Plant Status Component</div>
                         </div>

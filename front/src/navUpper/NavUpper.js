@@ -3,32 +3,14 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import './navUpper.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileLines, faSeedling, faDroplet, faUser, faBars } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from 'react-redux';
-import { logout } from '../store/isLoginSlice';
 import { Link } from 'react-router-dom';
+import NavUserInfo from './NavUserInfo';
 
 function NavUpper() {
-    const dispatch = useDispatch(); // action을 dispatch하는 함수 가져오기
     return (
         <div>
-            {/* offcanvas Part(userInfo) */}
-            <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                <div className="offcanvas-header">
-                    <h5 className="offcanvas-title" id="offcanvasRightLabel">User Info</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <div>
-                        nickname
-                    </div>
-                    <div>
-                        <button onClick={ () => dispatch(logout()) }>로그아웃</button>
-                    </div>
-                    <div>
-                        recent supply water date
-                    </div>
-                </div>
-            </div>
+         {/* offcanvas Part(userInfo) */}
+        <NavUserInfo></NavUserInfo>
 
             {/* Navbar Part */}
             <Navbar
@@ -50,13 +32,8 @@ function NavUpper() {
                                 <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style={{ border: 0, backgroundColor: 'transparent', margin: 0, }}><FontAwesomeIcon icon={faUser} style={{ color: "#ffffff", }} /> User Info</button>
                             </Nav.Link>
                         </div>
-                        {/* <Nav.Link className="nav-link-item" style={{ marginLeft: '7px', color: 'ivory', fontWeight: '900', backgroundColor: 'none' }}>
-                            <button className="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style={{ border: 0, backgroundColor: 'transparent', margin: 0, }}><FontAwesomeIcon icon={faUser} style={{ color: "#ffffff", }} /> User Info</button>
-                        </Nav.Link> */}
                         <NavDropdown title="Dropdown" id="basic-nav-dropdown" style={{ display: 'none', marginRight: '10px' }}>
                         </NavDropdown>
-                    </Nav>
-                    <Nav>
                     </Nav>
                </Navbar.Collapse>
             </Navbar>
