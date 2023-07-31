@@ -35,7 +35,7 @@ public class User {
         this.userPassword = userPassword;
     }
 
-    public void setUserNickname(String userNickname) {
+    public void setUserNickname(String suserNickname) {
         this.userNickname = userNickname;
     }
     @Builder
