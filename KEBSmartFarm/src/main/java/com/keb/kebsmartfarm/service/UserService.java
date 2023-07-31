@@ -33,13 +33,11 @@ public class UserService {
 
     @Transactional
     public UserResponseDto changeUserPassword(String userId, String exPassword, String newPassword) {
-        User user = userRepository.findById(SecurityUtil.getCurrentUserId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+        User user = userRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         if (!passwordEncoder.matches(exPassword, user.getUserPassword())) {
             throw new RuntimeException("비밀번호가 맞지 않습니다");
         }
         user.setUserPassword(passwordEncoder.encode(newPassword));
         return UserResponseDto.of(userRepository.save(user));
     }
-
-
 }

@@ -20,7 +20,7 @@ public class SendMailService {
 
     private final JavaMailSender mailSender;
     private final PasswordEncoder passwordEncoder;
-    private static final String FROM_ADDRESS = "";
+    private static final String FROM_ADDRESS = "cnxw4570123@gmail.com";
 
     public MailDto createMailAndChangePassword(String userEmail, String userId) {
         logger.info("메일 보내기");
