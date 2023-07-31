@@ -9,6 +9,8 @@ import SignUp from './SignUp';
 import FindId from './FindId';
 import FindPassword from './FindPassword';
 import { useSelector } from 'react-redux';
+import { setCookie } from '../store/cookieSlice';
+import { useCookies } from 'react-cookie';
 
 function LoginPage() {
     
@@ -18,6 +20,8 @@ function LoginPage() {
     const isRegistered = useSelector(state => state.isRegistered.value); // 현재 식물등록 상태 가져오기
     const [userId, setUserId] = useState("");
     const [password, setPassword] = useState("");
+    const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
+
     const dispatch = useDispatch(); // action을 dispatch하는 함수 가져오기
 
     const handleIdChange = (e) => {
@@ -29,21 +33,28 @@ function LoginPage() {
     };
 
     const handleLogin = () => {
+        console.log(userId, password)
         loginRequest(userId, password);
     };
 
-    const loginRequest = async (userid, password) => {
-        await axios.post('serverloginurl', { userid: userid, password: password }, { "Content-Type": "application/json", withCredentials: true })
+    const loginRequest = async (userId, password) => {
+        await axios.post('http://165.246.116.164:8080/auth/login', { userId: userId, userPassword: password },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
             .then((res) => {
                 console.log("성공");
-                if (res.data.data.accessToken) {  // 여기서 유저의 여러 정보에 대해서 알아와야 함 일단 닉네임, 키트 정보 정도는 가져와야 할듯
-                    localStorage.setItem("accessToken", res.data.data.accessToken);  // 일단 localstorage에 => 쿠키 이동
+                if (res.data.accessToken) {  // 여기서 유저의 여러 정보에 대해서 알아와야 함 일단 닉네임, 키트 정보 정도는 가져와야 할듯
+                    setCookie('accessToken', res.data.accessToken);
+                    // dispatch(setCookie({tokenName: "accessToken", token: res.data.accessToken}))
+                    // localStorage.setItem("accessToken", res.data.accessToken);  // 일단 localstorage에 => 쿠키 이동
                     // 여기에 기기연결 상태 확인후 dispatch
                     // 여기에 식물등록 상태 확인후 dispatch
-                
                     dispatch(login());
                 }
-                return window.location.replace("/");  // 후에 확인 후 삭제해도 됨
+                // return window.location.replace("/");  // 후에 확인 후 삭제해도 됨
             })
             .catch((error) => {
                 console.log(error);
@@ -59,7 +70,7 @@ function LoginPage() {
                 <div className="login-container"> {/* 새로운 CSS 클래스 추가 */}
                     <input type="text" placeholder="ID" className="input-field" value={ userId } onChange={ handleIdChange } />
                     <input type="password" placeholder="Password" className="input-field" value={ password } onChange={handlePasswordChange} />
-                        <button type="button" className="login-button" style={{ width: '100%' }}  onClick={ () => dispatch(login()) }>로그인</button>
+                    <button type="button" className="login-button" style={{ width: '100%' }} onClick={() => handleLogin() }>로그인</button>
                 </div>
                 <div className='additional-container' style={{ marginTop: '30px', display: 'flex', justifyContent: 'space-between'  }}>
                     <FindId style={{ marginRight: '10px' }}></FindId>

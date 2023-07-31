@@ -8,14 +8,16 @@ import IntroContent from './introContent/IntroContent';
 import PlantStatusContent from './plantStatusContent/PlantStatusContent';
 import GuideContent from './guideContent/GuideContent';
 import { Navigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 function App() {
 
   const isLogin = useSelector(state => state.isLogin.value); // 현재 로그인 상태 가져오기
-  
+  const [cookies, setCookie, removeCookie] = useCookies(['accessToken'])
+
   // 한 컴포넌트는 75vh정도 
   return (
-    isLogin ?
+    (cookies.accessToken) ?
     (
     <div>
       <Router>
