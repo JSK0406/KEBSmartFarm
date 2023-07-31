@@ -1,104 +1,115 @@
 # KEBSmartFarm
 
-# UML Class Diagram
+# Project UML Class Diagram
 
 ```mermaid
 classDiagram
     class User {
-				-id : String
-				-pw : String
-				-kitNo : Kit
+        -id : String
+        -pw : String
+				-nickname : String
+				-email : String
+				-phonenum : String
+				-name : String
+        -arduinoKits : ArduinoKit[*]
+        -userPlants : UserPlants[*]
     }
 
-		class Kit {
-			-serial_num : String
-			-registerDate : String
-			-qr_code : String
-			-kitname : String
-			-userID : String
-			-PlantName : Plant
+    class ArduinoKit {
+        -serial_num : String
+        -registerDate : String
+        -qr_code : String
+        -deviceName : String
+        +sendSensorData()
+        +receiveCommand(command: String): String
+    }
 
-		}
-		
-		class UserPlants {
-			-userID : String
-			-plant_harvest_date : String
-			-PlantNo : String
-		}		
+    class UserPlants {
+        -plant_harvest_date : String
+    }
 
-		class Plant{
-			-PlantNo : String
-			-PlantName : String
-			-PlantState : char
-			-PlantRegDate : String
-			}
+    class Plant {
+        -PlantNo : String
+        -PlantName : String
+        -PlantState : char
+        -PlantRegDate : String
+    }
 
-		class ManagePlantWeb {
-			+login()
-			+addKit(Kit)
-			+getSensorData()
-			+addPlant(Plant)
-			+LED_ON()
-		}
+    class PlantSystemFacade {
+        - managePlantWeb : ManagePlantWeb
+        +login()
+        +addArduinoHardware(ArduinoHardware)
+        +getSensorData()
+        +addPlant(Plant)
+        +controlBrightness()
+        +takePicture()
+    }
 
-		User "1" o-- "N" Kit
-		Kit "1" o-- "1" Plant
-		User "1" o-- "N" UserPlants
-		Plant "1" o-- "N" UserPlants
-		User "1" o-- "1" ManagePlantWeb
+    class ManagePlantWeb {
+        +loginInternal()
+        +registerArduinoHardwareInternal(ArduinoHardware)
+        +retrieveSensorDataInternal()
+        +savePlantInternal(Plant)
+        +controlBrightnessInternal()
+        +takePictureInternal()
+        +sendCommandArduino(command: String): String
+    }
+
+    User "1" *-- "N" ArduinoKit : has
+    User "1" *-- "N" UserPlants : has
+    User "1" *-- "1" PlantSystemFacade : uses
+    Plant "1" o-- "N" UserPlants : related
+    ArduinoKit "1" o-- "1" Plant : related
+    PlantSystemFacade o-- ManagePlantWeb : uses
+    ManagePlantWeb o-- ArduinoKit : controls
 ```
 
-#### ER Diagram
+# Project ER Diagram
 
 ```mermaid
 erDiagram
-	Plant ||--|| Plant_info : consist
-	Users ||--|{ Kit : has
-	UserPlants }|--|| Plant_info : has
-	Users ||--|{ UserPlants : has 
+  Users ||--|{ ArduinoKit : has
+  Users ||--|{ UserPlants : has
+  Plant ||--|{ UserPlants : related
+  ArduinoKit ||--|{ Plant : related
+  ArduinoKit ||--|{ SensorData : contains
 
-	Kit ||--|{ Plant_info : has
-	Kit ||--|| SensorData : contains
-	Users {
-		varchar(50) userId PK
-		varchar(50) userPw
-		varchar(50) Kit_no FK
-	}
+  Users {
+    varchar(50) id PK
+    varchar(50) pw
+    varchar(50) nickname
+    varchar(50) email
+    varchar(50) phonenum
+    varchar(50) name
+  }
 
-	SensorData {
-		nchar(10) sequence_num PK
-		varchar(100) kit_serial_num FK
-		float humidity
-		float temperature
-		DATETIME date
-	}
-	Kit{
-		varchar(100) serial_num PK
-		varchar(300) qr_code
-		varchar(50) kitname
-		DATETIME register_date
-	}
+  ArduinoKit {
+    varchar(100) serial_num PK
+    DATETIME registerDate
+    varchar(300) qr_code
+    varchar(50) deviceName
+  }
 
-	UserPlants{
-		varchar(10) regNo PK
-		varchar(50) userId FK
-		varchar(10) plantNo FK
-		DATETIME plant_harvest_date
-	}
+  UserPlants{
+    varchar(10) id PK
+    varchar(50) userId FK
+    varchar(10) PlantNo FK
+    DATETIME plant_harvest_date
+  }
 
-	Plant_info {
-		char(10) plantNo
-		char(50) plant_nickname
-		DATETIME plant_reg_date
-		nchar plant_state
-		DATETIME plant_harvest_date
-	}
+  Plant {
+    varchar(10) PlantNo PK
+    varchar(50) PlantName
+    char(1) PlantState
+    DATETIME PlantRegDate
+  }
 
-	Plant {
-		INT water_supply_cycle 
-		float prefer_temp
-		float prefer_illumination
-		float avg_grow_date
-	}
-
+  SensorData {
+    bigint id PK
+    varchar(100) kit_serial_num FK
+    float humidity
+    float temperature
+    float brightness
+    DATETIME date
+  }
 ```
