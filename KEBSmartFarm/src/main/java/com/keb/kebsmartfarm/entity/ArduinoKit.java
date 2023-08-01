@@ -1,5 +1,6 @@
 package com.keb.kebsmartfarm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -13,6 +14,7 @@ public class ArduinoKit {
     private String serialNum;
     private String date;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "MemberSeqNum")
     private User user;
