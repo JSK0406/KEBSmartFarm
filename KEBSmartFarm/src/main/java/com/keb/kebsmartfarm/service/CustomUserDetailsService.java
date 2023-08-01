@@ -27,7 +27,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserDetails createUserDetails(User user) {
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getAuthority().toString());
         return new org.springframework.security.core.userdetails.User(
-                String.valueOf(user.getUserId()),
+                // 여기서 넣어줘야 하는 건 유일하게 멤버를 구분할 수 있는 memberseqnum
+                String.valueOf(user.getMemberSeqNum()),
                 user.getUserPassword(),
                 Collections.singleton(grantedAuthority)
         );
