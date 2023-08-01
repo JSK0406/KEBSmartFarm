@@ -1,4 +1,4 @@
-package com.keb.kebsmartfarm.cors;
+package com.keb.kebsmartfarm.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

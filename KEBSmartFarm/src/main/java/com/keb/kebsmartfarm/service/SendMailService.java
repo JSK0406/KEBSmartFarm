@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+@Component
 @Service
 @AllArgsConstructor
 public class SendMailService {
@@ -20,7 +22,9 @@ public class SendMailService {
 
     private final JavaMailSender mailSender;
     private final PasswordEncoder passwordEncoder;
+
     private static final String FROM_ADDRESS = "cnxw4570123@gmail.com";
+
 
     public MailDto createMailAndChangePassword(String userEmail, String userId) {
         logger.info("메일 보내기");

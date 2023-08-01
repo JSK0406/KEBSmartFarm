@@ -19,7 +19,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public UserResponseDto getMyInfoBySecurity() {
-        return userRepository.findById(SecurityUtil.getCurrentUserId())
+        return userRepository.findByUserId(SecurityUtil.getCurrentUserId())
                 .map(UserResponseDto::of)
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
     }
@@ -32,8 +32,8 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDto changeUserPassword(String userId, String exPassword, String newPassword) {
-        User user = userRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
+    public UserResponseDto changeUserPassword(String exPassword, String newPassword) {
+        User user = userRepository.findByUserId(SecurityUtil.getCurrentUserId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         if (!passwordEncoder.matches(exPassword, user.getUserPassword())) {
             throw new RuntimeException("비밀번호가 맞지 않습니다");
         }

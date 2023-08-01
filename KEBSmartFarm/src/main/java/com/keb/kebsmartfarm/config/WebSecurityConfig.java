@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -35,7 +36,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
+                // 개발 단계에서만 사용
+                 .csrf(AbstractHttpConfigurer::disable)
                 // 세션 사용하지 않기 때문에 STATELESS 설정
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(

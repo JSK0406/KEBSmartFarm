@@ -6,18 +6,20 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class UserResponseDto {
     private String userId;
-    private String nickname;
+    private String userNickname;
 
     public static UserResponseDto of(User user) {
         return UserResponseDto.builder()
                 .userId(user.getUserId())
-                .nickname(user.getUserNickname())
+                .userNickname(user.getUserNickname())
                 .build();
     }
 }

@@ -1,5 +1,6 @@
-package com.keb.kebsmartfarm.jwt;
+package com.keb.kebsmartfarm.filter;
 
+import com.keb.kebsmartfarm.jwt.TokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

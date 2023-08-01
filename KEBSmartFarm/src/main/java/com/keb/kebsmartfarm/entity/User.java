@@ -23,13 +23,13 @@ public class User {
     @Column(length = 13)
     private String userPhoneNum;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String userEmail;
 
     private String userNickname;
 
-    private Authority authority;
 
+    private Authority authority;
     // userPassword와 userNickname은 변경 가능
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
