@@ -3,9 +3,10 @@ package com.keb.kebsmartfarm.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor
 public class User {
     @Id
@@ -28,6 +29,8 @@ public class User {
 
     private String userNickname;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ArduinoKit> arduinoKitList;
 
     private Authority authority;
     // userPassword와 userNickname은 변경 가능
@@ -35,11 +38,11 @@ public class User {
         this.userPassword = userPassword;
     }
 
-    public void setUserNickname(String suserNickname) {
+    public void setUserNickname(String userNickname) {
         this.userNickname = userNickname;
     }
     @Builder
-    public User(Long memberSeqNum, String userName, String userId, String userPassword, String userPhoneNum, String userEmail, String userNickname, Authority authority) {
+    public User(Long memberSeqNum, String userName, String userId, String userPassword, String userPhoneNum, String userEmail, String userNickname, Authority authority, List<ArduinoKit> arduinoKitList) {
         MemberSeqNum = memberSeqNum;
         this.userName = userName;
         this.userId = userId;
@@ -48,5 +51,6 @@ public class User {
         this.userEmail = userEmail;
         this.userNickname = userNickname;
         this.authority = authority;
+        this.arduinoKitList = arduinoKitList;
     }
 }

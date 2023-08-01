@@ -53,8 +53,7 @@ public class TokenProvider {
                 .setExpiration(tokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
-        // API 테스트용
-        System.out.println("accessToken = " + accessToken);
+
         return TokenDto.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)

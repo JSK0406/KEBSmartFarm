@@ -11,7 +11,9 @@ public class ArduinoKit {
     private Long kitNo;
     private String deviceName;
     private String serialNum;
-    private String userId;
     private String date;
 
+    @ManyToOne
+    @JoinColumn(name = "MemberSeqNum")
+    private User user;
 }
