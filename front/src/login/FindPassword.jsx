@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
+import { Cookies } from 'react-cookie'
 
 function FindPassword(props) {
 
@@ -14,25 +15,53 @@ function FindPassword(props) {
     }
 
     const requestFindId = async (userId, userEmail) => {
-        await axios.post('serverFindPasswordurl', { userId: userId, userEmail: userEmail },
+        await axios.post('http://165.246.116.13:8080/auth/findPw', { userId: userId, userEmail: userEmail },
             {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                withCredentials: true
+                
+                // withCredentials: true
             })
-            .then((res) => {
-                console.log("비밀번호 찾기");
-                // alert(`당신의 아이디는 ${res.foundId} 입니다.`)
-                alert("이메일로 임시비밀번호가 전송되었습니다.")
+            .then(async (res) => {
+                await axios.post('http://165.246.116.13:8080/auth/findPw/sendEmail', { userId: userId, userEmail: userEmail },
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        // withCredentials: true
+                    }).then((res) => {
+                        console.log("비밀번호 찾기");
+                        // alert(`당신의 아이디는 ${res.foundId} 입니다.`)
+                        alert("이메일로 임시비밀번호가 전송되었습니다.")
+                    }).catch((error) => {
+                        alert("이메일 전송 과정에서 오류가 생겼습니다.")
+                    })
             })
             .catch((error) => {
-                alert("오류가 발생했습니다. 다시 시도해주세요.");
+                alert("입력하신 정보를 다시 확인해주세요.");
             })
     }
+    // const requestFindId = async (userId, userEmail) => {
+    //     await axios.post('http://165.246.116.164:8080/auth/findPw', { userId: userId, userEmail: userEmail },
+    //         {
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             // withCredentials: true
+    //         })
+    //         .then((res) => {
+    //             console.log("비밀번호 찾기");
+    //             // alert(`당신의 아이디는 ${res.foundId} 입니다.`)
+    //             alert("이메일로 임시비밀번호가 전송되었습니다.")
+    //         })
+    //         .catch((error) => {
+    //             alert("오류가 발생했습니다. 다시 시도해주세요.");
+    //         })
+    // }
 
     return (
-        <div style={props.style}>
+        <div style={{ marginRight: '10px' }}>
             <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#findPasswordModal" data-bs-whatever="@getbootstrap">비밀번호찾기</button>
             <div className="modal fade" id="findPasswordModal" tabindex="-1" aria-labelledby="findIdModalLabel" aria-hidden="true">
                 <div className="modal-dialog">

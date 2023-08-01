@@ -11,8 +11,11 @@ import FindPassword from './FindPassword';
 import { useSelector } from 'react-redux';
 import { setCookie } from '../store/cookieSlice';
 import { useCookies } from 'react-cookie';
+import { refreshUserInfo } from '../store/userInfoSlice';
+import { refreshUserId, refreshUserNickname } from '../store/userInfoSlice';
+import Cookies from 'js-cookie';
 
-function LoginPage() {
+export default function LoginPage() {
     
     // 토큰 획득 방법은 localStorage.getItem("accessToken")
 
@@ -33,12 +36,13 @@ function LoginPage() {
     };
 
     const handleLogin = () => {
-        console.log(userId, password)
         loginRequest(userId, password);
     };
 
+    const accessToken = Cookies.get('accessToken');
+
     const loginRequest = async (userId, password) => {
-        await axios.post('http://165.246.116.164:8080/auth/login', { userId: userId, userPassword: password },
+        await axios.post('http://165.246.116.13:8080/auth/login', { userId: userId, userPassword: password },
             {
                 headers: {
                     "Content-Type": "application/json",
@@ -46,22 +50,32 @@ function LoginPage() {
             })
             .then((res) => {
                 console.log("성공");
-                if (res.data.accessToken) {  // 여기서 유저의 여러 정보에 대해서 알아와야 함 일단 닉네임, 키트 정보 정도는 가져와야 할듯
-                    setCookie('accessToken', res.data.accessToken);
-                    // dispatch(setCookie({tokenName: "accessToken", token: res.data.accessToken}))
-                    // localStorage.setItem("accessToken", res.data.accessToken);  // 일단 localstorage에 => 쿠키 이동
-                    // 여기에 기기연결 상태 확인후 dispatch
-                    // 여기에 식물등록 상태 확인후 dispatch
-                    dispatch(login());
+                if (res.data.accessToken) {
+                    axios.get('http://165.246.116.13:8080/users/me', {
+                        headers: {
+                            "Authorization": `Bearer ${res.data.accessToken}`
+                        }
+                    })
+                        .then((res2) => {
+                            console.log(" 패치 ")
+                            console.log(res2.data.user.userId)
+                            dispatch(refreshUserId(res2.data.user.userId))
+                            console.log("실행1")
+                            dispatch(refreshUserNickname(res2.data.user.userNickname))
+                            console.log("실행2")
+                            setCookie('accessToken', res.data.accessToken);
+                            dispatch(login());
+                        }).catch((error) => {
+                            console.log(error)
+                        });
+                        
                 }
-                // return window.location.replace("/");  // 후에 확인 후 삭제해도 됨
             })
             .catch((error) => {
                 console.log(error);
                 alert("아이디와 비밀번호를 확인해 주세요.");
             });
-        };
-
+    };
 
     return (
         <>
@@ -71,6 +85,7 @@ function LoginPage() {
                     <input type="text" placeholder="ID" className="input-field" value={ userId } onChange={ handleIdChange } />
                     <input type="password" placeholder="Password" className="input-field" value={ password } onChange={handlePasswordChange} />
                     <button type="button" className="login-button" style={{ width: '100%' }} onClick={() => handleLogin() }>로그인</button>
+                    {/* <button type="button" className="login-button" style={{ width: '100%' }} onClick={() => dispatch(login()) }>로그인</button> */}
                 </div>
                 <div className='additional-container' style={{ marginTop: '30px', display: 'flex', justifyContent: 'space-between'  }}>
                     <FindId style={{ marginRight: '10px' }}></FindId>
@@ -82,5 +97,3 @@ function LoginPage() {
     );
 
 }
-
-export default LoginPage;

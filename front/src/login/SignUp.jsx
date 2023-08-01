@@ -18,7 +18,7 @@ function SignUp() {
     };
 
     const createAccount = async(userName, userId, userPassword, userEmail, userPhoneNum, userNickname) => {
-        await axios.post('http://165.246.116.164:8080/auth/join', { userName: userName, userId: userId, userPassword: userPassword, userEmail: userEmail, userPhoneNum: userPhoneNum, userNickname: userNickname },
+        await axios.post('http://165.246.116.13:8080/auth/join', { userName: userName, userId: userId, userPassword: userPassword, userEmail: userEmail, userPhoneNum: userPhoneNum, userNickname: userNickname },
             {
                 headers: {
                     "Content-Type": "application/json",

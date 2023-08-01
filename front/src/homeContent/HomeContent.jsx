@@ -6,7 +6,6 @@ import NotRegistered from './notRegistered/NotRegistered';
 import AddDevice from './AddDevice';
 import { useSelector } from 'react-redux';
 
-
 function HomeContent() {
 
     const isConnected = useSelector(state => state.isConnected.value); // 현재 기기연결 상태 가져오기

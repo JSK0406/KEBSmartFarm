@@ -39,7 +39,7 @@ function AddDevice() {
     return (
         <div>
             <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">기기 등록</button>
-            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="findModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content" style={{ height: '500px'  }}>
                         <div className="modal-header">
