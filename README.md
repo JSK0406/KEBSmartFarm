@@ -68,40 +68,43 @@ classDiagram
 
 ```mermaid
 erDiagram
-  Users ||--|{ ArduinoKit : has
-  Users ||--|{ UserPlants : has
-  Plant ||--|{ UserPlants : related
-  ArduinoKit ||--|{ Plant : related
-  ArduinoKit ||--|{ SensorData : contains
+  user ||--o{ arduino_kit : has
+  user ||--o{ PreviousPlants : has
+  Plant ||--o| PreviousPlants : related
+	arduino_kit ||--o{ Plant : related
+  arduino_kit ||--|{ SensorData : contains
 
-  Users {
-    varchar(50) id PK
-    varchar(50) pw
-    varchar(50) nickname
-    varchar(50) email
-    varchar(50) phonenum
-    varchar(50) name
+  user {
+    bigint(20) user_seq_num PK
+    varchar(255) user_email
+		varchar(10) user_id
+    varchar(3) user_name
+    varchar(50) user_nickname
+    varchar(255) user_password 
+    varchar(50) user_phone_num
+		tinyint(4)	authority
   }
 
-  ArduinoKit {
-    varchar(100) serial_num PK
-    DATETIME registerDate
-    varchar(300) qr_code
-    varchar(50) deviceName
+  arduino_kit {
+    varchar(100) kit_no PK
+		bigint(20) member_seq_num FK
+    datetime date
+    varchar(255) serial_num
+    varchar(255) deviceName
   }
 
-  UserPlants{
-    varchar(10) id PK
-    varchar(50) userId FK
-    varchar(10) PlantNo FK
-    DATETIME plant_harvest_date
+	PreviousPlants{
+    bigint(20) reg_no PK
+    bigint(20) user_seq_num FK
+    bigint(20) plant FK
+    datetime plant_harvest_date
   }
 
   Plant {
-    varchar(10) PlantNo PK
-    varchar(50) PlantName
-    char(1) PlantState
-    DATETIME PlantRegDate
+    bigint(20) plant_num PK
+		bigint(20) plant_kit_no FK
+    varchar(255) plant_name
+    datetime plant_reg_date
   }
 
   SensorData {
