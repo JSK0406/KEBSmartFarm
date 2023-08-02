@@ -18,12 +18,11 @@ function SignUp() {
     };
 
     const createAccount = async(userName, userId, userPassword, userEmail, userPhoneNum, userNickname) => {
-        await axios.post('http://165.246.116.13:8080/auth/join', { userName: userName, userId: userId, userPassword: userPassword, userEmail: userEmail, userPhoneNum: userPhoneNum, userNickname: userNickname },
+        await axios.post('http://165.246.116.52:8080/auth/join', { userName: userName, userId: userId, userPassword: userPassword, userEmail: userEmail, userPhoneNum: userPhoneNum, userNickname: userNickname },
             {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                // withCredentials: true
             })
             .then((res) => {
                 console.log("회원가입 성공");
@@ -36,7 +35,7 @@ function SignUp() {
 
     return (
         <div>
-            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signUpModal" data-bs-whatever="@getbootstrap">회원가입</button>
+            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signUpModal" data-bs-whatever="@getbootstrap">Sign Up</button>
             <div className="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content" style={{ height: '650px' }}>

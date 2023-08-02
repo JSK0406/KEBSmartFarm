@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
-import Cookies from 'js-cookie';
 
 const userInfoSlice = createSlice({
     name: 'userInfo',
@@ -9,6 +7,7 @@ const userInfoSlice = createSlice({
             infos: {
                 userNickname: '',
                 userId: '',
+                userKitList: [],
             }
         }
     },
@@ -19,8 +18,11 @@ const userInfoSlice = createSlice({
         refreshUserId(state, action) {
             state.value.infos.userId = action.payload
         }, 
+        refreshUserKitList(state, action) {
+            state.value.infos.userKitList = action.payload
+        }, 
     },
 });
 
 export default userInfoSlice;
-export const { refreshUserId, refreshUserNickname } = userInfoSlice.actions;
+export const { refreshUserId, refreshUserNickname, refreshUserKitList } = userInfoSlice.actions;

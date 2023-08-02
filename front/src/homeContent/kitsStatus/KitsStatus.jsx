@@ -1,12 +1,27 @@
 // 여기서 not registered or registered를 기기의 정보에 따라 조건부 렌더링
 
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { deregister } from '../../store/isRegistered';
+import DetailStatus from '../detailStatus/DetailStatus';
 
-function KitsStatus({ idx, plantName, plantNickName, startDate,    }) {
+function KitsStatus() {
+
+  const dispatch = useDispatch();
+  const userKitList = useSelector(state => state.userInfo.value.infos.userKitList)
+
   return (
     <div>
-      {/*  이 안에 조건부렌더링 / 등록되어있으면 대충의 정보, 아니면 등록하라는 창 */}
-      {/* 등록되어있으면 정보 받아서, 아니면 notregistered 사용하면 됨 */}
+      {userKitList.map((kit, index) => (
+          <div key={index} style={{ border: '2px solid black', margin: '10px' }}>
+            <p>Kit No: {kit.kitNo}</p>
+            <p>Device Name: {kit.deviceName}</p>
+            <p>Serial Number: {kit.serialNum}</p>
+            <p>Date: {kit.date}</p>
+            <DetailStatus></DetailStatus>
+          </div>
+        ))
+      }
     </div>
   )
 }

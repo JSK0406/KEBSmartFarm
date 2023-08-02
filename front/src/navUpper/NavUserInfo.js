@@ -9,10 +9,12 @@ import { useEffect } from 'react';
 function NavUserInfo() {
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
   const userNickname = useSelector(state => state.userInfo.value.infos.userNickname)
+  const userKitList = useSelector(state => state.userInfo.value.infos.userKitList)
   console.log(userNickname)
 
   const isRegistered = useSelector(state => state.isRegistered.value); // 현재 식물등록 상태 가져오기
   const dispatch = useDispatch();
+
 
   console.log("렌더링")
 
@@ -30,13 +32,25 @@ function NavUserInfo() {
         <div class="offcanvas-body">
           <div>
             { userNickname }님 안녕하세요!
+            {console.log(userKitList)}
+            {userKitList.map((kit, index) => (
+              <div key={index}>
+                <p>Kit No: {kit.kitNo}</p>
+                <p>Device Name: {kit.deviceName}</p>
+                <p>Serial Number: {kit.serialNum}</p>
+                <p>Date: {kit.date}</p>
+              </div>
+            ))}
           </div>
           <div>    
             {/* { userKits } */}
           <div/>
           </div>
           <div>
-            <button onClick={ () => dispatch(logout()) }>로그아웃</button>
+            <button onClick={ () => {
+              removeCookie("accessToken")
+              dispatch(logout())
+              }}>로그아웃</button>
             {/* <button onClick={handleLogout}>로그아웃</button> */}
           </div>
           <div>

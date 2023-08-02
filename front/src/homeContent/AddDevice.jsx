@@ -3,7 +3,8 @@ import { useState } from 'react'
 import axios from 'axios'
 import { connect } from '../store/isConnectedSlice';
 import { useDispatch } from 'react-redux';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 function AddDevice() {
     
     const dispatch = useDispatch(); // action을 dispatch하는 함수 가져오기
@@ -37,8 +38,8 @@ function AddDevice() {
 
 
     return (
-        <div>
-            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">기기 등록</button>
+        <div style={{ paddingRight: '15px', textAlign: 'right' }}>
+            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap"><FontAwesomeIcon icon={faPlus} style={{ color: "#000000", marginRight: '10px' }}/>Add Device</button>
             <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="findModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content" style={{ height: '500px'  }}>
