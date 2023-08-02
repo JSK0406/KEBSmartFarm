@@ -16,12 +16,12 @@ import java.util.List;
 public class UserResponseDto {
     private String userId;
     private String userNickname;
-    private List<ArduinoKit> arduinoKitList;
+    private List<ArduinoKit> userKitList;
     public static UserResponseDto of(User user) {
         return UserResponseDto.builder()
                 .userId(user.getUserId())
                 .userNickname(user.getUserNickname())
-                .arduinoKitList(user.getArduinoKitList())
+                .userKitList(user.getArduinoKitList())
                 .build();
     }
 }
