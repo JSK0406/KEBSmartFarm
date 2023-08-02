@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.Date;
+import java.util.List;
+
 @Entity
 @Getter
 public class ArduinoKit {
@@ -12,10 +15,14 @@ public class ArduinoKit {
     private Long kitNo;
     private String deviceName;
     private String serialNum;
+    @Column(columnDefinition = "DATETIME")
     private String date;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "MemberSeqNum")
     private User user;
+
+    @OneToMany(mappedBy = "arduinoKit", cascade = CascadeType.ALL)
+    private List<Plant> plant;
 }
