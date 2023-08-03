@@ -1,7 +1,6 @@
 package com.keb.kebsmartfarm.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -27,17 +26,16 @@ public class ArduinoKit {
     @OneToMany(mappedBy = "arduinoKit", cascade = CascadeType.ALL)
     private List<Plant> PlantList;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     @Transient
     private Plant plant;
 
 
-    public void getActivePlant(){
-        for (Plant activePlant: PlantList){
+    public Plant getActivePlant() {
+        for (Plant activePlant : PlantList) {
             if (activePlant.getPreviousPlant() == null) {
-                plant = activePlant;
+                return activePlant;
             }
         }
+        return null;
     }
-
 }
