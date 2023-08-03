@@ -11,7 +11,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long MemberSeqNum;
+    private Long userSeqNum;
 
     @Column(length = 3)
     private String userName;
@@ -32,6 +32,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ArduinoKit> arduinoKitList;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PreviousPlant> userPlants;
+
     private Authority authority;
     // userPassword와 userNickname은 변경 가능
     public void setUserPassword(String userPassword) {
@@ -42,8 +45,17 @@ public class User {
         this.userNickname = userNickname;
     }
     @Builder
-    public User(Long memberSeqNum, String userName, String userId, String userPassword, String userPhoneNum, String userEmail, String userNickname, Authority authority, List<ArduinoKit> arduinoKitList) {
-        MemberSeqNum = memberSeqNum;
+    public User(Long userSeqNum,
+                String userName,
+                String userId,
+                String userPassword,
+                String userPhoneNum,
+                String userEmail,
+                String userNickname,
+                Authority authority,
+                List<ArduinoKit> arduinoKitList,
+                List<PreviousPlant> previousPlantList) {
+        this.userSeqNum = userSeqNum;
         this.userName = userName;
         this.userId = userId;
         this.userPassword = userPassword;
@@ -52,5 +64,6 @@ public class User {
         this.userNickname = userNickname;
         this.authority = authority;
         this.arduinoKitList = arduinoKitList;
+        this.userPlants = previousPlantList;
     }
 }

@@ -15,7 +15,7 @@ public class PreviousPlant {
     private Long RegNo;
 
     @ManyToOne
-    @JoinColumn(name = "MemberSeqNum")
+    @JoinColumn(name = "userSeqNum")
     private User user;
 
     @OneToOne
