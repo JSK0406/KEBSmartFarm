@@ -26,6 +26,7 @@ public class Plant {
     @JsonIgnore
     private ArduinoKit arduinoKit;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "plant")
     private PreviousPlant previousPlant;
 }

@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArduinoResponseDto {
+    private Long kitNo;
     private String kitSerialNum;
     private String kitDeviceName;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -24,6 +25,7 @@ public class ArduinoResponseDto {
 
     public static ArduinoResponseDto of(ArduinoKit arduinoKit) {
         return ArduinoResponseDto.builder()
+                .kitNo(arduinoKit.getKitNo())
                 .kitSerialNum(arduinoKit.getSerialNum())
                 .kitDeviceName(arduinoKit.getDeviceName())
                 .date(arduinoKit.getDate())

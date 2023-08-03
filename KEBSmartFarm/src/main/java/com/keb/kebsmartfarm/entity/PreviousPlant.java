@@ -1,5 +1,6 @@
 package com.keb.kebsmartfarm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +15,7 @@ public class PreviousPlant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long RegNo;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "userSeqNum")
     private User user;
