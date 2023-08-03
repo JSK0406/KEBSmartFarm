@@ -14,8 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -39,11 +37,10 @@ public class AuthService {
         return tokenProvider.generateTokenDto(authentication);
     }
 
-    public Boolean findUserPasswordByUserNameAndUserEmail(String userEmail, String userId) {
+    public void findPasswordByNameAndEmail(String userEmail, String userId) {
         User user = this.userRepository.findByUserEmail(userEmail).orElseThrow(()-> new RuntimeException(userEmail + "에 해당하는 회원이 없습니다"));
         if(!user.getUserId().equalsIgnoreCase(userId)){
             throw  new RuntimeException(userId + "에 맞는 회원이 없습니다.");
         }
-        return true;
     }
 }

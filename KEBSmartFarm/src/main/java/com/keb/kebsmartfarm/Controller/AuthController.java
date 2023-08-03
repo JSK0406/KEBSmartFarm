@@ -17,25 +17,25 @@ public class AuthController {
     private final AuthService authService;
     private final SendMailService sendMailService;
 
-    @RequestMapping(value = "/join", method = RequestMethod.POST)
+    @PostMapping("/join")
     public ResponseEntity<UserResponseDto> signup(@RequestBody UserRequestDto userRequestDto) {
-
         return ResponseEntity.ok(authService.signup(userRequestDto));
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody UserRequestDto userRequestDto) {
         return ResponseEntity.ok(authService.login(userRequestDto));
     }
 
     @PostMapping("/findPw")
-    public ResponseEntity<Boolean> findUserPassword(@RequestBody UserRequestDto request) {
-        return ResponseEntity.ok(authService.findUserPasswordByUserNameAndUserEmail(request.getUserEmail(), request.getUserId()));
-    }
-
-    @PostMapping("/findPw/sendEmail")
-    public void sendEmail(@RequestBody UserRequestDto request) {
-        MailDto mailDto = sendMailService.createMailAndChangePassword(request.getUserEmail(), request.getUserId());
-        sendMailService.mailSend(mailDto);
+    public ResponseEntity<String> findUserPassword(@RequestBody UserRequestDto request) {
+        try{
+            authService.findPasswordByNameAndEmail(request.getUserEmail(), request.getUserId());
+            MailDto mailDto = sendMailService.createMailAndChangePassword(request.getUserEmail(), request.getUserId());
+            sendMailService.mailSend(mailDto);
+        }catch (Exception e){
+            return ResponseEntity.ok("아이디/이메일이 일치하지 않습니다.");
+        }
+        return ResponseEntity.ok("이메일을 보냈습니다");
     }
 }
