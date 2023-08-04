@@ -32,9 +32,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ArduinoKit> arduinoKitList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<PreviousPlant> userPlants;
-
     private Authority authority;
     // userPassword와 userNickname은 변경 가능
     public void setUserPassword(String userPassword) {
@@ -53,8 +50,7 @@ public class User {
                 String userEmail,
                 String userNickname,
                 Authority authority,
-                List<ArduinoKit> arduinoKitList,
-                List<PreviousPlant> previousPlantList) {
+                List<ArduinoKit> arduinoKitList) {
         this.userSeqNum = userSeqNum;
         this.userName = userName;
         this.userId = userId;
@@ -64,6 +60,5 @@ public class User {
         this.userNickname = userNickname;
         this.authority = authority;
         this.arduinoKitList = arduinoKitList;
-        this.userPlants = previousPlantList;
     }
 }

@@ -18,13 +18,13 @@ public class UserResponseDto {
     private String userId;
     private String userNickname;
     private List<ArduinoResponseDto> userKitList;
-    private List<PreviousPlant> userPlants;
+//    private List<PreviousPlant> userPlants;
     public static UserResponseDto of(User user) {
         return UserResponseDto.builder()
                 .userId(user.getUserId())
                 .userNickname(user.getUserNickname())
                 .userKitList(ArduinoResponseDto.ofList(user.getArduinoKitList()))
-                .userPlants(user.getUserPlants())
+//                .userPlants(user.getUserPlants())
                 .build();
     }
 }
