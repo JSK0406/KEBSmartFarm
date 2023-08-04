@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 public class ArduinoResponseDto {
     private Long kitNo;
     private String kitSerialNum;
-    private String kitDeviceName;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Plant plant;
     private String date;
@@ -27,7 +26,6 @@ public class ArduinoResponseDto {
         return ArduinoResponseDto.builder()
                 .kitNo(arduinoKit.getKitNo())
                 .kitSerialNum(arduinoKit.getSerialNum())
-                .kitDeviceName(arduinoKit.getDeviceName())
                 .date(arduinoKit.getDate())
                 .plant(arduinoKit.getActivePlant())
                 .build();
