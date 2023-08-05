@@ -5,6 +5,7 @@ import com.keb.kebsmartfarm.dto.ArduinoResponseDto;
 import com.keb.kebsmartfarm.entity.User;
 import com.keb.kebsmartfarm.repository.ArduinoKitRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
