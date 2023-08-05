@@ -8,13 +8,15 @@ import NavUserInfo from './NavUserInfo';
 
 function NavUpper() {
     return (
+        // <div style={{ marginLeft: '3.8%', marginRight: '3.8%' }}>
         <div>
             {/* offcanvas Part(userInfo) */}
             <NavUserInfo></NavUserInfo>
 
             {/* Navbar Part */}
             <Navbar
-                style={{ backgroundColor: '#5C9EAD', margin: '15px', borderRadius: '15px', display: 'flex', alignContent: 'center', fontSize: '15px', paddingRight: '20px' }}
+                className='col-9 col-lg-10'
+                style={{ backgroundColor: '#5C9EAD', margin: '8px 80px 0px 80px  ', borderRadius: '15px', display: 'flex', alignContent: 'center', fontSize: '15px', paddingRight: '20px' }}
                 // bg="dark"
                 variant="dark"
                 expand="lg"

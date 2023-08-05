@@ -15,11 +15,13 @@ function HomeContent() {
 
     return(
         <div>
-            <div style={{ marginTop: '20px'}}>
-                <AddDevice></AddDevice>
+            <div>
+                {/* <AddDevice></AddDevice> */}
             </div>
-            <div style={{marginLeft: '17px', marginRight: '17px'}}>
-                <KitsStatus/>
+            <div style={{ alignItems: 'center', margin: '0 auto'}}>
+                <div style={{ margin: '0 auto' }}>
+                    <KitsStatus/>
+                </div>
             </div>
         </div>
     )

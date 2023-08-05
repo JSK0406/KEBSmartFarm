@@ -4,8 +4,8 @@ import DetailStatus from '../../detailStatus/DetailStatus'
 function Registered({kit, index}) {
   return (
     <div>
-        <div key={index} style={{ marginTop: '20px' }}>
-            <div style={{ borderRadius: '10px', border: '2px solid #212529', width: '100%', padding: '15px' }}>
+        <div key={index}>
+            <div style={{ borderRadius: '10px', opacity: '0.8',  border: '0px solid #212529', width: '100%', padding: '0px' }}>
                 <p>Kit No: {kit.kitNo}</p>
                 <p>Device Name: {kit.kitDeviceName}</p>
                 <p>Serial Number: {kit.kitSerialNum}</p>

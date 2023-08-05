@@ -31,14 +31,6 @@ function NavUserInfo() {
             <div style={{ fontSize: '20px' }}>
               Total kits you have : {userKitList.length}
             </div>
-            {/* {userKitList.map((kit, index) => (
-              <div key={index}>
-                <p>Kit No: {kit.kitNo}</p>
-                <p>Device Name: {kit.deviceName}</p>
-                <p>Serial Number: {kit.serialNum}</p>
-                <p>Date: {kit.date}</p>
-              </div>
-            ))} */}
           </div>
           <div>
             <button onClick={() => {
