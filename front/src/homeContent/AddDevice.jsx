@@ -1,35 +1,43 @@
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
-import { connect } from '../store/isConnectedSlice';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { fetchUser } from '../store/userInfoSlice';
+import Cookies from 'js-cookie';
 
 
 function AddDevice() {
     const Server_IP = process.env.REACT_APP_Server_IP;
     const dispatch = useDispatch(); // action을 dispatch하는 함수 가져오기
     const [deviceNumber, setDeviceNumber] = useState("");
+    const [deviceName, setDeviceName] = useState("");
+
+    
 
     const handleDeviceNumber = () => {
-        const accessToken = localStorage.getItem("accessToken")
-        registerDeviceNumber(deviceNumber, accessToken)
+        const accessToken = Cookies.get('accessToken');
+        console.log(deviceNumber)
+        console.log(deviceName)
+        registerDeviceNumber(deviceNumber, deviceName, accessToken)
+        dispatch(fetchUser());
+        window.location.reload();
     }
 
-    const registerDeviceNumber = async (deviceNumber, accessToken) => {
-        await axios.post(`${Server_IP}`, { deviceNumber: deviceNumber },
+    const registerDeviceNumber = async (deviceNumber, deviceName , accessToken) => {
+        await axios.post(`${Server_IP}/users/kit`, { serialNum: deviceNumber, deviceName: deviceName },
         {
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer ${accessToken}"
+                "Authorization": `Bearer ${accessToken}`
             },
         })
         .then((res) => {
-            console.log("등록성공");
+            alert("등록 성공")
         })
         .catch((error) => {
-            alert("기기번호를 다시 확인해주세요 일단은 테스트 단계에서 connect처리");
+            alert("기기번호를 다시 확인해주세요");
         })
     }
 
@@ -49,8 +57,8 @@ function AddDevice() {
                                 <div className="mb-3">
                                     <label htmlFor="recipient-name" className="col-form-label" >기기 일련번호:</label>
                                 <input type="text" className="form-control" id="recipient-name" value={deviceNumber} onChange={(e) => setDeviceNumber(e.target.value)} />
-                                    <label htmlFor="recipient-name" className="col-form-label" >기기 일련번호:</label>
-                                <input type="text" className="form-control" id="recipient-name" value={deviceNumber} onChange={(e) => setDeviceNumber(e.target.value)} />
+                                    <label htmlFor="recipient-name" className="col-form-label" >기기 이름:</label>
+                                <input type="text" className="form-control" id="recipient-name" value={deviceName} onChange={(e) => setDeviceName(e.target.value)} />
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', scale: '200%', marginTop: '70px' }}>
                                     <img src='/Aimg.png' width='50px' height='50px' />
