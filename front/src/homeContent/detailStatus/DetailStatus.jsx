@@ -13,7 +13,7 @@ function DetailStatus({kit}) {
     return (
         <div>
         <div>
-            <button type="button" style={{ color: 'white', backgroundColor: '#73BD72' }}className="btn" data-bs-toggle="modal" data-bs-target={`#detailStatusModal${kit.kitNo}`} data-bs-whatever="@getbootstrap">Detail Status</button>
+            <button type="button" style={{ color: 'white', backgroundColor: '#73BD72' }} className="btn" data-bs-toggle="modal" data-bs-target={`#detailStatusModal${kit.kitNo}`} data-bs-whatever="@getbootstrap">Detail Status</button>
             <div className="modal fade" id={`detailStatusModal${kit.kitNo}`} tabindex="-1" aria-labelledby="findIdModalLabel" aria-hidden="true">
                     <div className="modal-dialog modal-xl">
                     <div className="modal-content" >

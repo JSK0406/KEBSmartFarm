@@ -33,7 +33,7 @@ function App() {
   })
 
   return (
-    <div className='App' style={{ width: '80%', margin: '0 auto' }}>
+    <div className='App' style={{ width: '81%', margin: '0 auto' }}>
       <Router>
         {isLogin && <NavUpper />}
         <Routes>

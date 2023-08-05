@@ -1,11 +1,12 @@
 import React from 'react'
-import { Offcanvas } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { logout } from '../store/isLoginSlice';
 import { useCookies } from 'react-cookie';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AddDevice from '../homeContent/AddDevice';
+import ChangePassword from './ChangePassword';
 
 function NavUserInfo() {
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
@@ -15,6 +16,7 @@ function NavUserInfo() {
   const isRegistered = useSelector(state => state.isRegistered.value); // 현재 식물등록 상태 가져오기
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
 
   return (
     <>
@@ -39,12 +41,17 @@ function NavUserInfo() {
               window.location.reload();
             }}>로그아웃</button>
           </div>
+
+          <div>
+            <ChangePassword></ChangePassword>
+          </div>
           <div>
             recent supply water date
           </div>
         </div>
       </div>
     </>
+
   )
 }
 

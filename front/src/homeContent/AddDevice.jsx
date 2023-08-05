@@ -43,9 +43,9 @@ function AddDevice() {
 
 
     return (
-        <div style={{ paddingRight: '15px', textAlign: 'right' }}>
-            <button style={{ backgroundColor: '#73BD72', color: "white", marginRight: '10px' }} type="button" className="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap"><FontAwesomeIcon icon={faPlus} />  Add Device</button>
-            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="findModalLabel" aria-hidden="true">
+        <div>
+            <button style={{ backgroundColor: '#73BD72', color: "white", borderRadius: '30px' }} type="button" className="btn" data-bs-toggle="modal" data-bs-target="#addDevice" data-bs-whatever="@getbootstrap"><FontAwesomeIcon icon={faPlus} /></button>
+            <div className="modal fade" id="addDevice" tabindex="-1" aria-labelledby="findModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content" style={{ height: '500px'  }}>
                         <div className="modal-header">

@@ -4,7 +4,7 @@ import axios from 'axios'
 import { register } from '../../../store/isRegistered'
 import { useDispatch } from 'react-redux'
 
-function RegisterPlant(props) {
+function RegisterPlant({kitNo}) {
 
     const dispatch = useDispatch();
 
@@ -39,8 +39,8 @@ function RegisterPlant(props) {
 
     return (
         <div>
-            <button type="button" style={{ color: 'white', backgroundColor: '#73BD72', paddingLeft: '7px', paddingRight: '7px' }}className="btn" data-bs-toggle="modal" data-bs-target="#findIdModal" data-bs-whatever="@getbootstrap">Register Plant</button>
-            <div className="modal fade" id="findIdModal" tabindex="-1" aria-labelledby="findIdModalLabel" aria-hidden="true">
+            <button type="button" style={{ color: 'white', backgroundColor: '#73BD72', paddingLeft: '7px', paddingRight: '7px' }} className="btn" data-bs-toggle="modal" data-bs-target={`#registerPlant${kitNo}Modal`} data-bs-whatever="@getbootstrap">Register Plant</button>
+            <div className="modal fade" id={`registerPlant${kitNo}Modal`} tabindex="-1" aria-labelledby="registerPlantLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content" style={{ height: '400px' }}>
                         <div className="modal-header">

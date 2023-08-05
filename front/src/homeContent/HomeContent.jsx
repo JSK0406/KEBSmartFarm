@@ -16,7 +16,7 @@ function HomeContent() {
     return(
         <div>
             <div>
-                {/* <AddDevice></AddDevice> */}
+                <AddDevice></AddDevice>
             </div>
             <div style={{ alignItems: 'center', margin: '0 auto'}}>
                 <div style={{ margin: '0 auto' }}>
