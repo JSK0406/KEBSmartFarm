@@ -32,7 +32,7 @@ function FindId(props) {
 
     return (
         <div style={props.style}>
-            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#findIdModal" data-bs-whatever="@getbootstrap">Find ID</button>
+            <button style={{ border: 'none', backgroundColor: '#5B8C5A', padding: '7px 20px 7px 20px' }} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#findIdModal" data-bs-whatever="@getbootstrap">Find ID</button>
             <div className="modal fade" id="findIdModal" tabindex="-1" aria-labelledby="findIdModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content" style={{ height: '350px' }}>

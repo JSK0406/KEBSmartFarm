@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-restricted-globals
+
 import './App.css';
 import LoginPage from './login/LoginPage';
 import NavUpper from './navUpper/NavUpper';
@@ -9,39 +11,42 @@ import PlantStatusContent from './plantStatusContent/PlantStatusContent';
 import GuideContent from './guideContent/GuideContent';
 import { Navigate } from 'react-router-dom';
 import ModifyInfo from './modifyInfo/ModifyInfo';
-import { refreshUserInfo } from './store/userInfoSlice';
+import { fetchUser, refreshUserInfo } from './store/userInfoSlice';
 import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { login, logout } from './store/isLoginSlice';
 
 function App() {
 
+  const dispatch = useDispatch()
+  const isLogin = useSelector(state => state.isLogin.value);
 
-  const isLogin = useSelector(state => state.isLogin.value); // 현재 로그인 상태 가져오기
-  
-  // 한 컴포넌트는 75vh정도 
+
+  useEffect(() => {
+    if (Cookies.get("accessToken")) {
+      dispatch(fetchUser());  
+      dispatch(login());
+    } else {
+      dispatch(logout()); 
+    }
+  })
+
   return (
-    // (Cookies.get("accessToken")) ?
-    // {console.log(Cookies.get("accessToken"))}
-    // (getCookie("accessToken")) ?
-    // (cookies.accessToken) ?
-    (isLogin) ?
-    (
-    <div>
+    <div className='App'>
       <Router>
-        <NavUpper />
-          <Routes>
-              <Route path="/home" element={<HomeContent />} />
-              <Route path="/intro" element={<IntroContent />} />
-              <Route path="/status" element={<PlantStatusContent />} />
-              <Route path="/guide" element={<GuideContent />} />
-              <Route path="/modify" element={<ModifyInfo/>} />
-              {/* <Route path="*" element={<Navigate to="/home" replace />}></Route> */}
-              <Route path="*" element={<Navigate to="/home"/>}></Route>
-          </Routes>
+        {isLogin && <NavUpper />}
+        <Routes>
+          <Route path="/home" element={isLogin ? <HomeContent /> : < LoginPage />}/>
+          <Route path="/intro" element={isLogin ? <IntroContent /> : < LoginPage />} />
+          <Route path="/status" element={isLogin ? <PlantStatusContent /> : < LoginPage />} />
+          <Route path="/guide" element={isLogin ? <GuideContent /> : < LoginPage />} />
+          <Route path="/modify" element={isLogin ? <ModifyInfo /> : < LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="*" element={<Navigate to="/home" />}></Route>
+        </Routes>
       </Router>
     </div>
-    ) 
-    : 
-    <LoginPage/>
   );
 }
 

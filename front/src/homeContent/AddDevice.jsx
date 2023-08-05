@@ -5,8 +5,10 @@ import { connect } from '../store/isConnectedSlice';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
+
 function AddDevice() {
-    
+    const Server_IP = process.env.REACT_APP_Server_IP;
     const dispatch = useDispatch(); // action을 dispatch하는 함수 가져오기
     const [deviceNumber, setDeviceNumber] = useState("");
 
@@ -16,22 +18,17 @@ function AddDevice() {
     }
 
     const registerDeviceNumber = async (deviceNumber, accessToken) => {
-        console.log(deviceNumber);
-        await axios.post('serverDeviceurl', { deviceNumber: deviceNumber },
+        await axios.post(`${Server_IP}`, { deviceNumber: deviceNumber },
         {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer ${accessToken}"
             },
-            withCredentials: true
         })
-        .then((res) => { // 여기서 res에 이미 1대를 추가했습니다. 띄우면 좋을듯
-            dispatch(connect())
+        .then((res) => {
             console.log("등록성공");
         })
         .catch((error) => {
-            console.log(deviceNumber);
-            dispatch(connect())
             alert("기기번호를 다시 확인해주세요 일단은 테스트 단계에서 connect처리");
         })
     }
@@ -39,7 +36,7 @@ function AddDevice() {
 
     return (
         <div style={{ paddingRight: '15px', textAlign: 'right' }}>
-            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap"><FontAwesomeIcon icon={faPlus} style={{ color: "#000000", marginRight: '10px' }}/>Add Device</button>
+            <button style={{ backgroundColor: '#73BD72', color: "white", marginRight: '10px' }} type="button" className="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap"><FontAwesomeIcon icon={faPlus} />  Add Device</button>
             <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="findModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content" style={{ height: '500px'  }}>
@@ -50,6 +47,8 @@ function AddDevice() {
                         <div className="modal-body">
                             <form>
                                 <div className="mb-3">
+                                    <label htmlFor="recipient-name" className="col-form-label" >기기 일련번호:</label>
+                                <input type="text" className="form-control" id="recipient-name" value={deviceNumber} onChange={(e) => setDeviceNumber(e.target.value)} />
                                     <label htmlFor="recipient-name" className="col-form-label" >기기 일련번호:</label>
                                 <input type="text" className="form-control" id="recipient-name" value={deviceNumber} onChange={(e) => setDeviceNumber(e.target.value)} />
                                 </div>

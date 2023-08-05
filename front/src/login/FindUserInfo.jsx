@@ -30,7 +30,7 @@ function FindUserInfo(props) {
 
     return (
         <div style={props.style}>
-            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#findIdModal" data-bs-whatever="@getbootstrap">아이디찾기</button>
+            <button style={{ border: 'none', backgroundColor: '#5B9279', padding: '8px 15px 8px 15px' }} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#findIdModal" data-bs-whatever="@getbootstrap">아이디찾기</button>
             <div className="modal fade" id="findIdModal" tabindex="-1" aria-labelledby="findIdModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content" style={{ height: '350px' }}>

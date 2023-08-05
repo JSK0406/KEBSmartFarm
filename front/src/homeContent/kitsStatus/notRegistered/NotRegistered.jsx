@@ -1,14 +1,18 @@
 import React from 'react'
+import RegisterPlant from './ResigerPlant'
 
-function NotRegistered({ setPlantRegistered }) {
+function NotRegistered({kit, index }) {
   return (
     <div>
-        <div className="main-content" style={{ height: '75vh' }}>
-            <div>
-                식물 등록이 필요합니다
-            </div>
-            <button onClick={ () => setPlantRegistered(true) }>등록</button>
+      <div key={index}  style={{ marginTop: '20px' }}>
+        <div style={{ borderRadius: '10px', backgroundColor: 'white', border: '2px solid #5C9EAD', width: '100%', padding: '15px' }}>
+          <p>Kit No: {kit.kitNo}</p>
+          <p>Device Name: {kit.kitDeviceName}</p>
+          <p>Serial Number: {kit.kitSerialNum}</p>
+          <p>Date: {kit.date}</p>
+          <RegisterPlant></RegisterPlant>
         </div>
+      </div>
     </div>
   )
 }

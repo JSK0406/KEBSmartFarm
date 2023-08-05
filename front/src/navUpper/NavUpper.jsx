@@ -14,12 +14,14 @@ function NavUpper() {
 
             {/* Navbar Part */}
             <Navbar
-                style={{ margin: '15px', borderRadius: '15px', display: 'flex', alignContent: 'center', fontSize: '15px', paddingRight: '20px' }}
-                bg="dark"
+                style={{ backgroundColor: '#5C9EAD', margin: '15px', borderRadius: '15px', display: 'flex', alignContent: 'center', fontSize: '15px', paddingRight: '20px' }}
+                // bg="dark"
                 variant="dark"
                 expand="lg"
             >
+                <Link to="/home" style={{ textDecoration: 'none', color: 'inherit' }} >
                 <Navbar.Brand className='nav-title' style={{ marginLeft: '20px' }}>Smart Home</Navbar.Brand>
+                </Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                     <Nav>

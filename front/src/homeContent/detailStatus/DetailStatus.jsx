@@ -8,18 +8,18 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../../store/isLoginSlice';
 import { deregister } from '../../store/isRegistered';
 
-function DetailStatus() {
+function DetailStatus({kit}) {
     const dispatch = useDispatch(); // action을 dispatch하는 함수 가져오기
     return (
         <div>
         <div>
-            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailStatusModal" data-bs-whatever="@getbootstrap">Detail Status</button>
-            <div className="modal fade" id="detailStatusModal" tabindex="-1" aria-labelledby="findIdModalLabel" aria-hidden="true">
+            <button type="button" style={{ color: 'white', backgroundColor: '#73BD72' }}className="btn" data-bs-toggle="modal" data-bs-target={`#detailStatusModal${kit.kitNo}`} data-bs-whatever="@getbootstrap">Detail Status</button>
+            <div className="modal fade" id={`detailStatusModal${kit.kitNo}`} tabindex="-1" aria-labelledby="findIdModalLabel" aria-hidden="true">
                     <div className="modal-dialog modal-xl">
                     <div className="modal-content" >
                             <div>
                                 <div className="modal-header">
-                                    <h1 className="modal-title fs-5" id="exampleModalLabel">키트 이름</h1>
+                                    <h1 className="modal-title fs-5" id="exampleModalLabel">{kit.kitNo} : {kit.kitDeviceName}</h1>
                                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 {/* <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> */}

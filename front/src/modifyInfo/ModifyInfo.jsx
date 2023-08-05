@@ -6,18 +6,17 @@ import Cookies from 'js-cookie';
 
 function ModifyInfo() {
 
+    const Server_IP = process.env.REACT_APP_Server_IP;
     const accessToken = Cookies.get('accessToken');
 
     const [form, setForm] = useState({exPassword: '', newPassword: '' })
 
     const handleChangePassword = () => {
-        console.log(form)
-        console.log(accessToken);
         requestChangePassword(form.exPassword, form.newPassword)
     }
 
     const requestChangePassword = async (exPassword, newPassword) => {
-        await axios.post('http://165.246.116.52:8080/users/password', { exPassword: exPassword, newPassword: newPassword },
+        await axios.post(`${Server_IP}/users/password`, { exPassword: exPassword, newPassword: newPassword },
             {
                 headers: {
                     "Content-Type": "application/json",
@@ -26,8 +25,11 @@ function ModifyInfo() {
             })
             .then((res) => {
                 alert("비밀번호 변경이 완료되었습니다.")
+                Cookies.remove("accessToken");
+                window.location.reload();
             })
             .catch((error) => {
+                alert(error)
                 alert("오류가 발생했습니다. 다시 시도해주세요.");
             })
     }

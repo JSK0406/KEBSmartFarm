@@ -1,27 +1,21 @@
 // 여기서 not registered or registered를 기기의 정보에 따라 조건부 렌더링
 
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { deregister } from '../../store/isRegistered';
-import DetailStatus from '../detailStatus/DetailStatus';
+import { useSelector } from 'react-redux';
+import NotRegistered from './notRegistered/NotRegistered';
+import Registered from './registered/Registered';
 
 function KitsStatus() {
 
-  const dispatch = useDispatch();
   const userKitList = useSelector(state => state.userInfo.value.infos.userKitList)
 
   return (
-    <div>
-      {userKitList.map((kit, index) => (
-          <div key={index} style={{ border: '2px solid black', margin: '10px' }}>
-            <p>Kit No: {kit.kitNo}</p>
-            <p>Device Name: {kit.deviceName}</p>
-            <p>Serial Number: {kit.serialNum}</p>
-            <p>Date: {kit.date}</p>
-            <DetailStatus></DetailStatus>
-          </div>
-        ))
-      }
+    <div className='row ' style={{  }}>
+      {userKitList.map((kit, index) =>
+        <div className="col-12 col-lg-6">
+          {kit.plant ? <Registered kit={kit} index={index} /> : <NotRegistered kit={kit} index={index} />}
+        </div>
+      )}
     </div>
   )
 }

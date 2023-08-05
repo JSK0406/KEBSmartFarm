@@ -4,6 +4,8 @@ import axios from 'axios'
 
 function SignUp() {
 
+    const Server_IP = process.env.Server_IP
+
     const [form, setForm] = useState({
         userName: '',
         userId: '',
@@ -14,11 +16,19 @@ function SignUp() {
     })
 
     const handleSignUp = () => {
-        createAccount(form.userName, form.userId, form.userPassword, form.userEmail, form.userPhoneNum, form.userNickname)
+        let alertMsg = '';
+        alertMsg += !form.userEmail.includes('@') ? '이메일에는 @ 기호가 포함되어야 합니다.\n\n':'';
+        alertMsg += !/^\d{3}-\d{4}-\d{4}$/.test(form.userPhoneNum) ? '전화번호는 000-0000-0000 형태여야 합니다.':'';
+        console.log(alertMsg);
+        if (!alertMsg) {
+            createAccount(form.userName, form.userId, form.userPassword, form.userEmail, form.userPhoneNum, form.userNickname)
+        } else {
+            alert(alertMsg)
+        }
     };
 
     const createAccount = async(userName, userId, userPassword, userEmail, userPhoneNum, userNickname) => {
-        await axios.post('http://165.246.116.52:8080/auth/join', { userName: userName, userId: userId, userPassword: userPassword, userEmail: userEmail, userPhoneNum: userPhoneNum, userNickname: userNickname },
+        await axios.post(`${Server_IP}/auth/join`, { userName: userName, userId: userId, userPassword: userPassword, userEmail: userEmail, userPhoneNum: userPhoneNum, userNickname: userNickname },
             {
                 headers: {
                     "Content-Type": "application/json",
@@ -35,7 +45,7 @@ function SignUp() {
 
     return (
         <div>
-            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signUpModal" data-bs-whatever="@getbootstrap">Sign Up</button>
+            <button style={{ border: 'none', backgroundColor: '#5B8C5A', padding: '7px 20px 7px 20px' }} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signUpModal" data-bs-whatever="@getbootstrap">Sign Up</button>
             <div className="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content" style={{ height: '650px' }}>

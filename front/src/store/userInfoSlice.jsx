@@ -1,5 +1,21 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, thunkAPI } from '@reduxjs/toolkit'
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
+const Server_IP = process.env.REACT_APP_Server_IP;
+
+export const fetchUser = createAsyncThunk(
+    'userInfo/fetchUser',
+    async () => {
+        const res = await axios.get(`${Server_IP}/users/me`, {
+            headers: {
+                "Authorization": `Bearer ${Cookies.get("accessToken")}`
+            }
+        });
+        return res.data
+    }
+);
+    
 const userInfoSlice = createSlice({
     name: 'userInfo',
     initialState: {
@@ -11,18 +27,16 @@ const userInfoSlice = createSlice({
             }
         }
     },
-    reducers: {
-        refreshUserNickname(state, action) {
-            state.value.infos.userNickname = action.payload
-        }, 
-        refreshUserId(state, action) {
-            state.value.infos.userId = action.payload
-        }, 
-        refreshUserKitList(state, action) {
-            state.value.infos.userKitList = action.payload
-        }, 
-    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchUser.fulfilled, (state, action) => {
+            state.value.infos.userId = action.payload.userId;
+            state.value.infos.userNickname = action.payload.userNickname;
+            state.value.infos.userKitList = action.payload.userKitList;
+        });
+    }
 });
+
+
 
 export default userInfoSlice;
 export const { refreshUserId, refreshUserNickname, refreshUserKitList } = userInfoSlice.actions;
