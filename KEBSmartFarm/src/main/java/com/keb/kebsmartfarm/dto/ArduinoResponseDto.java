@@ -21,6 +21,7 @@ public class ArduinoResponseDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Plant plant;
     private String date;
+    private String deviceName;
 
     public static ArduinoResponseDto of(ArduinoKit arduinoKit) {
         return ArduinoResponseDto.builder()
@@ -28,6 +29,7 @@ public class ArduinoResponseDto {
                 .kitSerialNum(arduinoKit.getSerialNum())
                 .date(arduinoKit.getDate())
                 .plant(arduinoKit.getActivePlant())
+                .deviceName(arduinoKit.getDeviceName())
                 .build();
     }
 

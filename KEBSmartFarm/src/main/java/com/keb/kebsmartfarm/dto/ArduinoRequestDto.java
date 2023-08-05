@@ -21,14 +21,16 @@ public class ArduinoRequestDto {
     private String serialNum;
     private Long kitNo;
     private String date;
-
+    private String deviceName;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @Builder
     public ArduinoKit toArduinoKit() {
         return ArduinoKit.builder()
                 .kitNo(getKitNo())
                 .serialNum(getSerialNum())
-                .date(SimpleDateFormat.getDateInstance().format(new Date()))
+                .date(simpleDateFormat.format(new Date()))
                 .user(User.builder().userSeqNum(Long.valueOf(getUserSeqNum())).build())
+                .deviceName(getDeviceName())
                 // 일단 임시로 NPE 생기지 않도록 조치함
                 .PlantList(new ArrayList<>())
                 .build();
