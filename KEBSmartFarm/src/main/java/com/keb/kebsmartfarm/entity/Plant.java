@@ -27,6 +27,6 @@ public class Plant {
     private ArduinoKit arduinoKit;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "plant")
+    @OneToOne(mappedBy = "plant", cascade = CascadeType.ALL)
     private PreviousPlant previousPlant;
 }
