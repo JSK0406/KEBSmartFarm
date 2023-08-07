@@ -17,6 +17,7 @@ public class Plant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long plantNum;
+    @Column(unique = true)
     private String plantName;
     @Column(columnDefinition = "DATETIME")
     private String plantRegDate;
