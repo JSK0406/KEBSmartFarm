@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class IllegalExceptionHandler {
     @ExceptionHandler(value = IllegalStateException.class)
     public ResponseEntity<String> handleIllegalException(IllegalStateException e) {
-        // 오류 메시지 출력
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
