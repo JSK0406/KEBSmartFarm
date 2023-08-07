@@ -16,6 +16,7 @@ public class ArduinoKit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long kitNo;
     private String deviceName;
+    @Column(unique = true)
     private String serialNum;
     @Column(columnDefinition = "DATETIME")
     private String date;

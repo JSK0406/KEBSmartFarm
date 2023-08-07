@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArduinoRequestDto {
-    private String userSeqNum;
+    private Long userSeqNum;
     private String serialNum;
     private String date;
     private String deviceName;

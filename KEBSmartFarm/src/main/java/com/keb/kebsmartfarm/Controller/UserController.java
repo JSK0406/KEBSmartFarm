@@ -1,8 +1,6 @@
 package com.keb.kebsmartfarm.Controller;
 
-import com.keb.kebsmartfarm.config.SecurityUtil;
 import com.keb.kebsmartfarm.dto.*;
-import com.keb.kebsmartfarm.entity.User;
 import com.keb.kebsmartfarm.service.ArduinoKitService;
 import com.keb.kebsmartfarm.service.ReleasedKitService;
 import com.keb.kebsmartfarm.service.UserService;
@@ -35,10 +33,17 @@ public class UserController {
     }
 
     @PostMapping("/kit")
-    public ResponseEntity<ArduinoResponseDto> addArduinoKit(@RequestBody ArduinoRequestDto requestDto) {
+    public ResponseEntity<ArduinoResponseDto> addKit(@RequestBody ArduinoRequestDto requestDto) {
         releasedKitService.validateKitSerialNumber(requestDto.getSerialNum()).orElseThrow(() -> new RuntimeException("존재하지 않는 시리얼 번호입니다."));
         return ResponseEntity.ok(arduinoKitService.createArduinoKit(requestDto));
     }
+
+    @DeleteMapping("/kit/{kitNo}")
+    public ResponseEntity<ArduinoResponseDto> deleteKit(@PathVariable long kitNo) {
+        // Kit가 없으면 204 띄움
+        return ResponseEntity.ok(arduinoKitService.deleteKit(kitNo));
+    }
+
 }
 
 
