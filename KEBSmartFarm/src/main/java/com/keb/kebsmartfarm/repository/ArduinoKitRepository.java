@@ -5,7 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ArduinoKitRepository extends JpaRepository<ArduinoKit, Long> {
-    boolean existsArduinoKitBySerialNum(String serialNum);
+    Optional<ArduinoKit> findBySerialNum(String serialNum);
 }
