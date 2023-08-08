@@ -25,11 +25,10 @@ public class ArduinoKitService {
         return requestDto.toArduinoKit();
     }
 
-    public ArduinoResponseDto deleteKit(long kitNo){
+    public void deleteKit(long kitNo){
         ArduinoKit arduinoKit = arduinoKitRepository.findById(kitNo)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 키트입니다."));
         arduinoKitRepository.delete(arduinoKit);
-        return ArduinoResponseDto.of(arduinoKit);
     }
 
     public ArduinoKit findKitByKitNo(long kitNo){
