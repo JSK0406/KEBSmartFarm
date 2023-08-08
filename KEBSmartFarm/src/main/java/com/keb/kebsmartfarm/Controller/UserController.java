@@ -7,6 +7,7 @@ import com.keb.kebsmartfarm.service.PlantService;
 import com.keb.kebsmartfarm.service.ReleasedKitService;
 import com.keb.kebsmartfarm.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,9 +45,10 @@ public class UserController {
     }
 
     @DeleteMapping("/kit/{kitNo}")
-    public ResponseEntity<ArduinoResponseDto> deleteKit(@PathVariable long kitNo) {
+    public ResponseEntity<?> deleteKit(@PathVariable long kitNo) {
         // Kit가 없으면 204 띄움
-        return ResponseEntity.ok(arduinoKitService.deleteKit(kitNo));
+        arduinoKitService.deleteKit(kitNo);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 
@@ -57,6 +59,12 @@ public class UserController {
         return ResponseEntity.ok(plantService.createPlant(arduinoKit, plantRequestDto));
     }
 
+
+//    @DeleteMapping("/kit/{kitNo}/plant/{plantNo}")
+//    public ResponseEntity<PlantResponseDto> deletePlant(@PathVariable long kitNo, @PathVariable long plantNo) {
+//        ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
+//        return ResponseEntity.ok(null);
+//    }
 
 }
 
