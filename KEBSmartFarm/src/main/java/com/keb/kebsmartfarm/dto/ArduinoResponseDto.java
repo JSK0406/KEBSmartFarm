@@ -28,7 +28,7 @@ public class ArduinoResponseDto {
                 .kitNo(arduinoKit.getKitNo())
                 .kitSerialNum(arduinoKit.getSerialNum())
                 .date(arduinoKit.getDate())
-                .plant(arduinoKit.getActivePlant())
+                .plant(arduinoKit.getActivePlant().orElse(null))
                 .kitDeviceName(arduinoKit.getDeviceName())
                 .build();
     }

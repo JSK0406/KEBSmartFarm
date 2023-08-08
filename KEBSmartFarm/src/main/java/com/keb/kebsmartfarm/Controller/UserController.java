@@ -2,10 +2,8 @@ package com.keb.kebsmartfarm.Controller;
 
 import com.keb.kebsmartfarm.dto.*;
 import com.keb.kebsmartfarm.entity.ArduinoKit;
-import com.keb.kebsmartfarm.service.ArduinoKitService;
-import com.keb.kebsmartfarm.service.PlantService;
-import com.keb.kebsmartfarm.service.ReleasedKitService;
-import com.keb.kebsmartfarm.service.UserService;
+import com.keb.kebsmartfarm.repository.PreviousPlantRepository;
+import com.keb.kebsmartfarm.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +18,7 @@ public class UserController {
     private final ArduinoKitService arduinoKitService;
     private final ReleasedKitService releasedKitService;
     private final PlantService plantService;
+    private final PreviousPlantService previousPlantService;
 
     @GetMapping("/me")
     public ResponseEntity<UserResponseDto> getMyUserInfo() {
@@ -59,12 +58,20 @@ public class UserController {
         return ResponseEntity.ok(plantService.createPlant(arduinoKit, plantRequestDto));
     }
 
+    @PostMapping("/kit/{kitNo}/growth")
+    public ResponseEntity<PreviousPlantDto> moveToPreviousPlant(@PathVariable long kitNo) {
+        ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
+        previousPlantService.movePlantToPreviousPlant(arduinoKit);
+        return ResponseEntity.ok(previousPlantService.movePlantToPreviousPlant(arduinoKit));
+    }
 
-//    @DeleteMapping("/kit/{kitNo}/plant/{plantNo}")
-//    public ResponseEntity<PlantResponseDto> deletePlant(@PathVariable long kitNo, @PathVariable long plantNo) {
-//        ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
-//        return ResponseEntity.ok(null);
-//    }
+    @DeleteMapping("/kit/{kitNo}/plant")
+    public ResponseEntity<?> deletePlant(@PathVariable long kitNo) {
+        ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
+        // 삭제 서비스 수행
+        plantService.deletePlant(arduinoKit);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 }
 

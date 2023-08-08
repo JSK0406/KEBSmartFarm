@@ -1,6 +1,5 @@
 package com.keb.kebsmartfarm.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.keb.kebsmartfarm.entity.ArduinoKit;
 import com.keb.kebsmartfarm.entity.Plant;
 import lombok.AllArgsConstructor;
@@ -27,4 +26,5 @@ public class PlantRequestDto {
                 .plantRegDate(simpleDateFormat.format(new Date()))
                 .build();
     }
+
 }
