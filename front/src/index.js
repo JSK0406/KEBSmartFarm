@@ -21,6 +21,7 @@ root.render(
           width: "100%",
           minHeight: "100vh",
           backgroundColor: "rgba(244, 250, 235, 0.8)",
+          // backgroundColor: "#eee4e4",
         }}
       >
         <App />

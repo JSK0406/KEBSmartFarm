@@ -41,6 +41,7 @@ function DetailStatus({kit}) {
                                     {/* Replace with your actual Schedule component */}
                                     <div>Schedule Component</div>
                                 </div>
+                                {/* <PlantFinish></PlantFinish> */}
                                 <button data-bs-dismiss="modal" aria-label="Close" style={{ marginLeft: '20px' }} onClick={() => { dispatch(deregister()); alert("성장이 끝났습니다. 여기에 서버 통신 코드") }}>성장끝</button>
                                 <button data-bs-dismiss="modal" aria-label="Close" style={{ marginLeft: '20px' }} onClick={() => { dispatch(deregister()); alert("기기가 삭제되었습니다. 여기에 서버 통신 코드") }}>기기 삭제</button>
                                 {/* 현재 사용중인 키트를 비운다는 통신을 해야할듯 */}

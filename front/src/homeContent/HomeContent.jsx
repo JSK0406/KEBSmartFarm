@@ -5,6 +5,7 @@ import AddDevice from './AddDevice';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import KitsStatus from './kitsStatus/KitsStatus';
+import axios from 'axios';
 
 function HomeContent() {
 
@@ -13,13 +14,18 @@ function HomeContent() {
     const userKitList = useSelector(state => state.userInfo.value.infos.userKitList)
     const dispatch = useDispatch();
 
+    const [image, setImage] = useState('');
+
     return(
         <div>
-            <div>
-                <AddDevice></AddDevice>
+            <div style={{ display:'flex', alignItems: 'center' }}>
+                <div className='col-11 col-lg-10' style={{ justifyContent:'right', margin: '0 auto' }}>
+                    {/* <AddDevice></AddDevice> */}
+                </div>
             </div>
-            <div style={{ alignItems: 'center', margin: '0 auto'}}>
-                <div style={{ margin: '0 auto' }}>
+
+            <div className='col-11 col-lg-10' style={{ margin: '0 auto', display: 'flex', flexDirection: 'column'}}>
+                <div style={{ display: 'flex', justifyContent: 'center', margin: '0', padding: '0' }}>
                     <KitsStatus/>
                 </div>
             </div>

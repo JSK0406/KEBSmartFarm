@@ -1,7 +1,8 @@
 import React from 'react'
 import RegisterPlant from './ResigerPlant'
+import KitDelete from './KitDelete'
 
-function NotRegistered({kit, index }) {
+function NotRegistered({kit, index}) {
   return (
     <div>
       <div key={index}  style={{ marginTop: '20px' }}>
@@ -10,7 +11,10 @@ function NotRegistered({kit, index }) {
           <p>Device Name: {kit.kitDeviceName}</p>
           <p>Serial Number: {kit.kitSerialNum}</p>
           <p>Date: {kit.date}</p>
-          <RegisterPlant kitNo={kit.kitNo}></RegisterPlant>
+          <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+            <RegisterPlant kitNo={kit.kitNo}></RegisterPlant>
+            <KitDelete kitNo={kit.kitNo}></KitDelete>
+          </div>
         </div>
       </div>
     </div>

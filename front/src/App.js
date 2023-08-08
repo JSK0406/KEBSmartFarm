@@ -24,6 +24,7 @@ function App() {
 
 
   useEffect(() => {
+    // dispatch(login());
     if (Cookies.get("accessToken")) {
       dispatch(fetchUser());  
       dispatch(login());
@@ -33,7 +34,7 @@ function App() {
   })
 
   return (
-    <div className='App' style={{ width: '81%', margin: '0 auto' }}>
+    <div className='App col-12 col-lg-10' style={{ margin: '0 auto' }}>
       <Router>
         {isLogin && <NavUpper />}
         <Routes>

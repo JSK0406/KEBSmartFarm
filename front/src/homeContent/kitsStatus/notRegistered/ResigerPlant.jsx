@@ -1,38 +1,73 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import axios from 'axios'
 import { register } from '../../../store/isRegistered'
 import { useDispatch } from 'react-redux'
+import Cookies from 'js-cookie'
+import { fetchUser } from '../../../store/userInfoSlice'
 
 function RegisterPlant({kitNo}) {
 
+    const Server_IP = process.env.REACT_APP_Server_IP;
+    
+    const nameRef = useRef();
+
+    const accessToken = Cookies.get('accessToken');
     const dispatch = useDispatch();
 
+    const [isShowPossibility, setIsShowPossibility] = useState(false);
+    const [possibilityObject, setPossibilityObject] = useState({})
+
     const [form, setForm] = useState({
+        plantImage: null,
         plantName: '',
         plantNickName: '',
         plantStartDate: '',
-    })
+    });
 
-    const handleRegister = () => {
-        requestRegister(form.plantName, form.plantNickName, form.plantStartDate)
+    const handleSendImage = () => {
+        console.log(form.plantImage)
+        const formData = new FormData();
+        formData.append('plantImage', form.plantImage);
+        console.log(form.plantImage)
+
+        axios.post('http://165.246.116.154:5000/predict', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then((res) => {
+            console.log(res.data)
+            setPossibilityObject(res.data)  // idx마다 plantName, possibility가 키
+            setIsShowPossibility(true)
+        })
     }
 
-    const requestRegister = async (plantName, plantNickName, plantStartDate) => {
-        await axios.post('serverRegisterurl', { plantName: plantName, plantNickName: plantNickName, plantStartDate: plantStartDate },
+    const handlePlantNaming = (e) => {
+        setForm({ ...form, plantName: e.currentTarget.querySelector('#plantNameContent').textContent });
+        console.log(form.plantName)
+        setIsShowPossibility(false);
+    }
+
+    const handleRegister = () => {
+        requestRegister(form.plantName, form.plantNickName)
+        dispatch(fetchUser());
+        window.location.reload();
+    }
+
+    const requestRegister = async (plantName, plantNickName) => {
+        await axios.post(`${Server_IP}/users/kit/${kitNo}/plant`, { plantName: plantName, plantNickName: plantNickName },
             {
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
                 },
-                withCredentials: true
             })
             .then((res) => {
                 console.log("식물 등록");
-                dispatch(register());
                 alert(`당신의 식물이 등록되었습니다.`)
             })
             .catch((error) => {
-                dispatch(register());
                 alert("오류가 발생했습니다. 다시 시도해주세요. 테스트 단계라서 통과");
             })
     }
@@ -50,12 +85,33 @@ function RegisterPlant({kitNo}) {
                         <div className="modal-body">
                             <form>
                                 <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label" >식물 품종</label>
+                                    <img style={{width: '100px', height: '100px'}} src={form.plantImage ? URL.createObjectURL(form.plantImage) : null} class="rounded-circle" alt="..."></img>
+                                    {/* <img src={form.plantImage ? URL.createObjectURL(form.plantImage) : null} alt="" /> */}
+                                    {/* <p>{form.plantImage}</p> */}
+                                    <label htmlFor="recipient-name" className="col-form-label" ><h5>Upload your plant's picture</h5></label>
+                                    <input type="file" accept='image/*' onChange={(e) => setForm({ ...form, plantImage: e.target.files[0] })} />
+                                    <button type='button' onClick={handleSendImage}>Upload</button>
+
+                                    {isShowPossibility ?
+                                        <div>
+                                            {Object.entries(possibilityObject).map((value, index) => {
+                                                console.log(value)
+                                                return (
+                                                    <div key={index}>
+                                                        <button onClick={handlePlantNaming}>
+                                                            <span id='plantNameContent'>{`${value[1].plantName}`}</span>
+                                                            <span >&emsp;{`${value[1].possibility.toFixed(3) } %`}</span>
+                                                        </button>
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
+                                    : ''
+                                    }
+                                    <label htmlFor="recipient-name" className="col-form-label" ><h5>What is your plant</h5></label>
                                     <input type="text" className="form-control" id="recipient-name" value={form.plantName} onChange={(e) => setForm({ ...form, plantName: e.target.value })} />
-                                    <label htmlFor="recipient-name" className="col-form-label" >식물 별명</label>
+                                    <label htmlFor="recipient-name" className="col-form-label" >plant's name</label>
                                     <input type="email" className="form-control" id="recipient-email" value={form.plantNickName} onChange={(e) => setForm({ ...form, plantNickName: e.target.value })} />
-                                    <label htmlFor="recipient-name" className="col-form-label" >기르기 시작한 날</label>
-                                    <input type="email" className="form-control" id="recipient-email" value={form.plantStartDate} onChange={(e) => setForm({ ...form, plantStartDate: e.target.value })} />
                                 </div>
                             </form>
                         </div>

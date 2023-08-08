@@ -34,7 +34,13 @@ function AddDevice() {
             },
         })
         .then((res) => {
-            alert("등록 성공")
+            console.log(res);
+            if (res.status === 204) {
+                alert("중복");
+            } else {
+                alert("등록 성공")
+            }
+
         })
         .catch((error) => {
             alert("기기번호를 다시 확인해주세요");
@@ -43,7 +49,7 @@ function AddDevice() {
 
 
     return (
-        <div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <button style={{ backgroundColor: '#73BD72', color: "white", borderRadius: '30px' }} type="button" className="btn" data-bs-toggle="modal" data-bs-target="#addDevice" data-bs-whatever="@getbootstrap"><FontAwesomeIcon icon={faPlus} /></button>
             <div className="modal fade" id="addDevice" tabindex="-1" aria-labelledby="findModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
