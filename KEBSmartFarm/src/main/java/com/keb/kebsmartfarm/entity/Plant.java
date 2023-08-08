@@ -19,6 +19,7 @@ public class Plant {
     private Long plantNum;
     @Column(unique = true)
     private String plantName;
+    private String plantNickName;
     @Column(columnDefinition = "DATETIME")
     private String plantRegDate;
 
