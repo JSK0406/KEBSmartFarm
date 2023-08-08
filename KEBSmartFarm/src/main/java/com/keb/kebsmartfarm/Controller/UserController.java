@@ -2,7 +2,6 @@ package com.keb.kebsmartfarm.Controller;
 
 import com.keb.kebsmartfarm.dto.*;
 import com.keb.kebsmartfarm.entity.ArduinoKit;
-import com.keb.kebsmartfarm.repository.PreviousPlantRepository;
 import com.keb.kebsmartfarm.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -61,7 +60,6 @@ public class UserController {
     @PostMapping("/kit/{kitNo}/growth")
     public ResponseEntity<PreviousPlantDto> moveToPreviousPlant(@PathVariable long kitNo) {
         ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
-        previousPlantService.movePlantToPreviousPlant(arduinoKit);
         return ResponseEntity.ok(previousPlantService.movePlantToPreviousPlant(arduinoKit));
     }
 

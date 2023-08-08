@@ -6,6 +6,7 @@ import com.keb.kebsmartfarm.entity.ArduinoKit;
 import com.keb.kebsmartfarm.repository.ArduinoKitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,7 @@ public class ArduinoKitService {
         return requestDto.toArduinoKit();
     }
 
+    @Transactional
     public void deleteKit(long kitNo){
         ArduinoKit arduinoKit = arduinoKitRepository.findById(kitNo)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 키트입니다."));

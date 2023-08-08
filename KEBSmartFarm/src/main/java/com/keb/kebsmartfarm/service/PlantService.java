@@ -9,12 +9,13 @@ import com.keb.kebsmartfarm.entity.PreviousPlant;
 import com.keb.kebsmartfarm.entity.User;
 import com.keb.kebsmartfarm.repository.PlantRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+@Slf4j
 @Service
 @AllArgsConstructor
 public class PlantService {
@@ -30,12 +31,16 @@ public class PlantService {
         return PlantResponseDto.of(plantRepository.save(requestDto.toPlant(arduinoKit)));
     }
 
+
+    @Transactional
     public void deletePlant(ArduinoKit arduinoKit) {
-        plantRepository.delete(
-                arduinoKit.getActivePlant()
-                        //없으면 오류
-                .orElseThrow(() -> new IllegalStateException("식물이 등록되지 않았습니다."))
-        );
+        Plant plant = arduinoKit.getActivePlant()
+                //없으면 오류
+                .orElseThrow(() -> new IllegalStateException("식물이 등록되지 않았습니다."));
+        // 삭제 시 반드시 연관관계 해제가 필요
+        arduinoKit.getPlantList().remove(plant);
+        log.info(plant.toString());
+        plantRepository.delete(plant);
     }
 
     public static PreviousPlant toPreviousPlant(Plant plant) {
