@@ -19,8 +19,11 @@ public class PreviousPlant {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "userSeqNum")
+    @JoinColumn(name = "userSeqNum", referencedColumnName = "userSeqNum", insertable = false, updatable = false)
     private User user;
+
+    @Column(name = "userSeqNum")
+    private Long userSeqNum;
 
     @OneToOne
     @JoinColumn(name = "plant")

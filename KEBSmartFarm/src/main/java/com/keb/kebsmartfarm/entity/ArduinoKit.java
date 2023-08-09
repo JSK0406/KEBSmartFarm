@@ -25,8 +25,11 @@ public class ArduinoKit {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "userSeqNum")
+    @JoinColumn(name = "userSeqNum", referencedColumnName = "userSeqNum", insertable = false, updatable = false)
     private User user;
+
+    @Column(name = "userSeqNum")
+    private Long userSeqNum;
 
     @JsonIgnore
     @OneToMany(mappedBy = "arduinoKit", cascade = CascadeType.ALL)
