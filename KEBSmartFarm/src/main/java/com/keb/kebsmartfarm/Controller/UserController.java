@@ -1,5 +1,6 @@
 package com.keb.kebsmartfarm.Controller;
 
+import com.keb.kebsmartfarm.config.SecurityUtil;
 import com.keb.kebsmartfarm.dto.*;
 import com.keb.kebsmartfarm.entity.ArduinoKit;
 import com.keb.kebsmartfarm.service.*;
@@ -7,6 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -69,6 +75,23 @@ public class UserController {
         // 삭제 서비스 수행
         plantService.deletePlant(arduinoKit);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/plantList")
+    public ResponseEntity<Map<String, Object>> getUserPlantList() {
+        Map<String, Object> res = new HashMap<>();
+        // 키웠던 식물
+        long seqNum = SecurityUtil.getCurrentUserId();
+        res.put("previousPlant",previousPlantService.getPlantList(seqNum));
+        // 키우는 식물
+        List<PlantResponseDto> plants = arduinoKitService.getMyArduinoKits(seqNum).stream()
+                .map(ArduinoKit::getActivePlant)
+                .filter(Optional::isPresent)
+                .flatMap(Optional::stream)
+                .map(PlantResponseDto::of)
+                .toList();
+        res.put("plant", plants);
+        return ResponseEntity.ok(res);
     }
 
 }

@@ -6,7 +6,6 @@ import com.keb.kebsmartfarm.dto.PlantResponseDto;
 import com.keb.kebsmartfarm.entity.ArduinoKit;
 import com.keb.kebsmartfarm.entity.Plant;
 import com.keb.kebsmartfarm.entity.PreviousPlant;
-import com.keb.kebsmartfarm.entity.User;
 import com.keb.kebsmartfarm.repository.PlantRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +44,7 @@ public class PlantService {
 
     public static PreviousPlant toPreviousPlant(Plant plant) {
         return PreviousPlant.builder()
-                .user(User.builder().userSeqNum(SecurityUtil.getCurrentUserId()).build())
+                .userSeqNum(SecurityUtil.getCurrentUserId())
                 .plant(plant)
                 .plantHarvestDate(dateFormat.format(date))
                 .build();

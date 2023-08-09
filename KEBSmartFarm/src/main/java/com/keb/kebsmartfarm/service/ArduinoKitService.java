@@ -3,10 +3,13 @@ package com.keb.kebsmartfarm.service;
 import com.keb.kebsmartfarm.dto.ArduinoRequestDto;
 import com.keb.kebsmartfarm.dto.ArduinoResponseDto;
 import com.keb.kebsmartfarm.entity.ArduinoKit;
+import com.keb.kebsmartfarm.entity.Plant;
 import com.keb.kebsmartfarm.repository.ArduinoKitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,4 +41,7 @@ public class ArduinoKitService {
                 .orElseThrow(() -> new IllegalStateException("등록되지 않은 키트입니다."));
     }
 
+    public List<ArduinoKit> getMyArduinoKits(long userSeqNum){
+        return arduinoKitRepository.findArduinoKitsByUserSeqNum(userSeqNum);
+    }
 }
