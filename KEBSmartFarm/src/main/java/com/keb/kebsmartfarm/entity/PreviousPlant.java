@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -29,6 +31,7 @@ public class PreviousPlant {
     @JoinColumn(name = "plant")
     private Plant plant;
 
-    @Column(columnDefinition = "DATETIME")
-    private String plantHarvestDate;
+//    @Column(columnDefinition = "DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date plantHarvestDate;
 }

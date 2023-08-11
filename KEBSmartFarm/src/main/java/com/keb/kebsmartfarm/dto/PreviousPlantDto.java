@@ -17,9 +17,7 @@ import java.util.Date;
 public class PreviousPlantDto {
     private long plantRegNo;
     private Plant plant;
-    private String plantHarvestDate;
-    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static Date date = new Date();
+    private Date plantHarvestDate;
 
 
     public static PreviousPlantDto of(PreviousPlant previousPlant) {

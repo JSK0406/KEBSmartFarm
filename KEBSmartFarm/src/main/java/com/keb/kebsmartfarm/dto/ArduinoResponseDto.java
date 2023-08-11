@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,7 @@ public class ArduinoResponseDto {
     private String kitSerialNum;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Plant plant;
-    private String date;
+    private Date date;
     private String kitDeviceName;
 
     public static ArduinoResponseDto of(ArduinoKit arduinoKit) {

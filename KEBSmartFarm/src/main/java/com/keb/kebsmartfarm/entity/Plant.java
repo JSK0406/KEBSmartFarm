@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 
 @Entity
 @AllArgsConstructor
@@ -20,8 +22,9 @@ public class Plant {
     @Column(unique = true)
     private String plantName;
     private String plantNickName;
-    @Column(columnDefinition = "DATETIME")
-    private String plantRegDate;
+//    @Column(columnDefinition = "DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date plantRegDate;
 
     @ManyToOne
     @JoinColumn(name = "plantKitNo")

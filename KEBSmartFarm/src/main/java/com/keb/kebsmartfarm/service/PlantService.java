@@ -19,8 +19,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class PlantService {
     private final PlantRepository plantRepository;
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static final Date date = new Date();
     @Transactional
     public PlantResponseDto createPlant(ArduinoKit arduinoKit, PlantRequestDto requestDto) {
         // 키트에 이미 키우는 식물이 있으면 오류 반환
@@ -46,7 +44,7 @@ public class PlantService {
         return PreviousPlant.builder()
                 .userSeqNum(SecurityUtil.getCurrentUserId())
                 .plant(plant)
-                .plantHarvestDate(dateFormat.format(date))
+                .plantHarvestDate(new Date())
                 .build();
     }
 

@@ -18,14 +18,12 @@ public class PlantRequestDto {
     private String plantName;
     private String plantNickName;
     private ArduinoKit arduinoKit;
-    private String date;
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public Plant toPlant(ArduinoKit arduinoKit) {
         return Plant.builder()
                 .plantName(getPlantName())
                 .plantNickName(getPlantNickName())
                 .arduinoKit(arduinoKit)
-                .plantRegDate(simpleDateFormat.format(new Date()))
+                .plantRegDate(new Date())
                 .build();
     }
 
