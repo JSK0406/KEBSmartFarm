@@ -7,10 +7,10 @@ classDiagram
     class User {
         -id : String
         -pw : String
-				-nickname : String
-				-email : String
-				-phonenum : String
-				-name : String
+	-nickname : String
+	-email : String
+	-phonenum : String
+	-name : String
         -arduinoKits : ArduinoKit[*]
         -userPlants : UserPlants[*]
     }
@@ -35,8 +35,8 @@ classDiagram
         -PlantRegDate : String
     }
 
-    class PlantSystemFacade {
-        - managePlantWeb : ManagePlantWeb
+    class PlantSystemWeb {
+        - managePlant : ManagePlant
         +login()
         +addArduinoHardware(ArduinoHardware)
         +getSensorData()
@@ -45,7 +45,7 @@ classDiagram
         +takePicture()
     }
 
-    class ManagePlantWeb {
+    class ManagePlant {
         +loginInternal()
         +registerArduinoHardwareInternal(ArduinoHardware)
         +retrieveSensorDataInternal()
@@ -57,11 +57,11 @@ classDiagram
 
     User "1" *-- "N" ArduinoKit : has
     User "1" *-- "N" UserPlants : has
-    User "1" *-- "1" PlantSystemFacade : uses
+    User "1" ..> "1" PlantSystemWeb : uses
     Plant "1" o-- "N" UserPlants : related
     ArduinoKit "1" o-- "1" Plant : related
-    PlantSystemFacade o-- ManagePlantWeb : uses
-    ManagePlantWeb o-- ArduinoKit : controls
+    PlantSystemWeb ..> ManagePlant : uses
+    ManagePlant o-- ArduinoKit : controls
 ```
 
 # Project ER Diagram
