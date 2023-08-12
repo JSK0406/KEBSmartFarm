@@ -8,9 +8,9 @@
 #include <WiFi.h>
 
 // ADAFRUIT IO Setup
-#define IO_USERNAME "litmorewater"
+#define IO_USERNAME "username"
 #define IO_GROUPNAME "sensor01"
-#define IO_KEY "aio_bWPy54SlnAiylYSW5PV9QojJfmZu"
+#define IO_KEY "key"
 #define IO_SERVER "io.adafruit.com"
 #define IO_SERVERPORT 1883
 
@@ -46,10 +46,8 @@ Adafruit_MQTT_Client mqtt(&client, IO_SERVER, IO_SERVERPORT, IO_USERNAME,
 /************** Feeds *************/
 // Setup publishing feeds
 // MQTT paths for AIO => [username]/feeds/[feedname]
-Adafruit_MQTT_Publish temp =
-    Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/feeds/" IO_GROUPNAME ".temp");
-Adafruit_MQTT_Publish illuminance = Adafruit_MQTT_Publish(
-    &mqtt, IO_USERNAME "/feeds/" IO_GROUPNAME ".illuminance");
+Adafruit_MQTT_Publish sensorData =
+    Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/feeds/" IO_GROUPNAME ".data");
 
 // Setup a subscribing feeds
 Adafruit_MQTT_Subscribe onoffbtn =
@@ -110,17 +108,17 @@ void loop() {
         calcTempCeclious();
         Serial.println(Tc);
         lux = analogRead(illuminanceSensor);
+        // To publish data -> Json
+        StaticJsonDocument<256> data;
+        String jsonStr;
+        data["temp"] = Tc;
+        data["illuminance"] = lux;
+        serializeJson(data, jsonStr);
 
-        if (!temp.publish(Tc)) {
-            Serial.println(F("Temp Failed"));
+        if (!sensorData.publish(jsonStr.c_str())) {
+            Serial.println(F("Data publish Failed"));
         } else {
-            Serial.println(F("Temp OK"));
-        }
-
-        if (!illuminance.publish(lux)) {
-            Serial.println(F("illum Failed"));
-        } else {
-            Serial.println(F("illum OK"));
+            Serial.println(F("Data publish OK"));
         }
     }
 }
