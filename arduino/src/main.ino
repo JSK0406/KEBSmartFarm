@@ -10,7 +10,7 @@
 // ADAFRUIT IO Setup
 #define IO_USERNAME "litmorewater"
 #define IO_GROUPNAME "sensor01"
-#define IO_KEY "aio_Qund28t8Ilp4e9RyQGomkRzwhRRE"
+#define IO_KEY "aio_bWPy54SlnAiylYSW5PV9QojJfmZu"
 #define IO_SERVER "io.adafruit.com"
 #define IO_SERVERPORT 1883
 
@@ -19,10 +19,12 @@ const char *AP_SSID = "ArduinoAP";
 const char *AP_PASSWORD = "password";
 
 OLED_U8G2 oled;
+// illuminance, temp, LED
+int illuminanceSensor = A1, lux = 0;
 int tempSensor = A2;
-int Vo;
 int RED_LED = D2;
-bool Lighted = false;
+
+int Vo;
 double R1 = 10000;
 double logR2, R2, T, Tc;
 double c1 = 1.009249522e-03, c2 = 2.378405444e-04, c3 = 2.019202697e-07;
@@ -41,18 +43,18 @@ WiFiClient client;
 Adafruit_MQTT_Client mqtt(&client, IO_SERVER, IO_SERVERPORT, IO_USERNAME,
                           IO_KEY);
 
-/******************************************* Feeds
- * **************************************************/
+/************** Feeds *************/
 // Setup publishing feeds
 // MQTT paths for AIO => [username]/feeds/[feedname]
 Adafruit_MQTT_Publish temp =
     Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/feeds/" IO_GROUPNAME ".temp");
+Adafruit_MQTT_Publish illuminance = Adafruit_MQTT_Publish(
+    &mqtt, IO_USERNAME "/feeds/" IO_GROUPNAME ".illuminance");
 
 // Setup a subscribing feeds
 Adafruit_MQTT_Subscribe onoffbtn =
     Adafruit_MQTT_Subscribe(&mqtt, IO_USERNAME "/feeds/" IO_GROUPNAME ".onoff");
-/******************************************* Feeds
- * **************************************************/
+/************** Feeds *************/
 
 AsyncWebServer server(80);
 // AP 모드로 wifi 정보 저장
@@ -77,6 +79,8 @@ void setup() {
         attemptWiFiConnection();
         pinMode(RED_LED, OUTPUT); // Now can light LED
         Serial.println(WiFi.localIP());
+        // Setup MQTT subscription for onoff feed
+        mqtt.subscribe(&onoffbtn);
     } else {
         startAP();
         serveInitialConfigPage();
@@ -88,21 +92,35 @@ void loop() {
     Adafruit_MQTT_Subscribe *subs;
     while ((subs = mqtt.readSubscription(5000))) {
         if (subs == &onoffbtn) {
-            Serial.print(F("Got : "));
+            Serial.print(F("On-off button : "));
             Serial.println((char *)onoffbtn.lastread);
-            digitalWrite(RED_LED, !Lighted);
+
+            if (strcmp((char *)onoffbtn.lastread, "ON") == 0) {
+                digitalWrite(RED_LED, HIGH);
+            }
+            if (strcmp((char *)onoffbtn.lastread, "OFF") == 0) {
+                digitalWrite(RED_LED, LOW);
+            }
         }
     }
     unsigned long currentMillis = millis();
-    if(currentMillis - previousMillis >= interval){
+    if (currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis;
         Serial.print(F("\nSending temp val : "));
         calcTempCeclious();
         Serial.println(Tc);
+        lux = analogRead(illuminanceSensor);
+
         if (!temp.publish(Tc)) {
             Serial.println(F("Temp Failed"));
         } else {
-            Serial.println(F("Temp Ok"));
+            Serial.println(F("Temp OK"));
+        }
+
+        if (!illuminance.publish(lux)) {
+            Serial.println(F("illum Failed"));
+        } else {
+            Serial.println(F("illum OK"));
         }
     }
 }
@@ -197,7 +215,7 @@ void MQTT_connect() {
         return;
     }
 
-    Serial.print("Connecting to MQTT");
+    Serial.println("Connecting to MQTT");
     uint8_t retries = 3;
 
     while ((ret = mqtt.connect()) != 0) { // connect will return 0 for connected
@@ -232,7 +250,8 @@ void MQTT_connect() {
         retries--;
         if (retries == 0) {
             // basically die and wait for WDT to reset me
-            while (1);
+            while (1)
+                ;
         }
     }
     Serial.println("MQTT Connected!");
