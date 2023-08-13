@@ -18,8 +18,6 @@ function AddDevice() {
 
     const handleDeviceNumber = () => {
         const accessToken = Cookies.get('accessToken');
-        console.log(deviceNumber)
-        console.log(deviceName)
         registerDeviceNumber(deviceNumber, deviceName, accessToken)
         dispatch(fetchUser());
         window.location.reload();
@@ -50,20 +48,32 @@ function AddDevice() {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <button style={{ backgroundColor: '#73BD72', color: "white", borderRadius: '30px' }} type="button" className="btn" data-bs-toggle="modal" data-bs-target="#addDevice" data-bs-whatever="@getbootstrap"><FontAwesomeIcon icon={faPlus} /></button>
+            <button style={{
+                backgroundColor: '#73BD72',
+                color: "white",
+                borderRadius: '50px',
+                position: 'fixed',
+                width: '100px',
+                height: '40px',
+                bottom: '30px',
+                marginRight: '10px',
+                fontSize: '15px',
+                fontWeight: 'bold',
+                zIndex: '500',
+            }} type="button" className="btn" data-bs-toggle="modal" data-bs-target="#addDevice" data-bs-whatever="@getbootstrap"><FontAwesomeIcon icon={faPlus} /> Device</button>
             <div className="modal fade" id="addDevice" tabindex="-1" aria-labelledby="findModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content" style={{ height: '500px'  }}>
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">기기 등록</h1>
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">Add Device</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             <form>
                                 <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label" >기기 일련번호:</label>
+                                    <label htmlFor="recipient-name" className="col-form-label" >Device SerialNumber:</label>
                                 <input type="text" className="form-control" id="recipient-name" value={deviceNumber} onChange={(e) => setDeviceNumber(e.target.value)} />
-                                    <label htmlFor="recipient-name" className="col-form-label" >기기 이름:</label>
+                                    <label htmlFor="recipient-name" className="col-form-label" >Device Name:</label>
                                 <input type="text" className="form-control" id="recipient-name" value={deviceName} onChange={(e) => setDeviceName(e.target.value)} />
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', scale: '200%', marginTop: '70px' }}>
@@ -73,7 +83,7 @@ function AddDevice() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick = { handleDeviceNumber }>등록</button>
+                            <button style={{ backgroundColor: '#73BD72', color: 'white' }} type="button" className="btn" data-bs-dismiss="modal" onClick = { handleDeviceNumber }>Add</button>
                         </div>
                     </div>
                 </div>

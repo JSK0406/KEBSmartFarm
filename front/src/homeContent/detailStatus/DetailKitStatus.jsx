@@ -1,11 +1,11 @@
 import React from 'react'
 
-function NowGrowth() {
+function DetailKitStatus() {
   return (
     <div>
-      <div>ABC</div>
+      
     </div>
   )
 }
 
-export default NowGrowth
+export default DetailKitStatus

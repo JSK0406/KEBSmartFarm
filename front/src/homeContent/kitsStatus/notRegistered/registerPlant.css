@@ -1,0 +1,8 @@
+.possibilityBtn {
+    transition: transform 1s linear;
+    /* Transition only the transform property */
+}
+
+.possibilityBtn:hover {
+    transform: scale(1.2);
+}

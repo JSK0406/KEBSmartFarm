@@ -16,6 +16,7 @@ import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { login, logout } from './store/isLoginSlice';
+import SearchContent from './searchContent/SearchContent';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
         <Routes>
           <Route path="/home" element={isLogin ? <HomeContent /> : < LoginPage />}/>
           <Route path="/intro" element={isLogin ? <IntroContent /> : < LoginPage />} />
+          <Route path="/search" element={isLogin ? <SearchContent /> : < LoginPage />} />
           <Route path="/status" element={isLogin ? <PlantStatusContent /> : < LoginPage />} />
           <Route path="/guide" element={isLogin ? <GuideContent /> : < LoginPage />} />
           <Route path="/modify" element={isLogin ? <ModifyInfo /> : < LoginPage />} />

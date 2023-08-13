@@ -35,11 +35,18 @@ function NavUserInfo() {
             </div>
           </div>
           <div>
-            <button onClick={() => {
+            <button type="button" className='btn' style={{
+              color: 'white',
+              backgroundColor: '#73BD72',
+              paddingLeft: '7px',
+              paddingRight: '7px',
+              position: 'fixed',
+              bottom: '5px',
+              right: '5px', }} onClick={() => {
               removeCookie("accessToken")
               navigate("/login");
               window.location.reload();
-            }}>로그아웃</button>
+            }}>logout</button>
           </div>
 
           <div>

@@ -4,6 +4,8 @@ import axios from 'axios'
 
 function FindId(props) {
 
+    const Server_IP = process.env.REACT_APP_Server_IP;
+
     const [form, setForm] = useState({
         userName: '',
         userEmail: '',
@@ -14,7 +16,7 @@ function FindId(props) {
     }
 
     const requestFindId = async (userName, userEmail) => {
-        await axios.post('serverFindIdurl', { userName: userName, userEmail: userEmail },
+        await axios.post(`${Server_IP}/auto/findid`, { userName: userName, userEmail: userEmail },
             {
                 headers: {
                     "Content-Type": "application/json",

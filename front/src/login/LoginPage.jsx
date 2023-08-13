@@ -47,6 +47,7 @@ export default function LoginPage() {
     const accessToken = Cookies.get('accessToken');
 
     const loginRequest = async (userId, password) => {
+        console.log(Server_IP)
         await axios.post(`${Server_IP}/auth/login`, { userId: userId, userPassword: password },
             {
                 headers: {

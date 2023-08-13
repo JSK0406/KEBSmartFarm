@@ -53,7 +53,7 @@ function KitDelete({kitNo}) {
                 <div style={{ textAlign: 'center' }} className="mb-3">
                   <label  htmlFor="recipient-name" className="col-form-label" ><h3>If you want to delete this device, <br/>follow the sentence below</h3></label>
                   <p><h4 style={{ fontWeight: 'bold' }}>I want to delete this kit</h4></p>
-                  <input type="text" style={{ fontSize: '20px', fontWeight: 'bold', width: '100%' }}  onChange={(e) => setText(e.target.value)} />
+                  <input placeholder='I want to delete this kit' type="text" style={{ fontSize: '20px', fontWeight: 'bold', width: '100%' }}  onChange={(e) => setText(e.target.value)} />
                   <button type="button" style={{ marginTop: '20px', width: '100%', border: 'none', backgroundColor: isDisabled ? 'grey' : '#F26419' }} disabled={isDisabled} className="btn btn-primary" data-bs-dismiss="modal" onClick={kitDelete}>Delete this kit</button>
                 </div>
               </form>

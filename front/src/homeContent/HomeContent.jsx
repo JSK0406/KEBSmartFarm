@@ -20,7 +20,7 @@ function HomeContent() {
         <div>
             <div style={{ display:'flex', alignItems: 'center' }}>
                 <div className='col-11 col-lg-10' style={{ justifyContent:'right', margin: '0 auto' }}>
-                    {/* <AddDevice></AddDevice> */}
+                    <AddDevice></AddDevice>
                 </div>
             </div>
 
