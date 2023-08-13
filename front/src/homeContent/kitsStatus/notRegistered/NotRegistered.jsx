@@ -10,7 +10,7 @@ function NotRegistered({kit, index}) {
           <p>Kit No: {kit.kitNo}</p>
           <p>Device Name: {kit.kitDeviceName}</p>
           <p>Serial Number: {kit.kitSerialNum}</p>
-          <p>Date: {kit.date}</p>
+          <p>Registered Date: {kit.date.split('T')[0]}</p>
           <div style={{ display: 'flex', justifyContent: 'space-between'}}>
             <RegisterPlant kitNo={kit.kitNo}></RegisterPlant>
             <KitDelete kitNo={kit.kitNo}></KitDelete>

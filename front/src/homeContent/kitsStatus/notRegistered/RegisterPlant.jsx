@@ -10,7 +10,8 @@ import './registerPlant.css'
 function RegisterPlant({kitNo}) {
 
     const Server_IP = process.env.REACT_APP_Server_IP;
-    
+    const AI_IP = process.env.REACT_APP_AI_IP;
+
     const fileInputRef = useRef();
 
     const accessToken = Cookies.get('accessToken');
@@ -32,7 +33,8 @@ function RegisterPlant({kitNo}) {
         formData.append('plantImage', form.plantImage);
         console.log(form.plantImage)
 
-        axios.post('http://165.246.116.53:5000/predict', formData, {
+        // axios.post('http://165.246.116.53:5000/predict', formData, {
+        axios.post(`${AI_IP}}/predict`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

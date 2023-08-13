@@ -6,6 +6,7 @@ import { faHouse, faFileLines, faSeedling, faDroplet, faUser, faBars, faGear, fa
 import { Link } from 'react-router-dom';
 import NavUserInfo from './NavUserInfo';
 import icon from './icon.png';
+import { PiPottedPlantDuotone } from 'react-icons/pi';
 
 // import NavContent from './NavContent';
 

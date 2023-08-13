@@ -24,6 +24,7 @@ function AddDevice() {
     }
 
     const registerDeviceNumber = async (deviceNumber, deviceName , accessToken) => {
+        console.log('기기등록')
         await axios.post(`${Server_IP}/users/kit`, { serialNum: deviceNumber, deviceName: deviceName },
         {
             headers: {
@@ -36,7 +37,7 @@ function AddDevice() {
             if (res.status === 204) {
                 alert("중복");
             } else {
-                alert("등록 성공")
+                alert("Success")
             }
 
         })

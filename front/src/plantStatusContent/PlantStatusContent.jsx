@@ -35,8 +35,7 @@ function PlantStatusContent() {
   return (
     <>
       <div className='col-11 col-lg-10' style={{ margin: '0 auto' }}>
-            키우는 식물
-        <div style={{ borderBottom: '1px solid black', margin: '0 auto', padding: '0' }}>
+        <div style={{ borderBottom: '5px dotted grey', margin: '0 auto', padding: '0', paddingBottom: '20px' }}>
           <div className='row col-12 col-lg-6' style={{ margin: '0 auto', width: '100%' }}>
             {currentPlant.map((plant, index) =>
               <div className="col-12 col-lg-6">
@@ -47,7 +46,6 @@ function PlantStatusContent() {
         </div>
 
         <div style={{ margin: '0 auto', padding: '0' }}>
-          키웠던 식물
           <div className='row col-12 col-lg-6' style={{ margin: '0 auto', width: '100%' }}>
             {previousPlant.map((plant, index) =>
               <div className="col-12 col-lg-6">

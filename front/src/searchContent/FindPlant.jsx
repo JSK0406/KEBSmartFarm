@@ -16,6 +16,8 @@ function FindPlant() {
     const [plantDetail, setPlantDetail] = useState(null);
     const [plantImage, setPlantImage] = useState(null);
 
+    const AI_IP = process.env.REACT_APP_AI_IP;
+
     const fileInputRef = useRef();
 
     useEffect(() => {
@@ -37,7 +39,7 @@ function FindPlant() {
         const formData = new FormData();
         formData.append('plantImage', plantImage);
 
-        axios.post('http://165.246.116.53:5000/predict', formData, {
+        axios.post(`${AI_IP}/predict`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -74,29 +76,29 @@ function FindPlant() {
             {plantDetail ?
                 <div style={{ minHeight: '400px' }}>
                     <div style={{ padding: '10px', lineHeight: '35px' }}>
-                        EnName, KoName : {plantDetail.plantEnName} / {plantDetail.plantKoName}<br />
+                        English Name, Korean Name : {plantDetail.plantEnName} / {plantDetail.plantKoName}<br />
                         Species : {plantDetail.plantKind} <br />
-                        LeastIllumninance: {plantDetail.plantLeastIllumninance} Lux<br />
-                        PreferedPlace : {plantDetail.plantPlace}<br />
-                        RasingLevel : {plantDetail.plantLevel}<br />
-                        GrowthRate : {plantDetail.plantGrowthRate}<br />
-                        PreferedTemp : {plantDetail.plantTemp} ℃<br />
-                        LeastTemp : {plantDetail.plantWinterTemp} ℃<br />
+                        Least Illumninance: {plantDetail.plantLeastIllumninance} Lux<br />
+                        Prefered Place : {plantDetail.plantPlace}<br />
+                        Rasing Level : {plantDetail.plantLevel}<br />
+                        Growth Rate : {plantDetail.plantGrowthRate}<br />
+                        Prefered Tempearture : {plantDetail.plantTemp} ℃<br />
+                        Least Temperature : {plantDetail.plantWinterTemp} ℃<br />
                         Humidity : {plantDetail.plantHumidity} %<br />
                         Fertility : {plantDetail.plantFertility}<br />
-                        SpringWater : {plantDetail.plantSpringWater}<br />
-                        SummerWater : {plantDetail.plantSummerWater}<br />
-                        AutumnWater : {plantDetail.PlantAutumnWater}<br />
-                        WinterWater : {plantDetail.plantWinterWater}<br />
-                        plantInfo:
+                        Spring Water : {plantDetail.plantSpringWater}<br />
+                        Summer Water : {plantDetail.plantSummerWater}<br />
+                        Autumn Water : {plantDetail.PlantAutumnWater}<br />
+                        Winter Water : {plantDetail.plantWinterWater}<br />
+                        Plant Info:
                         {plantDetail && plantDetail.plantInfo && typeof plantDetail.plantInfo === 'string' ?
                             plantDetail.plantInfo.split('\n').map((info, index) => (
-                                <div key={index}>{index + 1 }: {info}</div>
+                                <div key={index}>{index + 1 } - {info}</div>
                             ))
                             : null}
-                        plantGrowthType : {plantDetail.plantGrowthType}<br />
-                        plantHeight : {plantDetail.plantHeight} cm<br />
-                        plantArea : {plantDetail.plantArea} cm<br />
+                        Plant GrowthType : {plantDetail.plantGrowthType}<br />
+                        Plant Height : {plantDetail.plantHeight} cm<br />
+                        Plant Area : {plantDetail.plantArea} cm<br />
                     </div>
             </div>
                 : <div style={{ minHeight: '60px', textAlign: 'center', fontSize: '20px' }}> Please choose a plant above </div>
