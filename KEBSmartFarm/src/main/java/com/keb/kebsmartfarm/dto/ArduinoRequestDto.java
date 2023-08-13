@@ -19,14 +19,13 @@ import java.util.Date;
 public class ArduinoRequestDto {
     private Long userSeqNum;
     private String serialNum;
-    private Date date;
     private String deviceName;
     public ArduinoKit toArduinoKit() {
         return ArduinoKit.builder()
                 .serialNum(getSerialNum())
                 // 문제
-                .date(date)
-                .user(User.builder().userSeqNum(SecurityUtil.getCurrentUserId()).build())
+                .date(new Date())
+                .userSeqNum(SecurityUtil.getCurrentUserId())
                 .deviceName(getDeviceName())
                 // 일단 임시로 NPE 생기지 않도록 조치함
                 .PlantList(new ArrayList<>())
