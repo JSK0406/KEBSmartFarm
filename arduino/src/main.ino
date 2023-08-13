@@ -8,7 +8,7 @@
 #include <WiFi.h>
 
 // ADAFRUIT IO Setup
-#define IO_USERNAME "username"
+#define IO_USERNAME "user"
 #define IO_GROUPNAME "sensor01"
 #define IO_KEY "key"
 #define IO_SERVER "io.adafruit.com"
@@ -48,6 +48,10 @@ Adafruit_MQTT_Client mqtt(&client, IO_SERVER, IO_SERVERPORT, IO_USERNAME,
 // MQTT paths for AIO => [username]/feeds/[feedname]
 Adafruit_MQTT_Publish sensorData =
     Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/feeds/" IO_GROUPNAME ".data");
+
+Adafruit_MQTT_Publish sensorData2 =
+    Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/feeds/sensor02.data");
+
 
 // Setup a subscribing feeds
 Adafruit_MQTT_Subscribe onoffbtn =
@@ -119,6 +123,11 @@ void loop() {
             Serial.println(F("Data publish Failed"));
         } else {
             Serial.println(F("Data publish OK"));
+        }
+        if (!sensorData2.publish(jsonStr.c_str())) {
+            Serial.println(F("Data2 publish Failed"));
+        } else {
+            Serial.println(F("Data2 publish OK"));
         }
     }
 }
@@ -248,8 +257,11 @@ void MQTT_connect() {
         retries--;
         if (retries == 0) {
             // basically die and wait for WDT to reset me
-            while (1)
-                ;
+            while (1) {
+                oled.setLine(2, "please push");
+                oled.setLine(3, "reset button");
+                oled.display();
+            }
         }
     }
     Serial.println("MQTT Connected!");
