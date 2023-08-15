@@ -31,7 +31,6 @@ public class PreviousPlant {
     @JoinColumn(name = "plant")
     private Plant plant;
 
-//    @Column(columnDefinition = "DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date plantHarvestDate;
 }

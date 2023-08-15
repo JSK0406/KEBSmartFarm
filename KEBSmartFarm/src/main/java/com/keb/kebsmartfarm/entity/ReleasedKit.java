@@ -11,9 +11,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ReleasedKit {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long ReleaseNum;
 
     @Column(columnDefinition = "text", unique = true)
     private String kitSerialNum;
+
+    @OneToOne(mappedBy = "releasedKit", cascade = CascadeType.ALL)
+    private ArduinoKit arduinoKit;
+
+    public void setArduinoKit(ArduinoKit arduinoKit) {
+        this.arduinoKit = arduinoKit;
+    }
 }

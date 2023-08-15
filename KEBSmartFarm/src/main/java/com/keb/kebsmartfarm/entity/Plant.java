@@ -19,10 +19,9 @@ public class Plant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long plantNum;
-    @Column(unique = true)
     private String plantName;
+    @Column(unique = true)
     private String plantNickName;
-//    @Column(columnDefinition = "DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date plantRegDate;
 

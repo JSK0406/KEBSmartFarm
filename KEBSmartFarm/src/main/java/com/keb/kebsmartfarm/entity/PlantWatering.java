@@ -15,7 +15,6 @@ public class PlantWatering {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long wateringNo;
 
-//    @Column(columnDefinition = "datetime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date wateringDate;
 

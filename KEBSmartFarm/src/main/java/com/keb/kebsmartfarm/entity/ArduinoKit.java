@@ -18,12 +18,18 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ArduinoKit {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long kitNo;
+
+    @OneToOne
+    @MapsId // kitNo와 관계된 엔티티의 기본키를 매핑
+    @JoinColumn(name = "kitNo")
+    private ReleasedKit releasedKit;
+
+
     private String deviceName;
     @Column(unique = true)
     private String serialNum;
-    //@Column(columnDefinition = "DATETIME")
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
@@ -55,5 +61,9 @@ public class ArduinoKit {
         return PlantList.stream()
                 .filter(candidate -> candidate.getPreviousPlant() == null)
                 .findFirst();
+    }
+
+    public void setReleasedKit(ReleasedKit releasedKit) {
+        this.releasedKit = releasedKit;
     }
 }
