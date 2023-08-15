@@ -107,6 +107,7 @@ void loop() {
         calcTempCeclious();
         lux = analogRead(illuminanceSensor);
         String jsonStr;
+        data["kitNo"] = "1";
         data["serialNumber"] = SERIAL_NUMBER;
         data["temp"] = Tc;
         data["illuminance"] = lux;
