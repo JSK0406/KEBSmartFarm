@@ -7,7 +7,7 @@
 #include <SPIFFS.h>
 #include <WiFi.h>
 
-// For register & delete
+// For transmissing Data
 #define SERIAL_NUMBER "C4487DA4-0D4E-4036-A157-75095B6C0CAC"
 
 // ADAFRUIT IO Setup
@@ -21,7 +21,7 @@ const char *AP_SSID = "kit_C4487DA4";
 const char *AP_PASSWORD = "password";
 
 OLED_U8G2 oled;
-// illuminance, temp, LED
+// Setting sensors
 int illuminanceSensor = A1, lux = 0;
 int tempSensor = A2;
 int RED_LED = D2;
@@ -52,14 +52,18 @@ Adafruit_MQTT_Publish sensorData =
     Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/f/data/json");
 
 // Setup a subscribing feeds
-Adafruit_MQTT_Subscribe onoffbtn =
-    Adafruit_MQTT_Subscribe(&mqtt, IO_USERNAME "/f/onoff");
-Adafruit_MQTT_Subscribe deleteKit =
-    Adafruit_MQTT_Subscribe(&mqtt, IO_USERNAME "/f/delete");
+Adafruit_MQTT_Subscribe command =
+    Adafruit_MQTT_Subscribe(&mqtt, IO_USERNAME "/f/" SERIAL_NUMBER "-command");
 /************** Feeds *************/
 
+// For subscription
+StaticJsonDocument<256> cmdJson;
+// To publish data
+StaticJsonDocument<256> data;
+String jsonStr;
+
 AsyncWebServer server(80);
-// AP 모드로 wifi 정보 저장
+// For saving WiFi infos
 File configFile;
 
 String ssid, password;
@@ -72,6 +76,7 @@ void serveInitialConfigPage();
 void saveConfigHandler(AsyncWebServerRequest *);
 void MQTT_connect();
 void calcTempCeclious();
+void handleCommand(Adafruit_MQTT_Subscribe *);
 void setup() {
     Serial.begin(115200);
     oled.setup();
@@ -81,9 +86,8 @@ void setup() {
         attemptWiFiConnection();
         pinMode(RED_LED, OUTPUT); // Now can light LED
         Serial.println(WiFi.localIP());
-        // Setup MQTT subscription for onoff feed
-        mqtt.subscribe(&onoffbtn);
-        mqtt.subscribe(&deleteKit);
+        // Setup MQTT subscription for receiving command
+        mqtt.subscribe(&command);
     } else {
         startAP();
         serveInitialConfigPage();
@@ -91,50 +95,36 @@ void setup() {
 }
 
 void loop() {
-    MQTT_connect();
-    Adafruit_MQTT_Subscribe *subs;
-    while ((subs = mqtt.readSubscription(5000))) {
-        if (subs == &onoffbtn) {
-            Serial.print(F("On-off button : "));
-            Serial.println((char *)onoffbtn.lastread);
+    if (SPIFFS.exists("/config.json")) {
+        MQTT_connect();
+        Adafruit_MQTT_Subscribe *subs;
 
-            if (strcmp((char *)onoffbtn.lastread, "ON") == 0) {
-                digitalWrite(RED_LED, HIGH);
+        if (subs = mqtt.readSubscription(5000)) {
+            if (subs == &command) {
+                handleCommand(subs);
             }
-            if (strcmp((char *)onoffbtn.lastread, "OFF") == 0) {
-                digitalWrite(RED_LED, LOW);
-            }
+            cmdJson.clear();
         }
-        if (subs == &deleteKit) {
-                if(strcmp((char*)deleteKit.lastread, SERIAL_NUMBER) == 0){
-                    oled.setup();
-                    SPIFFS.remove("/config.json");
-                    oled.setLine(1, "deleting");
-                    oled.setLine(2, "this Kit...");
-                    oled.display();
-                    ESP.restart();
-                }
-            }
     }
+
     unsigned long currentMillis = millis();
     if (currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis;
         calcTempCeclious();
         lux = analogRead(illuminanceSensor);
-        // To publish data -> Json
-        StaticJsonDocument<256> data;
-        String jsonStr;
+        
         data["serial_number"] = SERIAL_NUMBER;
         data["temp"] = Tc;
         data["illuminance"] = lux;
         serializeJson(data, jsonStr);
 
-        // For Test
         if (!sensorData.publish(jsonStr.c_str())) {
             Serial.println(F("Data publish Failed"));
         } else {
             Serial.println(F("Data publish OK"));
         }
+        
+        data.clear();
     }
 }
 
@@ -167,8 +157,7 @@ void attemptWiFiConnection() {
 
 void startAP() {
     WiFi.mode(WIFI_AP);
-    // 여기서 지정된 IP 주소, 게이트웨이 및 서브넷 마스크를 사용하여 AP IP를
-    // 설정합니다.
+    // Set APIP to custom IP, GATEWAY, SUBNET
     if (!WiFi.softAPConfig(local_IP, gateway, subnet)) {
         Serial.println("AP IP 설정에 실패했습니다.");
     }
@@ -281,4 +270,28 @@ void calcTempCeclious() {
     logR2 = log(R2);
     T = (1.0 / (c1 + c2 * logR2 + c3 * logR2 * logR2 * logR2));
     Tc = T - 273.15; // celsius
+}
+
+void handleCommand(Adafruit_MQTT_Subscribe *subs) {
+    deserializeJson(cmdJson, (char *)command.lastread);
+    const char *cmd = cmdJson["command"];
+    const char *switchState = cmdJson["switch"];
+
+    if (strcmp(cmd, "switch") == 0) {
+        if (strcmp(switchState, "ON") == 0) {
+            Serial.println(F("LED ON"));
+            digitalWrite(RED_LED, HIGH);
+        } else if (strcmp(switchState, "OFF") == 0) {
+            Serial.println(F("LED OFF"));
+            digitalWrite(RED_LED, LOW);
+        }
+    } else if (strcmp(cmd, "delete") == 0) {
+        Serial.println(F("Delete this kit"));
+        oled.setup();
+        SPIFFS.remove("/config.json");
+        oled.setLine(1, "deleting");
+        oled.setLine(2, "this Kit...");
+        oled.display();
+        ESP.restart();
+    }
 }
