@@ -25,6 +25,6 @@ public class SensorData {
 
     private Double humidity;
     private Double temp;
-    private Double illuminance;
+    private int illuminance;
 
 }

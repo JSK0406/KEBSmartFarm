@@ -34,7 +34,6 @@ public class MqttConfig {
         options.setCleanSession(true);
         return options;
     }
-
     @Bean
     public MqttClient mqttClient() {
         return mqttClient;
