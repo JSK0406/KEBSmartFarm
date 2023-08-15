@@ -1,3 +1,4 @@
+#include "AdafruitIOConfig.h"
 #include "oled_u8g2.h"
 #include <Adafruit_MQTT.h>
 #include <Adafruit_MQTT_Client.h>
@@ -9,12 +10,6 @@
 
 // For transmissing Data
 #define SERIAL_NUMBER "C4487DA4-0D4E-4036-A157-75095B6C0CAC"
-
-// ADAFRUIT IO Setup
-#define IO_USERNAME "litmorewater"
-#define IO_KEY "aio_XYfW87i31uc2Rpl8QTDfyqQ7DbJf"
-#define IO_SERVER "io.adafruit.com"
-#define IO_SERVERPORT 1883
 
 // initial AP MODE
 const char *AP_SSID = "kit_C4487DA4";
@@ -60,7 +55,6 @@ Adafruit_MQTT_Subscribe command =
 StaticJsonDocument<256> cmdJson;
 // To publish data
 StaticJsonDocument<256> data;
-String jsonStr;
 
 AsyncWebServer server(80);
 // For saving WiFi infos
@@ -112,8 +106,8 @@ void loop() {
         previousMillis = currentMillis;
         calcTempCeclious();
         lux = analogRead(illuminanceSensor);
-        
-        data["serial_number"] = SERIAL_NUMBER;
+        String jsonStr;
+        data["serialNumber"] = SERIAL_NUMBER;
         data["temp"] = Tc;
         data["illuminance"] = lux;
         serializeJson(data, jsonStr);
@@ -123,7 +117,7 @@ void loop() {
         } else {
             Serial.println(F("Data publish OK"));
         }
-        
+
         data.clear();
     }
 }
