@@ -7,15 +7,17 @@
 #include <SPIFFS.h>
 #include <WiFi.h>
 
+// For register & delete
+#define SERIAL_NUMBER "C4487DA4-0D4E-4036-A157-75095B6C0CAC"
+
 // ADAFRUIT IO Setup
-#define IO_USERNAME "user"
-#define IO_GROUPNAME "sensor01"
-#define IO_KEY "key"
+#define IO_USERNAME "litmorewater"
+#define IO_KEY "aio_XYfW87i31uc2Rpl8QTDfyqQ7DbJf"
 #define IO_SERVER "io.adafruit.com"
 #define IO_SERVERPORT 1883
 
 // initial AP MODE
-const char *AP_SSID = "ArduinoAP";
+const char *AP_SSID = "kit_C4487DA4";
 const char *AP_PASSWORD = "password";
 
 OLED_U8G2 oled;
@@ -47,15 +49,13 @@ Adafruit_MQTT_Client mqtt(&client, IO_SERVER, IO_SERVERPORT, IO_USERNAME,
 // Setup publishing feeds
 // MQTT paths for AIO => [username]/feeds/[feedname]
 Adafruit_MQTT_Publish sensorData =
-    Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/feeds/" IO_GROUPNAME ".data");
-
-Adafruit_MQTT_Publish sensorData2 =
-    Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/feeds/sensor02.data");
-
+    Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/f/data/json");
 
 // Setup a subscribing feeds
 Adafruit_MQTT_Subscribe onoffbtn =
-    Adafruit_MQTT_Subscribe(&mqtt, IO_USERNAME "/feeds/" IO_GROUPNAME ".onoff");
+    Adafruit_MQTT_Subscribe(&mqtt, IO_USERNAME "/f/onoff");
+Adafruit_MQTT_Subscribe deleteKit =
+    Adafruit_MQTT_Subscribe(&mqtt, IO_USERNAME "/f/delete");
 /************** Feeds *************/
 
 AsyncWebServer server(80);
@@ -83,6 +83,7 @@ void setup() {
         Serial.println(WiFi.localIP());
         // Setup MQTT subscription for onoff feed
         mqtt.subscribe(&onoffbtn);
+        mqtt.subscribe(&deleteKit);
     } else {
         startAP();
         serveInitialConfigPage();
@@ -104,30 +105,35 @@ void loop() {
                 digitalWrite(RED_LED, LOW);
             }
         }
+        if (subs == &deleteKit) {
+                if(strcmp((char*)deleteKit.lastread, SERIAL_NUMBER) == 0){
+                    oled.setup();
+                    SPIFFS.remove("/config.json");
+                    oled.setLine(1, "deleting");
+                    oled.setLine(2, "this Kit...");
+                    oled.display();
+                    ESP.restart();
+                }
+            }
     }
     unsigned long currentMillis = millis();
     if (currentMillis - previousMillis >= interval) {
         previousMillis = currentMillis;
-        Serial.print(F("\nSending temp val : "));
         calcTempCeclious();
-        Serial.println(Tc);
         lux = analogRead(illuminanceSensor);
         // To publish data -> Json
         StaticJsonDocument<256> data;
         String jsonStr;
+        data["serial_number"] = SERIAL_NUMBER;
         data["temp"] = Tc;
         data["illuminance"] = lux;
         serializeJson(data, jsonStr);
 
+        // For Test
         if (!sensorData.publish(jsonStr.c_str())) {
             Serial.println(F("Data publish Failed"));
         } else {
             Serial.println(F("Data publish OK"));
-        }
-        if (!sensorData2.publish(jsonStr.c_str())) {
-            Serial.println(F("Data2 publish Failed"));
-        } else {
-            Serial.println(F("Data2 publish OK"));
         }
     }
 }
@@ -258,9 +264,11 @@ void MQTT_connect() {
         if (retries == 0) {
             // basically die and wait for WDT to reset me
             while (1) {
-                oled.setLine(2, "please push");
-                oled.setLine(3, "reset button");
+                oled.setLine(1, "");
+                oled.setLine(2, "resetting...");
+                oled.setLine(3, "");
                 oled.display();
+                ESP.restart();
             }
         }
     }
