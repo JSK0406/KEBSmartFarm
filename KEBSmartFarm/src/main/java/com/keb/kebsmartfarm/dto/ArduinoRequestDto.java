@@ -2,13 +2,11 @@ package com.keb.kebsmartfarm.dto;
 
 import com.keb.kebsmartfarm.config.SecurityUtil;
 import com.keb.kebsmartfarm.entity.ArduinoKit;
-import com.keb.kebsmartfarm.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 

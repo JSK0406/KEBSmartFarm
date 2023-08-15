@@ -3,7 +3,7 @@ package com.keb.kebsmartfarm.service;
 import com.keb.kebsmartfarm.dto.ArduinoRequestDto;
 import com.keb.kebsmartfarm.dto.ArduinoResponseDto;
 import com.keb.kebsmartfarm.entity.ArduinoKit;
-import com.keb.kebsmartfarm.entity.Plant;
+import com.keb.kebsmartfarm.entity.ReleasedKit;
 import com.keb.kebsmartfarm.repository.ArduinoKitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,8 +15,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArduinoKitService {
     private final ArduinoKitRepository arduinoKitRepository;
-    public ArduinoResponseDto createArduinoKit(ArduinoRequestDto requestDto){
-        return ArduinoResponseDto.of(arduinoKitRepository.save(kitRegistered(requestDto)));
+    public ArduinoResponseDto createArduinoKit(ArduinoRequestDto requestDto, ReleasedKit releasedKit){
+        ArduinoKit arduinoKit = kitRegistered(requestDto);
+        arduinoKit.setReleasedKit(releasedKit);
+        return ArduinoResponseDto.of(arduinoKitRepository.save(arduinoKit));
     }
 
     public ArduinoKit kitRegistered(ArduinoRequestDto requestDto) {
@@ -33,6 +35,12 @@ public class ArduinoKitService {
     public void deleteKit(long kitNo){
         ArduinoKit arduinoKit = arduinoKitRepository.findById(kitNo)
                 .orElseThrow(() -> new IllegalStateException("존재하지 않는 키트입니다."));
+        // 관계를 끊습니다.
+        ReleasedKit releasedKit = arduinoKit.getReleasedKit();
+        releasedKit.setArduinoKit(null);
+        arduinoKit.setReleasedKit(null);
+
+        // 삭제를 수행합니다.
         arduinoKitRepository.delete(arduinoKit);
     }
 

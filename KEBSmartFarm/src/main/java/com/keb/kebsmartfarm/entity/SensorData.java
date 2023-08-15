@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,5 +28,8 @@ public class SensorData {
     private Double humidity;
     private Double temp;
     private int illuminance;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date receivedDate;
 
 }

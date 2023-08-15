@@ -107,6 +107,8 @@ void loop() {
         calcTempCeclious();
         lux = analogRead(illuminanceSensor);
         String jsonStr;
+        // 등록시 찾아서 넣도록 변경
+        // webServer에서 요청 보내서 -> 스프링 서버에서 받아오기
         data["kitNo"] = "1";
         data["serialNumber"] = SERIAL_NUMBER;
         data["temp"] = Tc;

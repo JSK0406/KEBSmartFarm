@@ -3,6 +3,7 @@ package com.keb.kebsmartfarm.Controller;
 import com.keb.kebsmartfarm.config.SecurityUtil;
 import com.keb.kebsmartfarm.dto.*;
 import com.keb.kebsmartfarm.entity.ArduinoKit;
+import com.keb.kebsmartfarm.entity.ReleasedKit;
 import com.keb.kebsmartfarm.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,8 +45,9 @@ public class UserController {
     @PostMapping("/kit")
     public ResponseEntity<ArduinoResponseDto> addKit(@RequestBody ArduinoRequestDto requestDto) {
 
-        releasedKitService.validateKitSerialNumber(requestDto.getSerialNum()).orElseThrow(() -> new RuntimeException("존재하지 않는 시리얼 번호입니다."));
-        return ResponseEntity.ok(arduinoKitService.createArduinoKit(requestDto));
+        ReleasedKit releasedKit = releasedKitService.validateKitSerialNumber(requestDto.getSerialNum()).orElseThrow(() -> new RuntimeException("존재하지 않는 시리얼 번호입니다."));
+
+        return ResponseEntity.ok(arduinoKitService.createArduinoKit(requestDto, releasedKit));
     }
 
     @DeleteMapping("/kit/{kitNo}")
