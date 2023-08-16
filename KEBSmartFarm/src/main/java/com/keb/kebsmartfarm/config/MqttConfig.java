@@ -25,7 +25,8 @@ import org.springframework.messaging.handler.annotation.Header;
 @IntegrationComponentScan
 public class MqttConfig {
     private final static String BROKER_URL = "tcp://io.adafruit.com:";
-    private final static String MQTT_CLIENT_ID = MqttAsyncClient.generateClientId();
+    private final static String SUB_MQTT_CLIENT_ID = MqttAsyncClient.generateClientId();
+    private final static String PUB_MQTT_CLIENT_ID = MqttAsyncClient.generateClientId();
     private final int PORT = 1883;
     private final String USERNAME;
     private final String PASSWORD;
@@ -71,7 +72,7 @@ public class MqttConfig {
     @Bean
     public MessageProducer inbound() {
         MqttPahoMessageDrivenChannelAdapter adapter =
-                new MqttPahoMessageDrivenChannelAdapter(MQTT_CLIENT_ID, defaultMqttPahoClientFactory(),USERNAME + "/f/data");
+                new MqttPahoMessageDrivenChannelAdapter(SUB_MQTT_CLIENT_ID, defaultMqttPahoClientFactory(),USERNAME + "/f/data");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1);
@@ -89,7 +90,7 @@ public class MqttConfig {
     @ServiceActivator(inputChannel = "mqttOutBoundChannel")
     public MessageHandler mqttOutBound() {
         MqttPahoMessageHandler messageHandler =
-                new MqttPahoMessageHandler(MQTT_CLIENT_ID, defaultMqttPahoClientFactory());
+                new MqttPahoMessageHandler(PUB_MQTT_CLIENT_ID, defaultMqttPahoClientFactory());
         messageHandler.setAsync(true);
         messageHandler.setDefaultQos(1);
         return messageHandler;
@@ -97,7 +98,10 @@ public class MqttConfig {
 
     @MessagingGateway(defaultRequestChannel = "mqttOutBoundChannel")
     public interface MyGateway {
-        void sendToMqtt(String payload, @Header(MqttHeaders.TOPIC) String  topic);
+
+        void sendToMqtt(String payload, @Header(MqttHeaders.TOPIC) String topic);
+
+        void sendToMqtt(String payload, @Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) int qos);
     }
 
 }

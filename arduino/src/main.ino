@@ -313,7 +313,7 @@ void handleCommand(Adafruit_MQTT_Subscribe *subs) {
         oled.display();
         ESP.restart();
     } else if((strcmp(cmd, "growth") == 0) || (strcmp(cmd, "delPlant") == 0)){
-        Serial.println("no Plant");
+        Serial.println("yes Plant");
         hasPlant = false;
     } else if(strcmp(cmd, "addPlant") == 0){
         Serial.println("no Plant");

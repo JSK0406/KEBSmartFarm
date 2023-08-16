@@ -1,7 +1,6 @@
 package com.keb.kebsmartfarm.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.keb.kebsmartfarm.config.JsonUtil;
 import com.keb.kebsmartfarm.dto.SensorDataDto;
 import com.keb.kebsmartfarm.entity.SensorData;
 import com.keb.kebsmartfarm.repository.SensorDataRepository;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MqttReceiver {
 
-    private final ObjectMapper objectMapper;
     private final SensorDataRepository sensorDataRepository;
 
     @Transactional
@@ -24,19 +22,9 @@ public class MqttReceiver {
         String topic = (String) msg.getHeaders().get(MqttHeaders.RECEIVED_TOPIC);
         System.out.println("Topic : " + topic);
         System.out.println("Payload : " + msg.getPayload());
-        saveSensorData(toSensorDataDto((String) msg.getPayload()).toSensorData());
+        saveSensorData(JsonUtil.fromJson((String) msg.getPayload(), SensorDataDto.class).toSensorData());
     }
 
-    public SensorDataDto toSensorDataDto(String msg) {
-        SensorDataDto sensorData;
-        try {
-            sensorData = objectMapper.readValue(msg, SensorDataDto.class);
-
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        return sensorData;
-    }
 
     public void saveSensorData(SensorData sensorData) {
         this.sensorDataRepository.save(sensorData);
