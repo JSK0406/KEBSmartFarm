@@ -22,7 +22,7 @@ int RED_LED = D2;
 int moisSensor = A3, soil_moisture;
 
 // True -> sendData
-bool hasPlant = false;
+bool hasPlant = false, switchState = false;
 
 long long kitNo = -1;
 int Vo;
@@ -89,7 +89,7 @@ void setup() {
 
         while (kitNo < 0) {
             // Getting KitNo from releasedKit
-            httpclient.begin("https://165.246.116.149:8080/sensor/certificate");
+            httpclient.begin("https://172.30.1.96:8080/sensor/certificate");
             int statusCode = httpclient.POST(SERIAL_NUMBER);
 
             if (statusCode == HTTP_CODE_OK) {
@@ -294,17 +294,17 @@ void calcTempCeclious() {
 void handleCommand(Adafruit_MQTT_Subscribe *subs) {
     deserializeJson(cmdJson, (char *)command.lastread);
     const char *cmd = cmdJson["command"];
-    const char *switchState = cmdJson["switch"];
 
     if (strcmp(cmd, "switch") == 0) {
-        if (strcmp(switchState, "ON") == 0) {
+        switchState = !switchState;
+        if (switchState) {
             Serial.println(F("LED ON"));
             digitalWrite(RED_LED, HIGH);
-        } else if (strcmp(switchState, "OFF") == 0) {
+        } else {
             Serial.println(F("LED OFF"));
             digitalWrite(RED_LED, LOW);
         }
-    } else if (strcmp(cmd, "delete") == 0) {
+    } else if (strcmp(cmd, "delKit") == 0) {
         Serial.println(F("Delete this kit"));
         oled.setup();
         SPIFFS.remove("/config.json");

@@ -32,9 +32,7 @@ public class ArduinoKitService {
     }
 
     @Transactional
-    public void deleteKit(long kitNo){
-        ArduinoKit arduinoKit = arduinoKitRepository.findById(kitNo)
-                .orElseThrow(() -> new IllegalStateException("존재하지 않는 키트입니다."));
+    public void deleteKit(ArduinoKit arduinoKit){
         // 관계를 끊습니다.
         ReleasedKit releasedKit = arduinoKit.getReleasedKit();
         releasedKit.setArduinoKit(null);
@@ -44,6 +42,11 @@ public class ArduinoKitService {
         arduinoKitRepository.delete(arduinoKit);
     }
 
+    /**
+     * kitNo으로 조회해 있으면 키트 번호를 없으면 IllegalStateException을 보내는 함수
+     * @param kitNo long 키트가 등록된 번호
+     * @return 있으면 ArduinoKit, 없으면 IllegalStateException
+     */
     public ArduinoKit findKitByKitNo(long kitNo){
         return arduinoKitRepository.findById(kitNo)
                 .orElseThrow(() -> new IllegalStateException("등록되지 않은 키트입니다."));
