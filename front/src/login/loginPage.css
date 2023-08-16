@@ -81,3 +81,13 @@
 .input-field::placeholder {
     color: black;
 }
+
+.login-icon {
+    /* margin-top: 100px; */
+    margin-top: 15vh;
+    /* font-size: 40px; */
+    font-size: 4vh;
+    font-weight: bold;
+    color: #5B8C5A;
+    margin-left: 300px;
+}

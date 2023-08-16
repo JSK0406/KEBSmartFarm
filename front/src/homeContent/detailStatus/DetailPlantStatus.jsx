@@ -35,9 +35,8 @@ function DetailPlantStatus({ kit }) {
 
     return (
         <div>
-            <div>
-                {/* Replace with your actual PlantInfo component */}
-                <div className='plantInfo'>
+            <div style={{ padding: '10px', lineHeight: '2.5', display:'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                <div className='plantInfo' >
                     <div>
                         Date to start : {kit.plant.plantRegDate.split('T')[0].replace(/-/g, ' / ')}
                         <span> {`(${dateDifference(kit.plant.plantRegDate)} Days)`}</span>

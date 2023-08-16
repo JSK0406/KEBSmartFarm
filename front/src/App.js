@@ -9,7 +9,7 @@ import HomeContent from './homeContent/HomeContent';
 import IntroContent from './introContent/IntroContent';
 import PlantStatusContent from './plantStatusContent/PlantStatusContent';
 import GuideContent from './guideContent/GuideContent';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import ModifyInfo from './modifyInfo/ModifyInfo';
 import { fetchUser, refreshUserInfo } from './store/userInfoSlice';
 import Cookies from 'js-cookie';
@@ -25,7 +25,6 @@ function App() {
 
 
   useEffect(() => {
-    // dispatch(login());
     if (Cookies.get("accessToken")) {
       dispatch(fetchUser());  
       dispatch(login());

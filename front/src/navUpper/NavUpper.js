@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileLines, faSeedling, faDroplet, faUser, faBars, faGear, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import NavUserInfo from './NavUserInfo';
-import icon from './icon.png';
 import { PiPottedPlantDuotone } from 'react-icons/pi';
 
 // import NavContent from './NavContent';
@@ -22,15 +21,9 @@ function NavUpper() {
                 style={{ backgroundColor: '#EEEEFF', marginTop: '8px', borderRadius: '15px', display: 'flex', alignContent: 'center', fontSize: '16px', paddingRight: '20px' }}
                 expand="lg"
             >
-            {/* <Navbar
-                className='col-11 col-lg-10'
-                style={{ backgroundColor: '#5C9EAD', marginTop: '8px', borderRadius: '15px', display: 'flex', alignContent: 'center', fontSize: '15px', paddingRight: '20px' }}
-                variant="dark"
-                expand="lg"
-            > */}
                 <Link to="/home" style={{ color: '#291528', textDecoration: 'none' }} >
                     <Navbar.Brand className='nav-title' style={{ color: '#291528', marginLeft: '20px' }}>  
-                <img  style={{ width: '50px' }} src={icon} />
+                    <img style={{ width: '50px' }} src='/icon.png' />
                 {/* Smart Home */}
                 </Navbar.Brand>
                 </Link>

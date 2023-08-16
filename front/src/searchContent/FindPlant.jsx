@@ -40,6 +40,7 @@ function FindPlant() {
         formData.append('plantImage', plantImage);
 
         axios.post(`${AI_IP}/predict`, formData, {
+        // axios.post('http://172.31.45.131:5000/predict', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

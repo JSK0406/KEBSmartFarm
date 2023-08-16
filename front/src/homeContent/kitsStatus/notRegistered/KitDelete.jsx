@@ -21,7 +21,7 @@ function KitDelete({kitNo}) {
   }, [text])
 
   const kitDelete = async () => {
-    console.log(kitNo);
+    alert(kitNo);
     await axios.delete(`${Server_IP}/users/kit/${kitNo}`,
       {
         headers: {
@@ -40,8 +40,8 @@ function KitDelete({kitNo}) {
 
   return (
     <div>
-      <button type="button" style={{ color: 'white', backgroundColor: '#F26419', paddingLeft: '7px', paddingRight: '7px' }} className="btn" data-bs-toggle="modal" data-bs-target={`#deleteKitModal`} data-bs-whatever="@getbootstrap">Kit delete</button>
-      <div className="modal fade" id='deleteKitModal' tabindex="-1" aria-labelledby="deleteKitModalLabel" aria-hidden="true">
+      <button type="button" style={{ color: 'white', backgroundColor: '#F26419', paddingLeft: '7px', paddingRight: '7px' }} className="btn" data-bs-toggle="modal" data-bs-target={`#deleteKitModal${kitNo}`} data-bs-whatever="@getbootstrap">Kit delete</button>
+      <div className="modal fade" id={`deleteKitModal${kitNo}`} tabindex="-1" aria-labelledby="deleteKitModalLabel" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content" style={{ height: '330px' }}>
             <div className="modal-header">

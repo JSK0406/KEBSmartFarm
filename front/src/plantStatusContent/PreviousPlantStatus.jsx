@@ -9,7 +9,7 @@ function PreviousPlantStatus({ previousPlant }) {
   return (
     <div className='col-12'>
       <div key={previousPlant.plant.plantNum} style={{ marginTop: '20px' }}>
-        <div style={{ position: 'relative', borderRadius: '10px', backgroundColor: "white", border: '0px solid #212529', padding: '15px' }}>
+        <div style={{ position: 'relative', borderRadius: '10px', backgroundColor: "#FFD7D5", border: '0px solid #212529', padding: '15px' }}>
           <PiFlowerTulipBold style={{ position: 'absolute', top: '5px', right: '5px', fontSize: '40px' }}/>
           {/* <p>plantRegNo : {previousPlant.plantRegNo}</p> */}
           <p>Plant Name : {previousPlant.plant.plantName}</p>

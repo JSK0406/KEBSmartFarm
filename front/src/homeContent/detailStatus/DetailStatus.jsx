@@ -14,12 +14,43 @@ import { useEffect } from 'react';
 import ThisPlantInfo from './ThisPlantInfo';
 import DetailPlantStatus from './DetailPlantStatus';
 import './detailStatus.css';
+import TempSensor from './sensorGraph/TempSensor';
+import IlluminanceSensor from './sensorGraph/IlluminanceSensor';
+import HumiditySensor from './sensorGraph/HumiditySensor';
 
-function DetailStatus({kit}) {
+function DetailStatus({ kit }) {
     const dispatch = useDispatch(); // action을 dispatch하는 함수 가져오기
     const [kitDetail, setKitDetail] = useState();
     const Server_IP = process.env.REACT_APP_Server_IP;
-    
+    const [plantDetail, setPlantDetail] = useState({});
+
+    const dateDifference = (givenDate) => {
+        const formattedDate = givenDate.split(' ')[0]; // "2023-08-09"
+        const date1 = new Date(formattedDate);
+        const date2 = new Date(); // 현재 날짜
+
+        // 두 날짜의 차이를 밀리초 단위로 계산
+        const differenceInTime = date2 - date1;
+
+        // 밀리초를 일로 변환
+        const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+        return (Math.floor(differenceInDays) + 1)
+    }
+
+    useEffect(() => {
+        receivePlantDetail();
+    }, []);
+
+    const receivePlantDetail = async () => {
+        try {
+            const res = await axios.get('/plantInfoData.json');
+            setPlantDetail(res.data[kit.plant.plantName]);
+        } catch (err) {
+            console.error("Error fetching plant data:", err);
+        }
+    }
+
     const receiveKitDetail = async () => {
         await axios.get(`${Server_IP}/users/${kit.kitNo}/detail`, {
             headers: {
@@ -34,11 +65,6 @@ function DetailStatus({kit}) {
             })
     }
 
-    // {/* <div className="col-11 col-lg-6" style={{ border: '10px solid white', height: '100%', borderRadius: '20px', backgroundColor: '#DAE8DA', fontSize: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }} >
-    //     {/* Replace with your actual PlantStatus component */}
-    //     <div>Plant Status Component</div>
-    // </div> */}
-
 
     return (
         <div>
@@ -47,39 +73,37 @@ function DetailStatus({kit}) {
                 <div className="modal-dialog modal-xl">
                     <div className="modal-content" >
                         <div className="modal-header">
-                            <span style={{ fontWeight: 'bold', fontSize: '25px', marginLeft: '15px', marginRight: '15px' }}>{kit.plant.plantNickName}</span>
+                            <span style={{ fontWeight: '1000', fontSize: '25px', marginLeft: '15px', marginRight: '15px' }}>{kit.plant.plantNickName}</span>
                             <span style={{ fontSize: '20px', color: 'gray', opacity: '80%', marginRight: '10px' }}>{kit.plant.plantName}</span>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div className="main-content" style={{ border: '5px solid black', minHeight: '80vh', margin: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                            <div style={{ backgroundColor: 'yellow', height: '65vh', width: '98%' }}>
-                                <div className='sensorContent' style={{ display: 'flex', height: '40%' }}>
-                                    <div style={{ width: '33.3%', border: '1px solid black' }}>온도</div>
-                                    <div style={{ width: '33.3%', border: '1px solid black' }}>조도</div>
-                                    <div style={{ width: '33.3%', border: '1px solid black' }}>습도</div>
-                                </div>
-                                <div className='infoContent'>
-                                    <DetailPlantStatus kit={kit}></DetailPlantStatus>
-                                </div>
-                            </div>
-                            <div style={{ backgroundColor: 'green', height: '15vh', width: '98%' }}>
-                            
-                            </div>
-
-                            {/* <div>
-                                <div className="row" style={{ width: '150%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <div className='row' style={{ height: '80%', width: '97%', display: 'flex', justifyContent: 'center'}}>
-                                        <div className='col-12' style={{ border: '10px solid white', padding: '15px', height: '100%', borderRadius: '20px', backgroundColor: '#E9E9E9', lineHeight: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                            <DetailPlantStatus kit={kit}></DetailPlantStatus>
-                                        </div>
+                        {/* <div className="main-content" style={{ height: '80vh', minHeight: '60vh', margin: '10px 20px 20px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}> */}
+                        <div className="main-content" style={{ minHeight: '60vh', margin: '10px 20px 20px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            <p style={{ fontWeight: '500', fontSize: '20px', marginBottom: '0', marginTop: '10px', alignSelf: 'flex-start', marginLeft: '8px' }}> Now Status</p>
+                            <div style={{ width: '98%' }}>
+                                <div className='sensorContent' style={{ display: 'flex', height: '40%', backgroundColor: '#F8F9F8', borderRadius: '20px' }}>
+                                    <div style={{ width: '33.3%' }}>
+                                        <TempSensor plantDetail={ plantDetail }></TempSensor>
                                     </div>
-                                    <div className="col-12 plant-status" style={{ }} >
-                                        <div style={{ padding: '15px', height: '15vh', margin: '14px', borderRadius: '20px', backgroundColor: '#F8F9F8', fontSize: '20px' }}>
-                                            Schedule Component
-                                        </div>
+                                    <div style={{ width: '33.3%'}}>
+                                        <IlluminanceSensor plantDetail={ plantDetail }></IlluminanceSensor>
+                                    </div>
+                                    <div style={{ width: '33.3%'}}>
+                                        <HumiditySensor plantDetail={ plantDetail }></HumiditySensor>
                                     </div>
                                 </div>
-                            </div> */}
+                                <p style={{ fontWeight: '500', fontSize: '20px', marginBottom: '0', marginTop: '10px', alignSelf: 'flex-start', marginLeft: '2px' }}> Information</p>
+                                <div className='infoContent' style={{ backgroundColor: '#F8F9F8', borderRadius: '20px', height: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '10px' }}>
+                                    <div className='detailPlantStatus'>
+                                        <DetailPlantStatus kit={kit}></DetailPlantStatus>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style={{ height: '150px', backgroundColor: 'green', height: '15vh', width: '98%' }}>
+                                <div style={{ backgroundColor:'red', height: '70px' }}>
+                                    ABC
+                                </div>
+                            </div>
                         </div>
                         <div className="modal-footer" style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <PlantFinish kitNo={kit.kitNo}></PlantFinish>

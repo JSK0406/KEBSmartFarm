@@ -81,6 +81,7 @@ export default function LoginPage() {
 
     return (
         <>
+            <img className='login-icon' style={{ width: '100px' }} src='/icon.png' />
             <h2 className="login-title">Welcome House Farm</h2> {/* 새로운 요소인 h2 태그를 추가 */}
             <div className="center-container" style={{ display: 'flex', flexDirection: 'column' }}> {/* 새로운 CSS 클래스 추가 */}
                 <div className="login-container"> {/* 새로운 CSS 클래스 추가 */}

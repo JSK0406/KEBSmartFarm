@@ -1,0 +1,7 @@
+/* LG 사이즈를 예로 들면 992px를 기준으로 하겠습니다. 필요에 따라 조정할 수 있습니다. */
+@media (min-width: 992px) {
+    #chart {
+        height: 100% !important;
+        /* marginB */
+    }
+}

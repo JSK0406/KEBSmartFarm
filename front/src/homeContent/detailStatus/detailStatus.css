@@ -5,8 +5,16 @@
     /* 콘텐츠의 크기에 따라 자동 조절됨 */
 }
 
+.detailPlantStatus {
+    font-size: 18px;
+}
+
 /* lg 사이즈 이하에서의 모달 높이 */
 @media (max-width: 992px) {
+
+    .detailPlantStatus {
+        font-size: 14px;
+    }
 
     /* Bootstrap의 lg breakpoint는 992px니다. */
     .modal-content {

@@ -33,8 +33,7 @@ function RegisterPlant({kitNo}) {
         formData.append('plantImage', form.plantImage);
         console.log(form.plantImage)
 
-        // axios.post('http://165.246.116.53:5000/predict', formData, {
-        axios.post(`${AI_IP}}/predict`, formData, {
+        axios.post(`${AI_IP}/predict`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -132,8 +131,8 @@ function RegisterPlant({kitNo}) {
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleRegister}>Register</button>
+                            <button type="button" style={{ color: 'white', background: '#797B84' }} className="btn" data-bs-dismiss="modal">Close</button>
+                            <button type="button" style={{ color: 'white', backgroundColor: '#73BD72'  }} className="btn" data-bs-dismiss="modal" onClick={handleRegister}>Register</button>
                         </div>
                     </div>
                 </div>
