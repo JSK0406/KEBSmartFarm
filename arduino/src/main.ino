@@ -14,13 +14,17 @@
 // initial AP MODE
 const char *AP_SSID = "kit_C4487DA4";
 const char *AP_PASSWORD = "password";
-
 OLED_U8G2 oled;
 // Setting sensors
 int illuminanceSensor = A1, lux = 0;
 int tempSensor = A2;
 int RED_LED = D2;
+int moisSensor = A3, soil_moisture;
 
+// True -> sendData
+bool hasPlant = false;
+
+long long kitNo = -1;
 int Vo;
 double R1 = 10000;
 double logR2, R2, T, Tc;
@@ -54,7 +58,9 @@ Adafruit_MQTT_Subscribe command =
 // For subscription
 StaticJsonDocument<256> cmdJson;
 // To publish data
-StaticJsonDocument<256> data;
+StaticJsonDocument<512> data;
+
+HTTPClient httpclient;
 
 AsyncWebServer server(80);
 // For saving WiFi infos
@@ -80,6 +86,20 @@ void setup() {
         attemptWiFiConnection();
         pinMode(RED_LED, OUTPUT); // Now can light LED
         Serial.println(WiFi.localIP());
+
+        while (kitNo < 0) {
+            // Getting KitNo from releasedKit
+            httpclient.begin("https://165.246.116.149:8080/sensor/certificate");
+            int statusCode = httpclient.POST(SERIAL_NUMBER);
+
+            if (statusCode == HTTP_CODE_OK) {
+                long long res = httpclient.getString().charAt(0) - '0';
+                Serial.println(res);
+                kitNo = res;
+            }
+            delay(5000);
+        }
+
         // Setup MQTT subscription for receiving command
         mqtt.subscribe(&command);
     } else {
@@ -102,17 +122,20 @@ void loop() {
     }
 
     unsigned long currentMillis = millis();
-    if (currentMillis - previousMillis >= interval) {
+    if (currentMillis - previousMillis >= interval && hasPlant) {
         previousMillis = currentMillis;
         calcTempCeclious();
         lux = analogRead(illuminanceSensor);
+        // soil_moisture = analogRead(moisSensor);
         String jsonStr;
         // 등록시 찾아서 넣도록 변경
         // webServer에서 요청 보내서 -> 스프링 서버에서 받아오기
-        data["kitNo"] = "1";
-        data["serialNumber"] = SERIAL_NUMBER;
+        data["kitNo"] = 1;
+        // data["serialNumber"] = SERIAL_NUMBER;
         data["temp"] = Tc;
         data["illuminance"] = lux;
+        data["soil_moisture"] = analogRead(moisSensor);
+
         serializeJson(data, jsonStr);
 
         if (!sensorData.publish(jsonStr.c_str())) {
@@ -120,7 +143,6 @@ void loop() {
         } else {
             Serial.println(F("Data publish OK"));
         }
-
         data.clear();
     }
 }
@@ -290,5 +312,11 @@ void handleCommand(Adafruit_MQTT_Subscribe *subs) {
         oled.setLine(2, "this Kit...");
         oled.display();
         ESP.restart();
+    } else if((strcmp(cmd, "growth") == 0) || (strcmp(cmd, "delPlant") == 0)){
+        Serial.println("no Plant");
+        hasPlant = false;
+    } else if(strcmp(cmd, "addPlant") == 0){
+        Serial.println("no Plant");
+        hasPlant = true;
     }
 }
