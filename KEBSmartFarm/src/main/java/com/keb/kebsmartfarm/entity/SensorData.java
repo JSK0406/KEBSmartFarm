@@ -28,6 +28,7 @@ public class SensorData {
     private Double humidity;
     private Double temp;
     private int illuminance;
+    private int soilMoisture;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date receivedDate;

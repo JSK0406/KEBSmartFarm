@@ -45,7 +45,9 @@ public class WebSecurityConfig {
                                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 )
                 .authorizeHttpRequests(
-                        (httpRequest) -> httpRequest.requestMatchers("/auth/**").permitAll()
+                        (httpRequest) -> httpRequest.requestMatchers(new AntPathRequestMatcher("/auth/**"),
+                                        new AntPathRequestMatcher("/sensor/certificate")
+                                ).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .apply(new JwtSecurityConfig(tokenProvider));
