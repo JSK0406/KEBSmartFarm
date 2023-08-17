@@ -78,7 +78,7 @@ function RegisterPlant({kitNo}) {
             <button type="button" style={{ color: 'white', backgroundColor: '#73BD72', paddingLeft: '7px', paddingRight: '7px' }} className="btn" data-bs-toggle="modal" data-bs-target={`#registerPlant${kitNo}Modal`} data-bs-whatever="@getbootstrap">Register Plant</button>
             <div className="modal fade" id={`registerPlant${kitNo}Modal`} tabindex="-1" aria-labelledby="registerPlantLabel" aria-hidden="true">
                 <div className="modal-dialog">
-                    <div className="modal-content" style={{ height: isShowPossibility ? '700px' : '600px' }}>
+                    <div className="modal-content" style={{ height: isShowPossibility ? '600px' : '600px' }}>
                         <div className="modal-header">
                             <h1 className="modal-title fs-5" id="exampleModalLabel">Register Plant</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -117,17 +117,17 @@ function RegisterPlant({kitNo}) {
                                             <>
                                                 <label htmlFor="recipient-name" className="col-form-label"><h5>What is your plant</h5></label>
                                                 <input placeholder="Plant's name" type="text" className="form-control" id="recipient-name" value={form.plantName} onChange={(e) => setForm({ ...form, plantName: e.target.value })} readOnly />
-                                                <label htmlFor="recipient-name" className="col-form-label" > <h5>What is your plant's nickname</h5> </label>
-                                                <input placeholder="Plant's Nickname" type="text" className="form-control" id="recipient-email" value={form.plantNickName} onChange={(e) => setForm({ ...form, plantNickName: e.target.value })} />
                                             </>
                                             : null
-                                    }
+                                        }
+                                        <label htmlFor="recipient-name" className="col-form-label" > <h5>What is your plant's nickname</h5> </label>
+                                        <input placeholder="Plant's Nickname" type="text" className="form-control" id="recipient-email" value={form.plantNickName} onChange={(e) => setForm({ ...form, plantNickName: e.target.value })} />
                                 </div>
                             </form>
                         </div>
                         <div className="modal-footer">
                             <button type="button" style={{ color: 'white', background: '#797B84' }} className="btn" data-bs-dismiss="modal">Close</button>
-                            <button type="button" style={{ color: 'white', backgroundColor: '#73BD72'  }} className="btn" data-bs-dismiss="modal" onClick={handleRegister}>Register</button>
+                            <button type="button" style={{ color: 'white', backgroundColor: '#73BD72' }} disabled={!form.plantName || !form.plantNickName} className="btn" data-bs-dismiss="modal" onClick={handleRegister}>Register</button>
                         </div>
                     </div>
                 </div>
