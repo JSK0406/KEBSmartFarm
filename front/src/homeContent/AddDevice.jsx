@@ -61,6 +61,7 @@ function AddDevice() {
                 fontSize: '15px',
                 fontWeight: 'bold',
                 zIndex: '500',
+                letterSpacing: '1.5px',
             }} type="button" className="btn" data-bs-toggle="modal" data-bs-target="#addDevice" data-bs-whatever="@getbootstrap"><FontAwesomeIcon icon={faPlus} /> Device</button>
             <div className="modal fade" id="addDevice" tabindex="-1" aria-labelledby="findModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
