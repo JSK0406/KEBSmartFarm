@@ -29,7 +29,6 @@ const checkLogin = () => {
 function App() {
 
   const dispatch = useDispatch()
-  // const isLogin = useSelector(state => state.isLogin.value);
   let isLogin = '';
   const isToken = checkLogin();
 
@@ -41,15 +40,6 @@ function App() {
   }
 
   console.log(isLogin)
-
-  // useEffect(() => {
-  //   if (Cookies.get("accessToken")) {
-  //     dispatch(fetchUser());  
-  //     dispatch(login());
-  //   } else {
-  //     dispatch(logout()); 
-  //   }
-  // })
 
   return (
     <div className='App col-12 col-lg-10' style={{ margin: '0 auto' }}>

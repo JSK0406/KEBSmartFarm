@@ -43,7 +43,7 @@ function DetailPlantStatus({ kit }) {
                     </div>
                 </div>
                 <div className='plantDetailInfo'>
-                    <div><ThisPlantInfo plantDetail={plantDetail}></ThisPlantInfo></div>
+                    {/* <div><ThisPlantInfo plantDetail={plantDetail}></ThisPlantInfo></div> */}
                 </div>
             </div>
         </div>

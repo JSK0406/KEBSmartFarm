@@ -112,21 +112,16 @@ function RegisterPlant({kitNo}) {
                                         </div>
                                     : ''
                                     }
-                                    {/* {isShowPossibility && possibilityObject ?
-                                        <label htmlFor="recipient-name" className="col-form-label" ><h5>What is your plant</h5></label>
-                                        <input placeholder="Plant's name" type="text" className="form-control" id="recipient-name" value={form.plantName} onChange={(e) => setForm({ ...form, plantName: e.target.value })} />
-                                    : ''} */}
                                     {
                                         !isShowPossibility && Object.keys(possibilityObject).length > 0 ?
                                             <>
                                                 <label htmlFor="recipient-name" className="col-form-label"><h5>What is your plant</h5></label>
-                                                <input placeholder="Plant's name" type="text" className="form-control" id="recipient-name" value={form.plantName} onChange={(e) => setForm({ ...form, plantName: e.target.value })} />
+                                                <input placeholder="Plant's name" type="text" className="form-control" id="recipient-name" value={form.plantName} onChange={(e) => setForm({ ...form, plantName: e.target.value })} readOnly />
+                                                <label htmlFor="recipient-name" className="col-form-label" > <h5>What is your plant's nickname</h5> </label>
+                                                <input placeholder="Plant's Nickname" type="text" className="form-control" id="recipient-email" value={form.plantNickName} onChange={(e) => setForm({ ...form, plantNickName: e.target.value })} />
                                             </>
                                             : null
                                     }
-
-                                    <label htmlFor="recipient-name" className="col-form-label" > <h5>What is your plant's nickname</h5> </label>
-                                    <input placeholder="Plant's Nickname" type="text" className="form-control" id="recipient-email" value={form.plantNickName} onChange={(e) => setForm({ ...form, plantNickName: e.target.value })} />
                                 </div>
                             </form>
                         </div>
