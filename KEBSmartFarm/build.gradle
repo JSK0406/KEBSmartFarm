@@ -34,7 +34,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // Spring Integration MQTT
+    // Swagger-ui
+//    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.0.4'
+    implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.2.0'
+    // Spring Integration MQTTs
     implementation 'org.springframework.boot:spring-boot-starter-integration'
     implementation 'org.springframework.integration:spring-integration-mqtt:6.1.2'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
