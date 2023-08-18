@@ -89,7 +89,7 @@ void setup() {
 
         while (kitNo < 0) {
             // Getting KitNo from releasedKit
-            httpclient.begin("https://172.30.1.96:8080/sensor/certificate");
+            httpclient.begin("https://kebsmartfarm.duckdns.org:8080/sensor/certificate");
             int statusCode = httpclient.POST(SERIAL_NUMBER);
 
             if (statusCode == HTTP_CODE_OK) {

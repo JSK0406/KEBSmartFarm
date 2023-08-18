@@ -30,15 +30,6 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
     private final String TOPIC;
 
     private final Map<String, String> COMMAND;
-    @Override
-    @Transactional
-    public ArduinoResponseDto addKit(ArduinoRequestDto requestDto) {
-        ReleasedKit releasedKit = releasedKitService.validateKitSerialNumber(requestDto.getSerialNum())
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 시리얼 번호입니다."));
-        // topic으로 등록 요청 고려
-//        myGateway.sendToMqtt(JsonUtil.toJson(CommandDto.of("")));
-        return arduinoKitService.createArduinoKit(requestDto, releasedKit);
-    }
 
     @Autowired
     public KitAndPlantManageServiceImpl(ArduinoKitService arduinoKitService,
@@ -57,6 +48,15 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
         COMMAND.put("command", "");
     }
 
+    @Override
+    @Transactional
+    public ArduinoResponseDto addKit(ArduinoRequestDto requestDto) {
+        ReleasedKit releasedKit = releasedKitService.validateKitSerialNumber(requestDto.getSerialNum())
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 시리얼 번호입니다."));
+        // topic으로 등록 요청 고려
+//        myGateway.sendToMqtt(JsonUtil.toJson(CommandDto.of("")));
+        return arduinoKitService.createArduinoKit(requestDto, releasedKit);
+    }
     @Override
     @Transactional
     public void deleteKit(long kitNo) {
