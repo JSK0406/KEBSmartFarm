@@ -40,7 +40,7 @@ function ChangePassword() {
         <button type="button" className='btn' style={{
            color: 'white',
            backgroundColor:
-           '#73BD72',
+           '#7AA278',
            paddingLeft:
            '7px',
            paddingRight: '7px',

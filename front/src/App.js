@@ -10,7 +10,6 @@ import IntroContent from './introContent/IntroContent';
 import PlantStatusContent from './plantStatusContent/PlantStatusContent';
 import GuideContent from './guideContent/GuideContent';
 import { Navigate, Outlet } from 'react-router-dom';
-import ModifyInfo from './modifyInfo/ModifyInfo';
 import { fetchUser, refreshUserInfo } from './store/userInfoSlice';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
@@ -51,7 +50,6 @@ function App() {
           <Route path="/search" element={isLogin ? <SearchContent /> : < LoginPage />} />
           <Route path="/status" element={isLogin ? <PlantStatusContent /> : < LoginPage />} />
           <Route path="/guide" element={isLogin ? <GuideContent /> : < LoginPage />} />
-          <Route path="/modify" element={isLogin ? <ModifyInfo /> : < LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<Navigate to="/home" />}></Route>
         </Routes>

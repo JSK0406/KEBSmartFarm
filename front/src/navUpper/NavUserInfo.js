@@ -17,10 +17,11 @@ function NavUserInfo() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  console.log(useSelector(state => state.userInfo.value.infos))
 
   return (
     <>
-      <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" >
+      <div style={{ width: '300px' }} className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" >
         <div className="offcanvas-header">
           <h5 className="offcanvas-title" id="offcanvasRightLabel">User Info</h5>
           <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -37,7 +38,7 @@ function NavUserInfo() {
           <div>
             <button type="button" className='btn' style={{
               color: 'white',
-              backgroundColor: '#73BD72',
+              backgroundColor: '#7AA278',
               paddingLeft: '7px',
               paddingRight: '7px',
               position: 'fixed',

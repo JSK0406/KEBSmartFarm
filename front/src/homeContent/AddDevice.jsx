@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import { useDispatch } from 'react-redux';
@@ -7,14 +7,51 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { fetchUser } from '../store/userInfoSlice';
 import Cookies from 'js-cookie';
 
-
 function AddDevice() {
     const Server_IP = process.env.REACT_APP_Server_IP;
     const dispatch = useDispatch(); // action을 dispatch하는 함수 가져오기
     const [deviceNumber, setDeviceNumber] = useState("");
     const [deviceName, setDeviceName] = useState("");
+    const [isInputFocused, setIsInputFocused] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
 
-    
+    useEffect(() => {
+        if (isInputFocused === false && deviceNumber) {
+            checkSerialNumber(deviceNumber)
+            setIsChecked(true);
+        }
+        console.log(isChecked)
+    }, [isInputFocused])
+
+    const handleInputFocus = () => {
+        setIsInputFocused(true);
+    };
+
+    const handleInputBlur = () => {
+        setIsInputFocused(false);
+    };
+
+    const checkSerialNumber = async (deviceNumber) => {
+        await axios.post(`${Server_IP}/kit/validate`, { serialNum: deviceNumber },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get("accessToken")}`
+                },
+            })
+            .then((res) => {
+                if (res.data) {
+                    alert("This kit is already registered")
+                    setDeviceNumber('')
+                } else {
+                    alert("This Kit is possible to register")
+                }
+            })
+            .catch((error) => {
+                alert("This serial Number is invalid");
+                setDeviceNumber('')
+            })
+    };
 
     const handleDeviceNumber = () => {
         const accessToken = Cookies.get('accessToken');
@@ -33,13 +70,11 @@ function AddDevice() {
             },
         })
         .then((res) => {
-            console.log(res);
             if (res.status === 204) {
                 alert("중복");
             } else {
                 alert("Success")
             }
-
         })
         .catch((error) => {
             alert("기기번호를 다시 확인해주세요");
@@ -61,7 +96,6 @@ function AddDevice() {
                 fontSize: '15px',
                 fontWeight: 'bold',
                 zIndex: '500',
-                letterSpacing: '1.5px',
             }} type="button" className="btn" data-bs-toggle="modal" data-bs-target="#addDevice" data-bs-whatever="@getbootstrap"><FontAwesomeIcon icon={faPlus} /> Device</button>
             <div className="modal fade" id="addDevice" tabindex="-1" aria-labelledby="findModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
@@ -73,9 +107,11 @@ function AddDevice() {
                         <div className="modal-body">
                             <form>
                                 <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label" >Device SerialNumber:</label>
-                                <input type="text" className="form-control" id="recipient-name" value={deviceNumber} onChange={(e) => setDeviceNumber(e.target.value)} />
-                                    <label htmlFor="recipient-name" className="col-form-label" >Device Name:</label>
+                                    <label htmlFor="recipient-name" className="col-form-label" >Device SerialNumber</label>
+                                    <input type="text" className="form-control" id="recipient-name" onFocus={handleInputFocus}
+                                        onBlur={handleInputBlur} value={deviceNumber} onChange={(e) => setDeviceNumber(e.target.value)} />
+                                    {/* {isChecked ? <div>{isChecked}ABCABC</div> : ''} */}
+                                    <label htmlFor="recipient-name" className="col-form-label" >Device Name</label>
                                 <input type="text" className="form-control" id="recipient-name" value={deviceName} onChange={(e) => setDeviceName(e.target.value)} />
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', scale: '200%', marginTop: '70px' }}>
@@ -85,7 +121,8 @@ function AddDevice() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button style={{ backgroundColor: '#73BD72', color: 'white' }} type="button" className="btn" data-bs-dismiss="modal" onClick = { handleDeviceNumber }>Add</button>
+                            {/* <button style={{ backgroundColor: '#73BD72', color: 'white' }} type="button" className="btn" data-bs-dismiss="modal" onClick = { handleDeviceNumber }>Add</button> */}
+                            <button style={{ backgroundColor: '#73BD72', color: 'white' }} type="button" className="btn" data-bs-dismiss="modal" onClick={handleDeviceNumber} disabled={!isChecked || !deviceName}>Add</button>
                         </div>
                     </div>
                 </div>

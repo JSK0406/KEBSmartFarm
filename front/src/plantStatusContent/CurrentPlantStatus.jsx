@@ -1,8 +1,12 @@
 import React from 'react'
 import ShowImagesBtn from './ShowImagesBtn'
 import { PiPottedPlantDuotone } from 'react-icons/pi'
+import UploadImageBtn from './UploadImageBtn'
 
 function CurrentPlantStatus({plant}) {
+
+    // const uploadPlantImg (img, )
+
 
     return (
     <div className='col-12'>
@@ -11,9 +15,11 @@ function CurrentPlantStatus({plant}) {
                 <PiPottedPlantDuotone style={{ position: 'absolute', top: '5px', right: '5px', fontSize: '40px' }}/>
                 <p>Plant Name : {plant.plantName}</p>
                 <p>Nick Name : {plant.plantNickName}</p>
-                {/* <p>Plant Number : {plant.plantNum}</p> */}
                 <p>Start Date: {plant.plantRegDate.split('T')[0]}</p>
-                <ShowImagesBtn plantNickName={plant.plantNickName}></ShowImagesBtn>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <ShowImagesBtn plantNickName={plant.plantNickName}></ShowImagesBtn>
+                    <UploadImageBtn plantNum={plant.plantNum}></UploadImageBtn>
+                </div>
             </div>
         </div>
     </div>

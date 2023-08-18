@@ -30,30 +30,6 @@ function FindPassword(props) {
                 alert("입력하신 정보를 다시 확인해주세요.");
             })
     }
-    // const requestFindId = async (userId, userEmail) => {
-    //     await axios.post(`${Server_IP}/auth/findPw`, { userId: userId, userEmail: userEmail },
-    //         {
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //         })
-    //         .then(async (res) => {
-    //             await axios.post(`${Server_IP}/auth/findPw/sendEmail`, { userId: userId, userEmail: userEmail },
-    //                 {
-    //                     headers: {
-    //                         "Content-Type": "application/json",
-    //                     },
-    //                 }).then((res) => {
-    //                     console.log("비밀번호 찾기");
-    //                     alert("이메일로 임시비밀번호가 전송되었습니다.")
-    //                 }).catch((error) => {
-    //                     alert("이메일 전송 과정에서 오류가 생겼습니다.")
-    //                 })
-    //         })
-    //         .catch((error) => {
-    //             alert("입력하신 정보를 다시 확인해주세요.");
-    //         })
-    // }
 
     return (
         <div style={{ marginRight: '10px' }}>

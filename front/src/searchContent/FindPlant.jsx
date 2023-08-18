@@ -40,7 +40,6 @@ function FindPlant() {
         formData.append('plantImage', plantImage);
 
         axios.post(`${AI_IP}/predict`, formData, {
-        // axios.post('http://172.31.45.131:5000/predict', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -58,21 +57,21 @@ function FindPlant() {
                         Upload a picture or enter the name of the plant</h5>   
                     <img style={{ marginTop: '30px', border: '1px solid black', width: '100px', height: '100px' }} src={plantImage ? URL.createObjectURL(plantImage) : 'plantplant.png'} class="rounded-circle" alt="..."></img>
                     <div style={{ marginTop: '10px' }}>
-                        <button onClick={() => fileInputRef.current.click()} id='uploadBtn' style={{ borderRadius: '10px', borderRight: '1px solid white', borderTopRightRadius: '0px', borderBottomRightRadius: '0px', backgroundColor: '#73BD72', color: "white" }} type="button" className="btn">Upload</button>
-                        <button onClick={handleSendImage} style={{ borderRadius: '10px', borderTopLeftRadius: '0px', borderLeft: '1px solid white', borderBottomLeftRadius: '0px', backgroundColor: '#73BD72', color: "white" }} type="button" className="btn">Find</button>
+                        <button onClick={() => fileInputRef.current.click()} id='uploadBtn' style={{ borderRadius: '10px', borderRight: '1px solid white', borderTopRightRadius: '0px', borderBottomRightRadius: '0px', backgroundColor: '#73BD72', color: "white" }} type="button" className="btn">Select</button>
+                        <button onClick={handleSendImage} style={{ borderRadius: '10px', borderTopLeftRadius: '0px', borderLeft: '1px solid white', borderBottomLeftRadius: '0px', backgroundColor: '#73BD72', color: "white" }} type="button" className="btn">Upload</button>
                     </div>
                 </div>
                 <input ref={fileInputRef} onChange={(e) => setPlantImage(e.target.files[0])} style={{ display: 'none' }} type="file" id="input-file" />
             </div>
 
             <div style={{ marginTop: '30px', marginBottom: '30px', display: 'flex'  }}>
-                <input style={{ borderRadius: '0px', fontWeight: 'bold' }} autocomplete="off"  list='plants' placeholder="Plant's name" type="text" className="form-control" id="recipient-name" value={plantName} onChange={(e) => setPlantName(e.target.value)} />
+                <input style={{ borderRadius: '15px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px', fontWeight: 'bold' }} autocomplete="off"  list='plants' placeholder="Plant's name" type="text" className="form-control" id="recipient-name" value={plantName} onChange={(e) => setPlantName(e.target.value)} />
                 <datalist id="plants">
                     {plants.map((plant, index) => (
                         <option key={index} value={plant} />
                     ))}
                 </datalist>
-                <button style={{ color: 'white', backgroundColor: '#73BD72', border: 'none', }} type='button' onClick={() => setSearchName(plantName)} >Search</button>
+                <button style={{ color: 'white', backgroundColor: '#73BD72', border: 'none', borderRadius: '15px', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }} type='button' onClick={() => setSearchName(plantName)} >Search</button>
             </div>
             {plantDetail ?
                 <div style={{ minHeight: '400px' }}>

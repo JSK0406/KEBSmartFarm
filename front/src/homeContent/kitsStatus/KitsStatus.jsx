@@ -9,14 +9,10 @@ function KitsStatus() {
 
   const userKitList = useSelector(state => state.userInfo.value.infos.userKitList)
 
-  console.log(userKitList[0]);
-
   return (
     <div className='row' style={{ width: '100%' }}>
       {userKitList.map((kit, index) =>
-        <div className="col-12 col-lg-6" style={{
-          // padding: '0',
-        }}>
+        <div className="col-12 col-lg-6">
           {kit.plant ? <Registered kit={kit} index={index} /> : <NotRegistered kit={kit} index={index} />}
         </div>
       )}

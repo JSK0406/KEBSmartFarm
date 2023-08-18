@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import KitsStatus from './kitsStatus/KitsStatus';
 import axios from 'axios';
+import HelpBtn from '../component/HelpBtn';
+import IntroHome from '../introContent/IntroHome';
 
 function HomeContent() {
 
@@ -21,6 +23,7 @@ function HomeContent() {
             <div style={{ display:'flex', alignItems: 'center' }}>
                 <div className='col-11 col-lg-10' style={{ justifyContent:'right', margin: '0 auto' }}>
                     <AddDevice></AddDevice>
+                    {/* <HelpBtn Content={IntroHome} pageName={'Home'}></HelpBtn> */}
                 </div>
             </div>
 

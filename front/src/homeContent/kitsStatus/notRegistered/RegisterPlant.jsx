@@ -91,7 +91,7 @@ function RegisterPlant({kitNo}) {
                                         <img style={{ border: '1px solid black', width: '100px', height: '100px'}} src={form.plantImage ? URL.createObjectURL(form.plantImage) : 'plantplant.png'} class="rounded-circle" alt="..."></img>
                                     </div>
                                     <div class='sendImgContent' style={{ display: 'flex', justifyContent: 'right' }}>
-                                        <button onClick={() => fileInputRef.current.click()} id='uploadBtn' style={{ borderRadius: '10px', borderRight: '1px solid white', borderTopRightRadius: '0px', borderBottomRightRadius: '0px', backgroundColor: '#73BD72', color: "white" }} type="button" className="btn">Upload</button>
+                                        <button onClick={() => fileInputRef.current.click()} id='uploadBtn' style={{ borderRadius: '10px', borderRight: '1px solid white', borderTopRightRadius: '0px', borderBottomRightRadius: '0px', backgroundColor: '#73BD72', color: "white" }} type="button" className="btn">Select</button>
                                         <button onClick={handleSendImage} style={{ borderRadius: '10px', borderTopLeftRadius: '0px', borderLeft: '1px solid white', borderBottomLeftRadius: '0px', backgroundColor: '#73BD72', color: "white" }} type="button" className="btn">Check</button>
                                         <input ref={fileInputRef} onChange={(e) => setForm({ ...form, plantImage: e.target.files[0] })} style={{ display: 'none' }} type="file" id="input-file" />
                                     </div>

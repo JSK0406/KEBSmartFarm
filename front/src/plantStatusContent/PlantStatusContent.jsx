@@ -12,14 +12,12 @@ function PlantStatusContent() {
   const [currentPlant, setCurrentPlant] = useState([])
   const [previousPlant, setPreviousPlant] = useState([])
 
-
-
   useEffect(() => {
     receivePlantInfo();
   }, [])
 
   const receivePlantInfo = async () => {
-    await axios.get(`${Server_IP}/users/plantList`, {
+    await axios.get(`${Server_IP}/kit/plantList`, {
         headers: {
           "Authorization": `Bearer ${Cookies.get("accessToken")}`
         },
@@ -55,49 +53,7 @@ function PlantStatusContent() {
           </div>
         </div>
       </div>
-    
     </>
-
-    // <>
-    //   <div className='col-11 col-lg-10' style={{ margin: '0 auto' }}>
-    //     <div style={{ margin: '0 auto', padding: '0' }}>
-    //       <div className='row col-12 col-lg-6' style={{ margin: '0 auto', width: '100%' }}>
-    //         {
-    //           currentPlant.length === 0 ? (
-    //             <p>Loading current plants...</p>
-    //           ) : (
-    //             currentPlant.map((plant, index) =>
-    //               <div className="col-12 col-lg-6" key={index}>
-    //                 <CurrentPlantStatus plant={plant}></CurrentPlantStatus>
-    //               </div>
-    //             )
-    //           )
-    //         }
-    //       </div>
-    //     </div>
-
-    //     <div style={{ margin: '0 auto', padding: '0' }}>
-    //       <div className='row col-12 col-lg-6' style={{ margin: '0 auto', width: '100%' }}>
-    //         {
-    //           previousPlant.length === 0 ? (
-    //             <p>Loading previous plants...</p>
-    //           ) : (
-    //             previousPlant.map((plant, index) =>
-    //               <div className="col-12 col-lg-6" key={index}>
-    //                 <PreviousPlantStatus previousPlant={plant}></PreviousPlantStatus>
-    //               </div>
-    //             )
-    //           )
-    //         }
-    //       </div>
-    //     </div>
-    //   </div>
-    // </>
-
-
-
-
-
   )
 }
 

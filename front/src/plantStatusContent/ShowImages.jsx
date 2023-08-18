@@ -2,12 +2,25 @@ import React from 'react'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
+
 function ShowImages({plantNum}) {
+    
+    const fetchImages = async () => {
+        try {
+            const response = await axios.get('서버의 URL'); // 여기에 실제 서버의 URL을 입력해주세요.
+            setImages(response.data); // 받아온 이미지 데이터를 state에 저장
+            setLoading(false); // 로딩 상태 변경
+        } catch (error) {
+            console.error("서버로부터 이미지를 받아오는데 실패했습니다.", error);
+            setLoading(false); // 로딩 상태 변경
+        }
+    }  // imgs안에 1번은 이미지, 2번은 메세지로
 
     const Server_IP = process.env.REACT_APP_Server_IP;
     const [images, setImages] = useState([]); // 이미지 데이터를 저장할 state
     const [loading, setLoading] = useState(true); // 로딩 상태를 나타내는 state
-    
+    fetchImages();
+
     useEffect(() => {
         const fetchImages = async () => {
             try {
