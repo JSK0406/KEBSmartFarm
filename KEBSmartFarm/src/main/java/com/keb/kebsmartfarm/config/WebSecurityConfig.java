@@ -45,8 +45,11 @@ public class WebSecurityConfig {
                                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 )
                 .authorizeHttpRequests(
-                        (httpRequest) -> httpRequest.requestMatchers(new AntPathRequestMatcher("/auth/**"),
-                                        new AntPathRequestMatcher("/sensor/certificate")
+                        (httpRequest) -> httpRequest.requestMatchers(
+                                new AntPathRequestMatcher("/auth/**"),
+                                new AntPathRequestMatcher("/sensor/certificate"),
+                                new AntPathRequestMatcher("/v3/**"),
+                                new AntPathRequestMatcher("/swagger-ui/**")
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
