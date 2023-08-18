@@ -56,23 +56,6 @@ function App() {
       </Router>
     </div>
   );
-  // return (
-  //   <div className='App col-12 col-lg-10' style={{ margin: '0 auto' }}>
-  //     <Router>
-  //       {isLogin && <NavUpper />}
-  //       <Routes>
-  //         <Route path="/home" element={isLogin ? <HomeContent /> : < LoginPage />}/>
-  //         <Route path="/intro" element={isLogin ? <IntroContent /> : < LoginPage />} />
-  //         <Route path="/search" element={isLogin ? <SearchContent /> : < LoginPage />} />
-  //         <Route path="/status" element={isLogin ? <PlantStatusContent /> : < LoginPage />} />
-  //         <Route path="/guide" element={isLogin ? <GuideContent /> : < LoginPage />} />
-  //         <Route path="/modify" element={isLogin ? <ModifyInfo /> : < LoginPage />} />
-  //         <Route path="/login" element={<LoginPage />} />
-  //         <Route path="*" element={<Navigate to="/home" />}></Route>
-  //       </Routes>
-  //     </Router>
-  //   </div>
-  // );
 }
 
 export default App;

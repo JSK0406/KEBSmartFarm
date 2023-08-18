@@ -24,7 +24,7 @@ function NavUpper() {
                 </Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-                    <Nav style={{ color: '#291528' }}>
+                    <Nav style={{ color: '#291528', letterSpacing: '2px' }}>
                         <Nav.Link as={Link} to="/home" className="nav-link-item">
                             <FontAwesomeIcon icon={faHouse} style={{ color: '#291528', paddingTop: '11px' }} /> Home
                         </Nav.Link>
@@ -33,7 +33,7 @@ function NavUpper() {
                         <Nav.Link className="nav-link-item" as={Link} to="/status"><FontAwesomeIcon icon={faSeedling} style={{ color: '#291528', paddingTop: '11px' }} /> Plant Status</Nav.Link>
                         <div data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                             <Nav.Link className="nav-link-item" style={{ marginLeft: '7px', fontWeight: '900', backgroundColor: 'none' }}>
-                                <button className="btn" type="button" style={{ border: 0, backgroundColor: 'transparent', margin: 0, color: '#291528' }}><FontAwesomeIcon icon={faUser} style={{ color: '#291528', }} /> User Info</button>
+                                <button className="btn" type="button" style={{ border: 0, backgroundColor: 'transparent', margin: 0, marginLeft: '2px', color: '#291528', letterSpacing: '2px' }}><FontAwesomeIcon icon={faUser} style={{ color: '#291528', fontSize: '16px' }} /> User Info</button>
                             </Nav.Link>
                         </div>
                         <NavDropdown title="Dropdown" id="basic-nav-dropdown" style={{ display: 'none', marginRight: '10px' }}>

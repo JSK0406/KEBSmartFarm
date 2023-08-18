@@ -18,7 +18,6 @@ function AddDevice() {
     useEffect(() => {
         if (isInputFocused === false && deviceNumber) {
             checkSerialNumber(deviceNumber)
-            setIsChecked(true);
         }
         console.log(isChecked)
     }, [isInputFocused])
@@ -45,6 +44,7 @@ function AddDevice() {
                     setDeviceNumber('')
                 } else {
                     alert("This Kit is possible to register")
+                    setIsChecked(true);
                 }
             })
             .catch((error) => {
