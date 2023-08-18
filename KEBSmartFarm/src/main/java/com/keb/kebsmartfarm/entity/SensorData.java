@@ -18,7 +18,7 @@ public class SensorData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "kitNo", referencedColumnName = "kitNo", updatable = false, insertable = false)
     private ArduinoKit kit;
 

@@ -45,6 +45,8 @@ public class ArduinoKit {
     @OneToMany(mappedBy = "arduinoKit", cascade = CascadeType.ALL)
     private List<Plant> PlantList;
 
+    @OneToMany(mappedBy = "kit", cascade = CascadeType.ALL)
+    private List<SensorData> sensorDataList;
     @Transient
     // activePlant
     private Plant plant;
