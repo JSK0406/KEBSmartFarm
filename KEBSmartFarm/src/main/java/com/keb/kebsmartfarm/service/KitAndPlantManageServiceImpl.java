@@ -50,6 +50,14 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
 
     @Override
     @Transactional
+    public boolean validateKit(String serialNum) {
+        ReleasedKit releasedKit = releasedKitService.validateKitSerialNumber(serialNum)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 시리얼 번호입니다."));
+        return arduinoKitService.isKitRegistered(serialNum);
+    }
+
+    @Override
+    @Transactional
     public ArduinoResponseDto addKit(ArduinoRequestDto requestDto) {
         ReleasedKit releasedKit = releasedKitService.validateKitSerialNumber(requestDto.getSerialNum())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 시리얼 번호입니다."));

@@ -16,6 +16,11 @@ public class KitController {
 
     private final KitAndPlantManageService kitAndPlantManageService;
 
+    @PostMapping("/validate")
+    public ResponseEntity<Boolean> validateKit(@RequestBody String serialNum){
+        return ResponseEntity.ok(kitAndPlantManageService.validateKit(serialNum));
+    }
+
     @PostMapping
     public ResponseEntity<ArduinoResponseDto> addKit(@RequestBody ArduinoRequestDto requestDto) {
         return ResponseEntity.ok(kitAndPlantManageService.addKit(requestDto));
