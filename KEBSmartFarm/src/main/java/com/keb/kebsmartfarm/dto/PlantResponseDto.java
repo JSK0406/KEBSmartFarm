@@ -35,6 +35,7 @@ public class PlantResponseDto {
                 .plantNum(plant.getPlantNum())
                 .arduinoKit(plant.getArduinoKit())
                 .plantRegDate(plant.getPlantRegDate())
+                .storedPath(Path.of(plant.getStoredFilePath()))
                 .build();
     }
 
@@ -42,9 +43,5 @@ public class PlantResponseDto {
     // serveFile로 경유해서 넣기
     public void setProfileImg(String profileImg) {
         this.profileImg = profileImg;
-    }
-
-    public void setStoredPath(Path storedPath) {
-        this.storedPath = storedPath;
     }
 }
