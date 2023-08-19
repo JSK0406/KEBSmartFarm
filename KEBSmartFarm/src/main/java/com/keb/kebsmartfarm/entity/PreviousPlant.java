@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -32,5 +33,5 @@ public class PreviousPlant {
     private Plant plant;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date plantHarvestDate;
+    private LocalDateTime plantHarvestDate;
 }

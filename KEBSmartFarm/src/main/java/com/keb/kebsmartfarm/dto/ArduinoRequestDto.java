@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,7 +23,7 @@ public class ArduinoRequestDto {
         return ArduinoKit.builder()
                 .serialNum(getSerialNum())
                 // 문제
-                .date(new Date())
+                .date(LocalDateTime.now())
                 .userSeqNum(SecurityUtil.getCurrentUserId())
                 .deviceName(getDeviceName())
                 // 일단 임시로 NPE 생기지 않도록 조치함

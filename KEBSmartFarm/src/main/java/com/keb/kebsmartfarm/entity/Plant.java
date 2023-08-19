@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -24,7 +25,7 @@ public class Plant {
     @Column(unique = true)
     private String plantNickName;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date plantRegDate;
+    private LocalDateTime plantRegDate;
 
     @ManyToOne
     @JoinColumn(name = "plantKitNo")

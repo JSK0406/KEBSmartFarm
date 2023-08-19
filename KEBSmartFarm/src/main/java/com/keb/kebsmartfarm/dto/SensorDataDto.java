@@ -3,6 +3,7 @@ package com.keb.kebsmartfarm.dto;
 import com.keb.kebsmartfarm.entity.SensorData;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Builder
@@ -23,7 +24,7 @@ public class SensorDataDto {
                 .temp(getTemp())
                 .humidity(0.0)
                 .soilMoisture(getSoil_moisture())
-                .receivedDate(new Date())
+                .receivedDate(LocalDateTime.now())
                 .illuminance(getIlluminance())
                 .build();
     }

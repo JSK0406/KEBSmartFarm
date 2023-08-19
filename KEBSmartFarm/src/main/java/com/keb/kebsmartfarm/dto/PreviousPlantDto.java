@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -17,7 +18,7 @@ import java.util.Date;
 public class PreviousPlantDto {
     private long plantRegNo;
     private Plant plant;
-    private Date plantHarvestDate;
+    private LocalDateTime plantHarvestDate;
 
 
     public static PreviousPlantDto of(PreviousPlant previousPlant) {

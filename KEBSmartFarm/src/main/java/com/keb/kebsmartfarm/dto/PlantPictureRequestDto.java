@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -24,7 +25,7 @@ public class PlantPictureRequestDto {
         return PlantPicture.builder().
                 seqNum(SecurityUtil.getCurrentUserId())
                 .plantNum(getPlantNum())
-                .date(new Date())
+                .date(LocalDateTime.now())
                 .orgFileName(file.getOriginalFilename())
                 .storedFilePath(dest.toString())
                 .msg(getMsg())

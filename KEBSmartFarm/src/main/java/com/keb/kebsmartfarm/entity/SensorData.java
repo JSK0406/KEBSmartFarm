@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -31,6 +32,6 @@ public class SensorData {
     private int soilMoisture;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date receivedDate;
+    private LocalDateTime receivedDate;
 
 }

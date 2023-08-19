@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Builder
@@ -20,7 +21,7 @@ public class PlantResponseDto {
     private String plantNickName;
     @JsonIgnore
     private ArduinoKit arduinoKit;
-    private Date plantRegDate;
+    private LocalDateTime plantRegDate;
     public static PlantResponseDto of(Plant plant) {
         return PlantResponseDto.builder()
                 .plantName(plant.getPlantName())

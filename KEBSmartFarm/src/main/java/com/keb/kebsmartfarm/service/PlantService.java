@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 @Slf4j
 @Service
@@ -44,7 +45,7 @@ public class PlantService {
         return PreviousPlant.builder()
                 .userSeqNum(SecurityUtil.getCurrentUserId())
                 .plant(plant)
-                .plantHarvestDate(new Date())
+                .plantHarvestDate(LocalDateTime.now())
                 .build();
     }
 

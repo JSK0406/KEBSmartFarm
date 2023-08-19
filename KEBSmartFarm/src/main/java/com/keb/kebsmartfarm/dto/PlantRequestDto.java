@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Builder
@@ -23,7 +24,7 @@ public class PlantRequestDto {
                 .plantName(getPlantName())
                 .plantNickName(getPlantNickName())
                 .arduinoKit(arduinoKit)
-                .plantRegDate(new Date())
+                .plantRegDate(LocalDateTime.now())
                 .build();
     }
 
