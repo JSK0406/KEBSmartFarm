@@ -12,13 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -104,7 +103,9 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
         COMMAND.replace("command", "addPlant");
         myGateway.sendToMqtt(JsonUtil.toJson(COMMAND),
                 TOPIC + arduinoKit.getSerialNum() + "-command", 2);
-        return plantService.createPlant(arduinoKit, plantRequestDto);
+        PlantResponseDto plant = plantService.createPlant(arduinoKit, plantRequestDto);
+        plant.setProfileImg(PictureUtils.getUrl(plant.getStoredPath()));
+        return plant;
     }
 
     @Override
@@ -179,11 +180,8 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
     @Transactional
     public List<PlantPictureResponseDto> loadAllPicsByPlantNum(long plantNo) {
         List<PlantPictureResponseDto> plantPictureResponseDtoList = plantPictureService.loadAllByPlantNum(plantNo);
-        plantPictureResponseDtoList
-                .forEach(
-                        ppr -> ppr.setImageUrl(MvcUriComponentsBuilder.fromMethodName(KitController.class,
-                                "serveFile",
-                                ppr.getStoredPath().getFileName().toString()).build().toUri().toString())
+        plantPictureResponseDtoList.forEach(
+                        ppr -> ppr.setImageUrl(PictureUtils.getUrl(ppr.getStoredPath()))
                 );
         return plantPictureResponseDtoList;
     }

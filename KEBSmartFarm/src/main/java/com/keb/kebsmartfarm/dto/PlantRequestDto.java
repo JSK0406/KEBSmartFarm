@@ -40,4 +40,11 @@ public class PlantRequestDto {
     public void setStoredPath(Path storedPath) {
         this.storedPath = storedPath;
     }
+
+    public static PlantRequestDto of(String plantName, String plantNickName, MultipartFile file) {
+        return PlantRequestDto.builder()
+                .plantName(plantName)
+                .plantNickName(plantNickName)
+                .file(file).build();
+    }
 }

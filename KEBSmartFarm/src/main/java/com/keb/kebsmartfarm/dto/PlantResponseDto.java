@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.core.io.Resource;
 
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -23,8 +24,9 @@ public class PlantResponseDto {
     @JsonIgnore
     private ArduinoKit arduinoKit;
     private LocalDateTime plantRegDate;
-
-    Resource profileImg;
+    @JsonIgnore
+    private Path storedPath;
+    private String profileImg;
 
     public static PlantResponseDto of(Plant plant) {
         return PlantResponseDto.builder()
@@ -38,7 +40,11 @@ public class PlantResponseDto {
 
 
     // serveFile로 경유해서 넣기
-    public void setProfileImg(Resource profileImg) {
+    public void setProfileImg(String profileImg) {
         this.profileImg = profileImg;
+    }
+
+    public void setStoredPath(Path storedPath) {
+        this.storedPath = storedPath;
     }
 }

@@ -1,9 +1,7 @@
 package com.keb.kebsmartfarm.Controller;
 
-import com.keb.kebsmartfarm.config.PictureUtils;
 import com.keb.kebsmartfarm.dto.*;
 import com.keb.kebsmartfarm.service.KitAndPlantManageService;
-import com.keb.kebsmartfarm.service.PlantPictureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
@@ -45,8 +42,10 @@ public class KitController {
 
 
     @PostMapping("/{kitNo}/plant")
-    public ResponseEntity<PlantResponseDto> addPlantToKit(@PathVariable long kitNo, @RequestBody PlantRequestDto plantRequestDto) {
-        return ResponseEntity.ok(kitAndPlantManageService.plantingPlant(kitNo, plantRequestDto));
+    public ResponseEntity<PlantResponseDto> addPlantToKit(@PathVariable long kitNo, @RequestParam("plantName") String name,
+                                                          @RequestParam("plantNickName") String nickName,
+                                                          @RequestParam("plantImage") MultipartFile file) {
+        return ResponseEntity.ok(kitAndPlantManageService.plantingPlant(kitNo, PlantRequestDto.of(name, nickName, file)));
     }
 
     @PostMapping("/{kitNo}/growth")

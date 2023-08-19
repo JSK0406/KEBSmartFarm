@@ -1,5 +1,6 @@
 package com.keb.kebsmartfarm.service;
 
+import com.keb.kebsmartfarm.config.PictureUtils;
 import com.keb.kebsmartfarm.config.SecurityUtil;
 import com.keb.kebsmartfarm.dto.PlantRequestDto;
 import com.keb.kebsmartfarm.dto.PlantResponseDto;
@@ -11,7 +12,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -26,7 +31,15 @@ public class PlantService {
         arduinoKit.getActivePlant().
                 ifPresent(plant -> {throw new IllegalStateException("이미 식물이 등록된 키트입니다.");});
         // 없으면 식물 추가 가능
-        return PlantResponseDto.of(plantRepository.save(requestDto.toPlant(arduinoKit)));
+        MultipartFile file = requestDto.getFile();
+        Path destPath = PictureUtils.getDestPath(file);
+        try {
+            file.transferTo(destPath);
+            requestDto.setStoredPath(destPath);
+            return PlantResponseDto.of(plantRepository.save(requestDto.toPlant(arduinoKit)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
