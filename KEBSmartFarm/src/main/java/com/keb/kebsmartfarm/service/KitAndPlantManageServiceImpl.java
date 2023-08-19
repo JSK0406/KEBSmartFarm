@@ -1,16 +1,23 @@
 package com.keb.kebsmartfarm.service;
 
+import com.keb.kebsmartfarm.Controller.KitController;
 import com.keb.kebsmartfarm.config.JsonUtil;
 import com.keb.kebsmartfarm.config.MqttConfig;
+import com.keb.kebsmartfarm.config.PictureUtils;
 import com.keb.kebsmartfarm.config.SecurityUtil;
 import com.keb.kebsmartfarm.dto.*;
 import com.keb.kebsmartfarm.entity.ArduinoKit;
 import com.keb.kebsmartfarm.entity.ReleasedKit;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -19,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
 
     private final ArduinoKitService arduinoKitService;
@@ -35,6 +43,7 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
     private final MqttReceiver mqttReceiver;
 
     private final PlantWateringService plantWateringService;
+    private final PlantPictureService plantPictureService;
 
     @Autowired
     public KitAndPlantManageServiceImpl(ArduinoKitService arduinoKitService,
@@ -44,13 +53,14 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
                                         PreviousPlantService previousPlantService,
                                         @Value("${Adafruit.username}") String username,
                                         MqttReceiver mqttReceiver,
-                                        PlantWateringService plantWateringService) {
+                                        PlantWateringService plantWateringService, PlantPictureService plantPictureService) {
         this.arduinoKitService = arduinoKitService;
         this.releasedKitService = releasedKitService;
         this.myGateway = myGateway;
         this.plantService = plantService;
         this.previousPlantService = previousPlantService;
         this.TOPIC = String.format("%s/f/", username);
+        this.plantPictureService = plantPictureService;
         this.COMMAND = new HashMap<>();
         COMMAND.put("command", "");
         this.mqttReceiver = mqttReceiver;
@@ -74,6 +84,7 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
 //        myGateway.sendToMqtt(JsonUtil.toJson(CommandDto.of("")));
         return arduinoKitService.createArduinoKit(requestDto, releasedKit);
     }
+
     @Override
     @Transactional
     public void deleteKit(long kitNo) {
@@ -139,12 +150,12 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
         ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
         COMMAND.replace("command", "switch");
         myGateway.sendToMqtt(JsonUtil.toJson(COMMAND),
-                TOPIC+arduinoKit.getSerialNum() + "-command");
+                TOPIC + arduinoKit.getSerialNum() + "-command");
         return true;
     }
 
     @Transactional
-    public Map<String, Object> getLatestDataList(long kitNo, String regDate){
+    public Map<String, Object> getLatestDataList(long kitNo, String regDate) {
         ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
         Map<String, Object> DataList = new HashMap<>();
         DataList.put("sensorData", mqttReceiver.getLatestSensorData(kitNo, regDate));
@@ -159,8 +170,35 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
         ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
         COMMAND.replace("command", "water");
         myGateway.sendToMqtt(JsonUtil.toJson(COMMAND),
-                TOPIC+arduinoKit.getSerialNum()+"-command", 2);
+                TOPIC + arduinoKit.getSerialNum() + "-command", 2);
         ret.put("date", plantWateringService.supplyWater(arduinoKit).getWateringDate());
+        return ret;
+    }
+
+    @Override
+    @Transactional
+    public List<PlantPictureResponseDto> loadAllPicsByPlantNum(long plantNo) {
+        List<PlantPictureResponseDto> plantPictureResponseDtoList = plantPictureService.loadAllByPlantNum(plantNo);
+        plantPictureResponseDtoList
+                .forEach(
+                        ppr -> ppr.setImageUrl(MvcUriComponentsBuilder.fromMethodName(KitController.class,
+                                "serveFile",
+                                ppr.getStoredPath().getFileName().toString()).build().toUri().toString())
+                );
+        return plantPictureResponseDtoList;
+    }
+
+    @Override
+    public void savePicture(PlantPictureRequestDto requestDto) {
+        plantPictureService.store(requestDto);
+    }
+
+    @Override
+    public Map<String, Object> loadPicture(String fileName) {
+        Map<String, Object> ret = new HashMap<>();
+        MediaType mediaType = PictureUtils.getMediaTypeForExtension(PictureUtils.getFileExtension(fileName));
+        ret.put("resource", plantPictureService.loadAsResource(fileName));
+        ret.put("media", mediaType);
         return ret;
     }
 }

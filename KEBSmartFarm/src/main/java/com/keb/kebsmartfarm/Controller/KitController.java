@@ -1,22 +1,23 @@
 package com.keb.kebsmartfarm.Controller;
 
+import com.keb.kebsmartfarm.config.PictureUtils;
 import com.keb.kebsmartfarm.dto.*;
 import com.keb.kebsmartfarm.service.KitAndPlantManageService;
 import com.keb.kebsmartfarm.service.PlantPictureService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import java.net.MalformedURLException;
-import java.nio.file.Path;
 import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 @RequestMapping("/kit")
 @RestController
@@ -24,7 +25,6 @@ import java.util.stream.Stream;
 public class KitController {
 
     private final KitAndPlantManageService kitAndPlantManageService;
-    private final PlantPictureService plantPictureService;
 
     @PostMapping("/validate")
     public ResponseEntity<Boolean> validateKit(@RequestBody Map<String, String> req) {
@@ -71,7 +71,7 @@ public class KitController {
     }
 
     @GetMapping("/{kitNo}/water")
-    public ResponseEntity<Map<String, LocalDateTime>> supplyWaterToKit(@PathVariable long kitNo){
+    public ResponseEntity<Map<String, LocalDateTime>> supplyWaterToKit(@PathVariable long kitNo) {
         return ResponseEntity.ok(kitAndPlantManageService.supplyWater(kitNo));
     }
 
@@ -79,32 +79,28 @@ public class KitController {
     public ResponseEntity<?> addDiary(@PathVariable long plantNo,
                                       @RequestParam("file") MultipartFile file,
                                       @RequestParam("msg") String msg) {
-        PlantPictureRequestDto requestDto = PlantPictureRequestDto.builder()
-                .plantNum(plantNo)
-                .file(file)
-                .msg(msg).build();
-        plantPictureService.store(requestDto);
+        PlantPictureRequestDto requestDto = PlantPictureRequestDto.of(plantNo, file, msg);
+        kitAndPlantManageService.savePicture(requestDto);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/plant/{plantNo}/pictures")
-    public ResponseEntity<List<String>> getListOfPicturesByPlantNum(@PathVariable long plantNo) {
-        Stream<Path> pathStream = plantPictureService.loadAllByPlantNum(plantNo);
-
-        List<String> resourceList = pathStream.flatMap(path -> {
-            try {
-                String url = path.toUri().toURL().toString();
-                return Stream.of(url);
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
-        }).toList();
-        if (resourceList.isEmpty()) return ResponseEntity.noContent().build();
-        else return ResponseEntity.ok().body(resourceList);
+    public ResponseEntity<List<PlantPictureResponseDto>> getListOfPicturesByPlantNum(@PathVariable long plantNo) {
+        List<PlantPictureResponseDto> serveFile = kitAndPlantManageService.loadAllPicsByPlantNum(plantNo);
+        return ResponseEntity.ok(serveFile);
     }
 
+    @GetMapping("/files/{filename:.+}")
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+        Map<String, Object> ret = kitAndPlantManageService.loadPicture(filename);
+        return ResponseEntity.ok()
+                .contentType((MediaType) ret.get("media"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline;").body((Resource) ret.get("resource"));
+    }
+
+
     @GetMapping("/{kitNo}/details")
-    public ResponseEntity<Map<String ,Object>> getKitDetails(@PathVariable long kitNo, @RequestParam("regDate") String regDate) throws ParseException {
+    public ResponseEntity<Map<String, Object>> getKitDetails(@PathVariable long kitNo, @RequestParam("regDate") String regDate) throws ParseException {
         // kitNo랑 regDate 받아오고
         // regDate 이후 데이터 중 최근 데이터 받아오기 orderBy desc -> 하나! + 최근 5번의 물 준 기록
         Map<String, Object> details = kitAndPlantManageService.getLatestDataList(kitNo, regDate);

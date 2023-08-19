@@ -1,7 +1,6 @@
 package com.keb.kebsmartfarm.service;
 
 import com.keb.kebsmartfarm.dto.*;
-import com.keb.kebsmartfarm.entity.PlantWatering;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,5 +26,11 @@ public interface KitAndPlantManageService {
     public boolean validateKit(String serialNum);
 
     public Map<String, Object> getLatestDataList(long kitNo, String regDate);
+
+    public List<PlantPictureResponseDto> loadAllPicsByPlantNum(long kitNo);
+
+    public void savePicture(PlantPictureRequestDto requestDto);
+
+    public Map<String, Object> loadPicture(String fileName);
 
 }

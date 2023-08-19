@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,5 +29,13 @@ public class PlantPictureRequestDto {
                 .storedFilePath(dest.toString())
                 .msg(getMsg())
                 .build();
+    }
+
+    @Builder
+    public static PlantPictureRequestDto of(long plantNum, MultipartFile file, String msg) {
+        return PlantPictureRequestDto.builder()
+                .msg(msg)
+                .plantNum(plantNum)
+                .file(file).build();
     }
 }

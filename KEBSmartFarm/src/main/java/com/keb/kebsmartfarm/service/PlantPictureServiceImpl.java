@@ -1,22 +1,28 @@
 package com.keb.kebsmartfarm.service;
 
 import com.keb.kebsmartfarm.dto.PlantPictureRequestDto;
+import com.keb.kebsmartfarm.dto.PlantPictureResponseDto;
+import com.keb.kebsmartfarm.dto.PlantResponseDto;
 import com.keb.kebsmartfarm.entity.PlantPicture;
 import com.keb.kebsmartfarm.repository.PlantPictureRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -79,23 +85,29 @@ public class PlantPictureServiceImpl implements PlantPictureService {
 
     @Override
     @Transactional
-    public Stream<Path> loadAllByPlantNum(Long plantNum) {
+    public List<PlantPictureResponseDto> loadAllByPlantNum(Long plantNum) {
+        // 필요한 거 -> Path, date, msg
         return this.plantPictureRepository.findAllByPlantNumOrderByDateDesc(plantNum)
-                .stream().map(PlantPicture::getStoredFilePath).map(Paths::get);
+                .stream().map(PlantPictureResponseDto::of).toList();
     }
 
     @Override
     public Path load(String filename) {
-        return null;
+        return rootLocation.resolve(filename);
     }
 
     @Override
     public Resource loadAsResource(String filename) {
-        return null;
-    }
-
-    @Override
-    public void deleteAll() {
-
+        try {
+            Path file = load(filename);
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("파일을 읽을 수 없습니다 : " + filename);
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("파일을 읽을 수 없습니다 : " + filename + e);
+        }
     }
 }

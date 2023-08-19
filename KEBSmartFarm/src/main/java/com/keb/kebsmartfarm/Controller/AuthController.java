@@ -34,6 +34,11 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(userRequestDto));
     }
 
+//    @PostMapping("/findId")
+//    public ResponseEntity<?> findUserId(@RequestBody UserRequestDto requestDto) {
+//
+//    }
+
     @PostMapping("/findPw")
     public ResponseEntity<String> findUserPassword(@RequestBody UserRequestDto request) {
         long befTime = System.currentTimeMillis(), aftTime;
