@@ -2,12 +2,20 @@ package com.keb.kebsmartfarm.Controller;
 
 import com.keb.kebsmartfarm.dto.*;
 import com.keb.kebsmartfarm.service.KitAndPlantManageService;
+import com.keb.kebsmartfarm.service.PlantPictureService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequestMapping("/kit")
 @RestController
@@ -15,6 +23,7 @@ import java.util.Map;
 public class KitController {
 
     private final KitAndPlantManageService kitAndPlantManageService;
+    private final PlantPictureService plantPictureService;
 
     @PostMapping("/validate")
     public ResponseEntity<Boolean> validateKit(@RequestBody String serialNum){
@@ -49,7 +58,7 @@ public class KitController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/plantList")
+    @GetMapping("/plant/list")
     public ResponseEntity<Map<String, Object>> getUserPlantList() {
         return ResponseEntity.ok(kitAndPlantManageService.gettingListOfUsersPlant());
     }
@@ -57,6 +66,42 @@ public class KitController {
     @GetMapping("/{kitNo}/light")
     public ResponseEntity<Boolean> lightKit(@PathVariable long kitNo){
         return ResponseEntity.ok(kitAndPlantManageService.controlLight(kitNo));
+
     }
 
+    @PostMapping("/plant/{plantNo}/picture")
+    public ResponseEntity<?> addDiary(@PathVariable long plantNo,
+                                      @RequestParam("file")MultipartFile file,
+                                      @RequestParam("msg") String msg){
+        PlantPictureRequestDto requestDto = PlantPictureRequestDto.builder()
+                .plantNum(plantNo)
+                .file(file)
+                .msg(msg).build();
+        plantPictureService.store(requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/plant/{plantNo}/pictures")
+    public ResponseEntity<List<String>> getListOfPicturesByPlantNum(@PathVariable long plantNo) {
+        Stream<Path> pathStream = plantPictureService.loadAllByPlantNum(plantNo);
+
+        List<String> resourceList = pathStream.flatMap(path -> {
+            try {
+                String url = path.toUri().toURL().toString();
+                return Stream.of(url);
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+        }).toList();
+        if (resourceList.isEmpty()) return ResponseEntity.noContent().build();
+        else return ResponseEntity.ok().body(resourceList);
+    }
+
+
+//    @GetMapping("/{kitNo}/details")
+//    public ResponseEntity<List<SensorDataDto>> getListOfSensorData(@PathVariable long kitNo, @RequestBody String regDate){
+//        // kitNo랑 regDate 받아오고
+//        // regDate 이후 데이터 중 최근 데이터 받아오기
+//        // orderBy desc -> 하나!
+//    }
 }

@@ -2,6 +2,7 @@ package com.keb.kebsmartfarm.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +30,12 @@ public class Plant {
     @JoinColumn(name = "plantKitNo")
     @JsonIgnore
     private ArduinoKit arduinoKit;
+
+    @NotEmpty
+    private String orgFileName;
+
+    @NotEmpty
+    private String storedFilePath;
 
     @JsonIgnore
     @OneToOne(mappedBy = "plant", cascade = CascadeType.ALL)
