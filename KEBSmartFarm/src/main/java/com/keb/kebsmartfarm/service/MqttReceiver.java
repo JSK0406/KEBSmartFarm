@@ -16,6 +16,8 @@ import java.awt.print.Pageable;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
@@ -42,12 +44,8 @@ public class MqttReceiver {
 
     @Transactional
     public SensorDataDto getLatestSensorData(long kitNo, String date) {
-        try {
-            return SensorDataDto.of(sensorDataRepository.findByArduinoKitNoAndReceivedDateAfterOrderByReceivedDateDesc(
-                    kitNo, DateUtils.parseDate(date, simpleDateFormat.toPattern()),  PageRequest.of(0, 1)).get(0)
-            );
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        return SensorDataDto.of(sensorDataRepository.findByArduinoKitNoAndReceivedDateAfterOrderByReceivedDateDesc(
+                kitNo, LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")),  PageRequest.of(0, 1)).get(0)
+        );
     }
 }

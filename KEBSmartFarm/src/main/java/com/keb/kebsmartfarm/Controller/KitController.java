@@ -99,11 +99,10 @@ public class KitController {
 
 
     @GetMapping("/{kitNo}/details")
-    public ResponseEntity<SensorDataDto> getListOfSensorData(@PathVariable long kitNo, @RequestBody Map<String, String> req) throws ParseException {
+    public ResponseEntity<SensorDataDto> getListOfSensorData(@PathVariable long kitNo, @RequestParam("regDate") String regDate) throws ParseException {
         // kitNo랑 regDate 받아오고
         // regDate 이후 데이터 중 최근 데이터 받아오기
         // orderBy desc -> 하나!
-        String regDate = req.get("regDate");
         return ResponseEntity.ok(kitAndPlantManageService.getLatestData(kitNo, regDate));
     }
 }
