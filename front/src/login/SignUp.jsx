@@ -4,6 +4,44 @@ import axios from 'axios'
 
 function SignUp() {
 
+    const [validationMsg, setValidationMsg] = useState({
+        userEmail: '',
+        userPhoneNum: '',
+    });
+
+    const handleValidation = (currentForm) => {
+        let emailMsg = !currentForm.userEmail.includes('@') ? 'email must include @' : '';
+        let phoneNumMsg = !/^\d{10,11}$/.test(currentForm.userPhoneNum) ? 'The phone number must be 10 or 11 numbers' : '';
+
+        setValidationMsg({
+            userEmail: emailMsg,
+            userPhoneNum: phoneNumMsg,
+        });
+
+        return !emailMsg && !phoneNumMsg;
+    };
+
+    const handleInputChange = (field, value) => {
+        const updatedForm = { ...form, [field]: value };
+        setForm(updatedForm);
+        handleValidation(updatedForm);  // Pass the updated form for validation
+    };
+
+    const handleSignUp = () => {
+        if (handleValidation()) {
+            createAccount(form.userName, form.userId, form.userPassword, form.userEmail, form.userPhoneNum, form.userNickname);
+        }
+    };
+
+    const isFormComplete = () => {
+        for (let key in form) {
+            if (!form[key]) {
+                return false;
+            }
+        }
+        return !validationMsg.userEmail && !validationMsg.userPhoneNum;
+    }
+
     const Server_IP = process.env.Server_IP
 
     const [form, setForm] = useState({
@@ -14,18 +52,6 @@ function SignUp() {
         userPhoneNum: '',
         userNickname: '',
     })
-
-    const handleSignUp = () => {
-        let alertMsg = '';
-        alertMsg += !form.userEmail.includes('@') ? '이메일에는 @ 기호가 포함되어야 합니다.\n\n':'';
-        alertMsg += !/^\d{3}-\d{4}-\d{4}$/.test(form.userPhoneNum) ? '전화번호는 000-0000-0000 형태여야 합니다.':'';
-        console.log(alertMsg);
-        if (!alertMsg) {
-            createAccount(form.userName, form.userId, form.userPassword, form.userEmail, form.userPhoneNum, form.userNickname)
-        } else {
-            alert(alertMsg)
-        }
-    };
 
     const createAccount = async(userName, userId, userPassword, userEmail, userPhoneNum, userNickname) => {
         await axios.post(`${Server_IP}/auth/join`, { userName: userName, userId: userId, userPassword: userPassword, userEmail: userEmail, userPhoneNum: userPhoneNum, userNickname: userNickname },
@@ -61,18 +87,19 @@ function SignUp() {
                                     <input type="password" className="form-control" id="recipient-pw" value={form.userPassword} onChange={(e) => setForm({ ...form, userPassword: e.target.value })} />
                                     <label htmlFor="recipient-name" className="col-form-label" >Name</label>
                                     <input type="text" className="form-control" id="recipient-name" value={form.userName} onChange={(e) => setForm({ ...form, userName: e.target.value })} />
-                                    <label htmlFor="recipient-name" className="col-form-label" >E-mail</label>
-                                    <input type="email" className="form-control" id="recipient-email" value={form.userEmail} onChange={(e) => setForm({ ...form, userEmail: e.target.value })} />
-                                    <label htmlFor="recipient-name" className="col-form-label" >Phone number</label>
-                                    <input type="tel" className="form-control" id="recipient-phonenum" value={form.userPhoneNum} onChange={(e) => setForm({ ...form, userPhoneNum: e.target.value })} />
-                                    <label htmlFor="recipient-name" className="col-form-label" >Nickname</label>
+                                    <label htmlFor="recipient-email" className="col-form-label">E-mail</label>
+                                    <input type="email" className="form-control" id="recipient-email" value={form.userEmail} onChange={(e) => handleInputChange('userEmail', e.target.value)} />
+                                    <div style={{ color: 'red' }}>{validationMsg.userEmail}</div>
+                                    <label htmlFor="recipient-phonenum" className="col-form-label">Phone number</label>
+                                    <input type="tel" className="form-control" id="recipient-phonenum" value={form.userPhoneNum} onChange={(e) => handleInputChange('userPhoneNum', e.target.value)} />
+                                    <div style={{ color: 'red' }}>{validationMsg.userPhoneNum}</div><label htmlFor="recipient-name" className="col-form-label" >Nickname</label>
                                     <input type="text" className="form-control" id="recipient-nickname" value={form.userNickname} onChange={(e) => setForm({ ...form, userNickname: e.target.value })} />
                                 </div>
                             </form>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleSignUp}>Sumbit</button>
+                            <button type="button" className="btn btn-primary" disabled={!isFormComplete()} data-bs-dismiss="modal" onClick={handleSignUp}>Submit</button>
                         </div>
                     </div>
                 </div>
@@ -80,8 +107,5 @@ function SignUp() {
         </div>
     )
 }
-
-
-
 
 export default SignUp

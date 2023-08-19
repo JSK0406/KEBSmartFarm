@@ -2,13 +2,23 @@ import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 import './humiditySensor.css';
 
-function HumiditySensor({ plantDetail }) {
-    const [series, setSeries] = React.useState([50]); // 그대로
+function HumiditySensor({ plantDetail, kitHumidity }) {
+    const [series, setSeries] = React.useState([kitHumidity * 1.0]); // 그대로
     const plantAvgHumidity = plantDetail?.plantHumidity?.split('~') || [];
+
+    console.log(series)
+
+    React.useEffect(() => {
+        const normalizedHumidity = (kitHumidity - 4095) * 100 / 1095;
+        setSeries([normalizedHumidity]);
+    }, [kitHumidity]);
 
 
     function getHumidityStatus(plantAvgHumidity, series) {
-        const measuredHumidity = series[0]  // 변환되어야 함
+        // const measuredHumidity = (series - 4095) * 100 / 1095  // 변환되어야 함
+        const measuredHumidity = series;  // 변환되어야 함
+
+        console.log(measuredHumidity)
 
         // If the measured temperature is within the optimal range
         if (measuredHumidity >= plantAvgHumidity[0] && measuredHumidity <= plantAvgHumidity[1]) {
@@ -47,6 +57,8 @@ function HumiditySensor({ plantDetail }) {
             radialBar: {
                 startAngle: -90,
                 endAngle: 90,
+                min: 0,
+                max: 100,
                 track: {
                     background: '#e7e7e7',
                     strokeWidth: '97%',
@@ -67,7 +79,9 @@ function HumiditySensor({ plantDetail }) {
                         offsetY: 25,
                         fontSize: '22px',
                         formatter: function (val) {  // 현재 온도 값을 직접 표시하는 부분입니다.
-                            return val + '%';
+                            // return (val - 4095) * 100 / 1095 + '%';
+                            return val.toFixed(2) + '%';
+                            // return (val - 4095) * 100 / 1095 + '%';
                         }
                     }
                 },
@@ -90,25 +104,7 @@ function HumiditySensor({ plantDetail }) {
         stroke: {
             lineCap: 'round'
         },
-        labels: ['Temperature'],
-        annotations: {
-            position: 'back',
-            labels: [{
-                borderColor: '#00E396',
-                borderWidth: 0,
-                text: '0°C',
-                x: 5,
-                y: 325,
-                horizontalAlign: 'left',
-            }, {
-                borderColor: '#00E396',
-                borderWidth: 0,
-                text: '30°C',
-                x: 395,
-                y: 325,
-                horizontalAlign: 'right',
-            }]
-        }
+        labels: ['Humidity'],
     }
 
     return (

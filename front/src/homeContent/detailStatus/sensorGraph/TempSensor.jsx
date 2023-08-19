@@ -2,14 +2,23 @@ import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 import './tempSensor.css';
 
-function TempSensor({ plantDetail }) {
-    const [series, setSeries] = React.useState([40*2.5]);  // 넣을 때 2.5를 곱한 수로 넣어야 함
- 
+function TempSensor({ plantDetail, kitTemp }) {
+    const [series, setSeries] = React.useState([kitTemp *2.5]);
+
     const plantAvgTemp = plantDetail?.plantTemp?.split('~') || '';
     const plantLeastTemp = plantDetail?.plantWinterTemp || '';
 
+    // useEffect를 사용하여 kitTemp가 변경될 때마다 series 상태를 업데이트
+    React.useEffect(() => {
+        setSeries([kitTemp * 2.5]);
+    }, [kitTemp]);
+
+    console.log(series);
+
     function getTemperatureStatus(plantAvgTemp, plantLeastTemp, series) {
         const measuredTemp = series / 2.5;  // Get the measured temperature (since series had been multiplied by 2.5 as mentioned in the comments)
+
+        console.log(measuredTemp);
 
         // If the measured temperature is within the optimal range
         if (measuredTemp >= plantAvgTemp[0] && measuredTemp <= plantAvgTemp[1]) {

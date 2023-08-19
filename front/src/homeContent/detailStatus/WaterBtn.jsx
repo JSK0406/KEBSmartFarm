@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import Cookies from 'js-cookie';
 
-function WaterBtn({ kitNo }) {
+function WaterBtn({ kitNo, fetchWateringDates }) {
 
     const Server_IP = process.env.REACT_APP_Server_IP;
 
@@ -15,6 +15,7 @@ function WaterBtn({ kitNo }) {
                 },
             })
             .then((res) => {
+                fetchWateringDates();
                 alert('Watered')
             })
             .catch((err) => {

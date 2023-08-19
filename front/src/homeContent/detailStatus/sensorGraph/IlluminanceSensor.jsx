@@ -1,14 +1,25 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 import './illuminanceSensor.css';
+import { useEffect } from 'react';
 
-function IlluminanceSensor({ plantDetail }) {
+function IlluminanceSensor({ plantDetail, kitIlluminance }) {
     
-    const [series, setSeries] = React.useState([100]);  // 120 나누기
+    const [series, setSeries] = React.useState([kitIlluminance / 100]); 
     const plantLeastIlluminance = plantDetail?.plantLeastIlluminance || '';
 
+    console.log(kitIlluminance)
+
+    useEffect(() => {
+        setSeries([kitIlluminance / 100]);
+        console.log(series);
+    }, [kitIlluminance]);
+
+
     function getIlluminanceStatus(plantLeastIlluminance, series) {
-        const measuredIlluminance = series;  // Get the measured temperature (since series had been multiplied by 2.5 as mentioned in the comments)
+        const measuredIlluminance = series * 100;  
+
+        console.log(measuredIlluminance);
 
         // If the measured temperature is within the optimal range
         if (measuredIlluminance >= plantLeastIlluminance && measuredIlluminance <= 10000) {
@@ -36,6 +47,7 @@ function IlluminanceSensor({ plantDetail }) {
         return 'No Data'; // For other cases (though this might not actually occur, it's added for exception handling.)
     }
 
+    console.log(getIlluminanceStatus(plantLeastIlluminance, series));
 
     const options = {
         chart: {
@@ -47,6 +59,8 @@ function IlluminanceSensor({ plantDetail }) {
             radialBar: {
                 startAngle: -90,
                 endAngle: 90,
+                min: 0,
+                max: 100,
                 track: {
                     background: '#e7e7e7',
                     strokeWidth: '97%',
@@ -67,7 +81,7 @@ function IlluminanceSensor({ plantDetail }) {
                         offsetY: 25,
                         fontSize: '18px',
                         formatter: function (val) {  // 현재 온도 값을 직접 표시하는 부분입니다.
-                            return val * 120 + 'Lux';
+                            return val * 100 + 'Lux';
                         }
                     }
                 },
@@ -76,29 +90,11 @@ function IlluminanceSensor({ plantDetail }) {
         fill: {
             colors: ['#dfd880']
         },
-        series: series,  // 현재 온도 값을 여기에 설정합니다.
+        series: series,
         stroke: {
             lineCap: 'round'
         },
-        labels: ['Temperature'],
-        annotations: {
-            position: 'back',
-            labels: [{
-                borderColor: '#00E396',
-                borderWidth: 0,
-                text: '0°C',
-                x: 5,
-                y: 325,
-                horizontalAlign: 'left',
-            }, {
-                borderColor: '#00E396',
-                borderWidth: 0,
-                text: '30°C',
-                x: 395,
-                y: 325,
-                horizontalAlign: 'right',
-            }]
-        }
+        labels: ['Illuminance'],
     }
 
     return (
