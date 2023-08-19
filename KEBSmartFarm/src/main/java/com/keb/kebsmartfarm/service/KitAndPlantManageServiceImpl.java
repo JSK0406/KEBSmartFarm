@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,8 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
 
     private final MqttReceiver mqttReceiver;
 
+    private final PlantWateringService plantWateringService;
+
     @Autowired
     public KitAndPlantManageServiceImpl(ArduinoKitService arduinoKitService,
                                         ReleasedKitService releasedKitService,
@@ -40,7 +43,8 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
                                         PlantService plantService,
                                         PreviousPlantService previousPlantService,
                                         @Value("${Adafruit.username}") String username,
-                                        MqttReceiver mqttReceiver) {
+                                        MqttReceiver mqttReceiver,
+                                        PlantWateringService plantWateringService) {
         this.arduinoKitService = arduinoKitService;
         this.releasedKitService = releasedKitService;
         this.myGateway = myGateway;
@@ -50,6 +54,7 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
         this.COMMAND = new HashMap<>();
         COMMAND.put("command", "");
         this.mqttReceiver = mqttReceiver;
+        this.plantWateringService = plantWateringService;
     }
 
     @Override
@@ -138,8 +143,24 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
         return true;
     }
 
-    public SensorDataDto getLatestData(long kitNo, String regDate){
-        return mqttReceiver.getLatestSensorData(kitNo, regDate);
+    @Transactional
+    public Map<String, Object> getLatestDataList(long kitNo, String regDate){
+        ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
+        Map<String, Object> DataList = new HashMap<>();
+        DataList.put("sensorData", mqttReceiver.getLatestSensorData(kitNo, regDate));
+        DataList.put("WateringDates", plantWateringService.findFiveLatestDates(arduinoKit));
+        return DataList;
     }
 
+    @Override
+    @Transactional
+    public Map<String, LocalDateTime> supplyWater(long kitNo) {
+        Map<String, LocalDateTime> ret = new HashMap<>();
+        ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
+        COMMAND.replace("command", "water");
+        myGateway.sendToMqtt(JsonUtil.toJson(COMMAND),
+                TOPIC+arduinoKit.getSerialNum()+"-command", 2);
+        ret.put("date", plantWateringService.supplyWater(arduinoKit).getWateringDate());
+        return ret;
+    }
 }

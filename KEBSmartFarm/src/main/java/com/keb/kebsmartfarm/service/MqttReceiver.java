@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 // 메시지 받아 처리할 클래스 지정
@@ -43,9 +44,11 @@ public class MqttReceiver {
     }
 
     @Transactional
-    public SensorDataDto getLatestSensorData(long kitNo, String date) {
-        return SensorDataDto.of(sensorDataRepository.findByArduinoKitNoAndReceivedDateAfterOrderByReceivedDateDesc(
-                kitNo, LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")),  PageRequest.of(0, 1)).get(0)
-        );
+    public List<SensorDataDto> getLatestSensorData(long kitNo, String date) {
+        return sensorDataRepository.
+                findByArduinoKitNoAndReceivedDateAfterOrderByReceivedDateDesc(
+                        kitNo, LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")),
+                        PageRequest.of(0, 1)
+                ).stream().map(SensorDataDto::of).toList();
     }
 }

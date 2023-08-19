@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -66,7 +68,11 @@ public class KitController {
     @GetMapping("/{kitNo}/light")
     public ResponseEntity<Boolean> lightKit(@PathVariable long kitNo) {
         return ResponseEntity.ok(kitAndPlantManageService.controlLight(kitNo));
+    }
 
+    @GetMapping("/{kitNo}/water")
+    public ResponseEntity<Map<String, LocalDateTime>> supplyWaterToKit(@PathVariable long kitNo){
+        return ResponseEntity.ok(kitAndPlantManageService.supplyWater(kitNo));
     }
 
     @PostMapping("/plant/{plantNo}/picture")
@@ -97,12 +103,11 @@ public class KitController {
         else return ResponseEntity.ok().body(resourceList);
     }
 
-
     @GetMapping("/{kitNo}/details")
-    public ResponseEntity<SensorDataDto> getListOfSensorData(@PathVariable long kitNo, @RequestParam("regDate") String regDate) throws ParseException {
+    public ResponseEntity<Map<String ,Object>> getKitDetails(@PathVariable long kitNo, @RequestParam("regDate") String regDate) throws ParseException {
         // kitNo랑 regDate 받아오고
-        // regDate 이후 데이터 중 최근 데이터 받아오기
-        // orderBy desc -> 하나!
-        return ResponseEntity.ok(kitAndPlantManageService.getLatestData(kitNo, regDate));
+        // regDate 이후 데이터 중 최근 데이터 받아오기 orderBy desc -> 하나! + 최근 5번의 물 준 기록
+        Map<String, Object> details = kitAndPlantManageService.getLatestDataList(kitNo, regDate);
+        return ResponseEntity.ok(details);
     }
 }

@@ -1,5 +1,6 @@
 package com.keb.kebsmartfarm.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.keb.kebsmartfarm.entity.SensorData;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 @Getter
 @ToString
 public class SensorDataDto {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String serialNumber;
     private Double temp;
     private int illuminance;

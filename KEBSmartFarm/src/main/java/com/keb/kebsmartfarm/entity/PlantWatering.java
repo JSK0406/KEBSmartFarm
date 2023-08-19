@@ -1,5 +1,6 @@
 package com.keb.kebsmartfarm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,8 @@ public class PlantWatering {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime wateringDate;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
-    private Plant plantNum;
+    @JoinColumn(name = "kitNo", referencedColumnName = "kitNo")
+    private ArduinoKit arduinoKit;
 }

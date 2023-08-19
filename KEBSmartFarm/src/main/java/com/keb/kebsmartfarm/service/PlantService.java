@@ -49,4 +49,8 @@ public class PlantService {
                 .build();
     }
 
+    public Plant getPlantByPlantNum(long plantNum){
+        return plantRepository.findById(plantNum).orElseThrow(() -> new RuntimeException("식물이 존재하지 않습니다."));
+    }
+
 }
