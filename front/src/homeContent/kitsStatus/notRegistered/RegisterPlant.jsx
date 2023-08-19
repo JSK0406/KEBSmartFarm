@@ -58,7 +58,7 @@ function RegisterPlant({kitNo}) {
     }
 
     const requestRegister = async (plantName, plantNickName) => {
-        await axios.post(`${Server_IP}/users/kit/${kitNo}/plant`, { plantName: plantName, plantNickName: plantNickName },
+        await axios.post(`${Server_IP}/kit/${kitNo}/plant`, { plantName: plantName, plantNickName: plantNickName },
             {
                 headers: {
                     "Content-Type": "application/json",

@@ -5,6 +5,9 @@ import axios from 'axios';
 
 function UploadImageBtn({ plantNum }) {
 
+    const Server_IP = process.env.REACT_APP_Server_IP;
+
+
     const fileInputRef = useRef();
 
     const [form, setForm] = useState({
@@ -14,17 +17,10 @@ function UploadImageBtn({ plantNum }) {
 
     const handleUploadImage = () => {
         const formData = new FormData();
-        formData.append('plantImage', form.plantImage);
-        formData.append('plantNum', plantNum);
-        formData.append('plantMsg', form.plantMsg)
+        formData.append('file', form.plantImage);
+        formData.append('msg', form.plantMsg)
 
-        console.log(form.plantImage)
-        console.log(plantNum)
-        console.log(form.plantMsg)
-
-        console.log(formData.get("plantNum"))
-
-        axios.post(`uploadimgurl`, formData, {
+        axios.post(`${Server_IP}/kit/plant/${plantNum}/picture`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 "Authorization": `Bearer ${Cookies.get("accessToken")}`

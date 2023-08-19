@@ -14,7 +14,7 @@ function PreviousPlantStatus({ previousPlant }) {
           <p>Start Date: {previousPlant.plant.plantRegDate.split("T")[0]}</p>
           <p>Finish Date : {previousPlant.plantHarvestDate.split("T")[0]}</p>
           <div style={{ position: 'absolute', right: '15px', bottom: '15px' }}>
-            <ShowImagesBtn plantNickName={previousPlant.plant.plantNickName} plantNum={previousPlant.plant.plantNum} />
+            <ShowImagesBtn plantNickName={previousPlant.plant.plantNickName} plantNum={previousPlant.plant.plantNum} statusType = 'pre' />
           </div>
         </div>
       </div>

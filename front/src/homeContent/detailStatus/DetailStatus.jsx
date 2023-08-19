@@ -1,5 +1,3 @@
-// 요약된 정보가 들어가야 함 
-
 import React, { useState } from 'react'
 import NowGrowth from './ThisPlantInfo'
 import NowStatus from './NowStatus'
@@ -17,6 +15,10 @@ import './detailStatus.css';
 import TempSensor from './sensorGraph/TempSensor';
 import IlluminanceSensor from './sensorGraph/IlluminanceSensor';
 import HumiditySensor from './sensorGraph/HumiditySensor';
+import MoistureSensor from './sensorGraph/MoistureSensor';
+import Timeline from './sensorGraph/Timeline';
+import LightBtn from './LightBtn';
+import WaterBtn from './WaterBtn';
 
 function DetailStatus({ kit }) {
     const dispatch = useDispatch(); // action을 dispatch하는 함수 가져오기
@@ -40,6 +42,7 @@ function DetailStatus({ kit }) {
 
     useEffect(() => {
         receivePlantDetail();
+        receiveKitDetail();
     }, []);
 
     const receivePlantDetail = async () => {
@@ -52,12 +55,14 @@ function DetailStatus({ kit }) {
     }
 
     const receiveKitDetail = async () => {
-        await axios.get(`${Server_IP}/users/${kit.kitNo}/detail`, {
+        console.log(kit.plant.plantRegDate.split(".")[0].replace("T", " "));
+        await axios.get(`${Server_IP}/kit/${kit.kitNo}/details`, { regDate: kit.plant.plantRegDate.split("+")[0].replace("T", " ") }, {
             headers: {
                 "Authorization": `Bearer ${Cookies.get("accessToken")}`
             },
         })
             .then((res) => {
+                console.log(res.data);
                 setKitDetail(res.data);
             })
             .catch((err) => {
@@ -98,10 +103,17 @@ function DetailStatus({ kit }) {
                                         <DetailPlantStatus kit={kit}></DetailPlantStatus>
                                     </div>
                                 </div>
-                            </div>
-                            <div style={{ height: '150px', backgroundColor: 'green', height: '15vh', width: '98%' }}>
-                                <div style={{ backgroundColor:'red', height: '70px' }}>
-                                    ABC
+                                <p style={{ fontWeight: '500', fontSize: '20px', marginBottom: '0', marginTop: '10px', alignSelf: 'flex-start', marginLeft: '2px' }}> Watering Schedule</p>
+                                <div className='infoContent' style={{ backgroundColor: '#F8F9F8', borderRadius: '20px', height: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '10px' }}>
+                                    <div className='detailPlantStatus' style={{ display: 'flex', justifyContent: 'center' }}>
+                                        <div style={{ width: '90%', fontSize: '20px', display: 'flex' }}>
+                                            <Timeline></Timeline>
+                                        </div>
+                                        <div style={{ margin: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', }}>
+                                            <WaterBtn kitNo={kit.kitNo}></WaterBtn>
+                                            <LightBtn kitNo={kit.kitNo}></LightBtn>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

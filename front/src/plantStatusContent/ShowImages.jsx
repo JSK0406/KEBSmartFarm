@@ -1,39 +1,38 @@
 import React from 'react'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
+function ShowImages({ plantNum, statusType }) {
 
-function ShowImages({plantNum}) {
-    
+    // statusType : pre, cur
+
     const fetchImages = async () => {
-        try {
-            const response = await axios.get('서버의 URL'); // 여기에 실제 서버의 URL을 입력해주세요.
-            setImages(response.data); // 받아온 이미지 데이터를 state에 저장
-            setLoading(false); // 로딩 상태 변경
-        } catch (error) {
-            console.error("서버로부터 이미지를 받아오는데 실패했습니다.", error);
-            setLoading(false); // 로딩 상태 변경
-        }
-    }  // imgs안에 1번은 이미지, 2번은 메세지로
+        await axios.get(`${Server_IP}/kit/plant/3/pictures`,
+            {
+                headers: {
+                    // "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get("accessToken")}`
+                },
+            })
+            .then((res) => {
+                console.log(res)
+                console.log(res.data)
+                setImages(res.data);
+            })
+            .catch((error) => {
+                alert("기기번호를 다시 확인해주세요");
+            })
+    }
 
     const Server_IP = process.env.REACT_APP_Server_IP;
     const [images, setImages] = useState([]); // 이미지 데이터를 저장할 state
     const [loading, setLoading] = useState(true); // 로딩 상태를 나타내는 state
-    fetchImages();
+
+    console.log(images)
 
     useEffect(() => {
-        const fetchImages = async () => {
-            try {
-                const response = await axios.get('서버의 URL'); // 여기에 실제 서버의 URL을 입력해주세요.
-                setImages(response.data); // 받아온 이미지 데이터를 state에 저장
-                setLoading(false); // 로딩 상태 변경
-            } catch (error) {
-                console.error("서버로부터 이미지를 받아오는데 실패했습니다.", error);
-                setLoading(false); // 로딩 상태 변경
-            }
-        }
-
-        fetchImages(); // 함수 실행
+        fetchImages();
     }, []);
 
     return (
@@ -44,6 +43,8 @@ function ShowImages({plantNum}) {
                     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
                     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
+                {/* <img src={images[0]}></img> */}
+                <img src={`${Server_IP}/${images[0]?.split('file:/')[1]}`} alt="Server content" />;
                 <div class="carousel-inner">
                     <div class="carousel-item active" data-bs-interval="10000">
                         <img src="Aimg.png" class="d-block w-100" alt="..."/>

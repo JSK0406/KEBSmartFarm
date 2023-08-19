@@ -1,7 +1,7 @@
 import React from 'react'
 import ShowImages from './ShowImages'
 
-function ShowImagesBtn({ plantNickName, plantNum }) { // 여기에 타입 넣기
+function ShowImagesBtn({ plantNickName, plantNum, statusType }) { // 여기에 타입 넣기
   return (
     <div>
           <button style={{ color: 'white', backgroundColor: '#73BD72', paddingLeft: '7px', paddingRight: '7px' }} type="button" class="btn" data-bs-toggle="modal" data-bs-target={`#carouselModal${plantNum}`}>
@@ -15,7 +15,7 @@ function ShowImagesBtn({ plantNickName, plantNum }) { // 여기에 타입 넣기
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                          <ShowImages plantNum={ plantNum }></ShowImages>
+                          <ShowImages plantNum={ plantNum } statusType={ statusType }></ShowImages>
                           <div id="carouselExampleDark" class="carousel carousel-dark slide">
                           </div>
                       </div>

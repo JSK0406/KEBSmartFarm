@@ -17,7 +17,7 @@ function PlantStatusContent() {
   }, [])
 
   const receivePlantInfo = async () => {
-    await axios.get(`${Server_IP}/kit/plantList`, {
+    await axios.get(`${Server_IP}/kit/plant/list`, {
         headers: {
           "Authorization": `Bearer ${Cookies.get("accessToken")}`
         },

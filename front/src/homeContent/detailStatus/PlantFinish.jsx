@@ -7,15 +7,14 @@ function PlantFinish({ kitNo }) {
   const Server_IP = process.env.REACT_APP_Server_IP;
 
   const handlePlantFinish = async () => {
-    const accessToken = Cookies.get('accessToken');
-    await axios.post(`${Server_IP}/users/kit/${kitNo}/growth`,{}, 
+    await axios.post(`${Server_IP}/kit/${kitNo}/growth`,{}, 
     {
       headers: {
-        "Authorization": `Bearer ${accessToken}`
+        "Authorization": `Bearer ${Cookies.get('accessToken') }`
       },
     })
     .then((res) => {
-      alert('Finish')
+      alert('Plant is finished')
       window.location.reload();
     })
     .catch((err) => {

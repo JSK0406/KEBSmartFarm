@@ -31,6 +31,7 @@ function AddDevice() {
     };
 
     const checkSerialNumber = async (deviceNumber) => {
+        console.log(deviceNumber)
         await axios.post(`${Server_IP}/kit/validate`, { serialNum: deviceNumber },
             {
                 headers: {

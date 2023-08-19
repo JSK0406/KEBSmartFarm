@@ -29,14 +29,14 @@ function NavUserInfo() {
         <div className="offcanvas-body">
           <div>
             <div style={{ fontSize: '30px' }}>
-              Welcome <br/>{userNickname}
+              Welcome {userNickname}
             </div>
-            <div style={{ fontSize: '20px' }}>
+            <div style={{ fontSize: '20px', marginTop: '30px' }}>
               Total kits you have : {userKitList.length}
             </div>
           </div>
           <div>
-            <button type="button" className='btn' style={{
+            {/* <button type="button" className='btn' style={{
               color: 'white',
               backgroundColor: '#7AA278',
               paddingLeft: '7px',
@@ -44,17 +44,31 @@ function NavUserInfo() {
               position: 'fixed',
               bottom: '5px',
               right: '5px', }} onClick={() => {
+                removeCookie("accessToken")
+                navigate("/login");
+                window.location.reload();
+              }}>logout</button> */}
+          </div>
+
+          <div>
+            recent supply water date
+          </div>
+          <div style={{ marginTop: '50px', display: 'flex', justifyContent: 'right' }}>
+            <ChangePassword></ChangePassword>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'right' }}>
+            <button type="button" className='btn' style={
+              {
+              color: 'white',
+              backgroundColor: '#7AA278',
+              paddingLeft: '7px',
+              paddingRight: '7px',
+              marginTop: '10px',
+              }} onClick={() => {
               removeCookie("accessToken")
               navigate("/login");
               window.location.reload();
             }}>logout</button>
-          </div>
-
-          <div>
-            <ChangePassword></ChangePassword>
-          </div>
-          <div>
-            recent supply water date
           </div>
         </div>
       </div>

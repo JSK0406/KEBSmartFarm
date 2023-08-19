@@ -44,16 +44,16 @@ function FindPassword(props) {
                         <div className="modal-body">
                             <form>
                                 <div className="mb-3">
-                                    <label htmlFor="recipient-name" className="col-form-label" >아이디</label>
+                                    <label htmlFor="recipient-name" className="col-form-label" >ID</label>
                                     <input type="text" className="form-control" id="recipient-name" value={form.userId} onChange={(e) => setForm({ ...form, userId: e.target.value })} />
-                                    <label htmlFor="recipient-name" className="col-form-label" >이메일</label>
+                                    <label htmlFor="recipient-name" className="col-form-label" >E-mail</label>
                                     <input type="email" className="form-control" id="recipient-email" value={form.userEmail} onChange={(e) => setForm({ ...form, userEmail: e.target.value })} />
                                 </div>
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleFindId}>확인</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleFindId}>Check</button>
                         </div>
                     </div>
                 </div>
