@@ -4,7 +4,6 @@ import com.keb.kebsmartfarm.dto.*;
 import com.keb.kebsmartfarm.service.KitAndPlantManageService;
 import com.keb.kebsmartfarm.service.PlantPictureService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.MalformedURLException;
 import java.nio.file.Path;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +25,8 @@ public class KitController {
     private final PlantPictureService plantPictureService;
 
     @PostMapping("/validate")
-    public ResponseEntity<Boolean> validateKit(@RequestBody String serialNum) {
+    public ResponseEntity<Boolean> validateKit(@RequestBody Map<String, String> req) {
+        String serialNum = req.get("serialNum");
         return ResponseEntity.ok(kitAndPlantManageService.validateKit(serialNum));
     }
 
