@@ -1,7 +1,6 @@
 package com.keb.kebsmartfarm.service;
 
 import com.keb.kebsmartfarm.dto.*;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
@@ -22,5 +21,6 @@ public interface KitAndPlantManageService {
 
     public boolean validateKit(String serialNum);
 
+    public SensorDataDto getLatestData(long kitNo, String regDate);
 //    public List<>
 }

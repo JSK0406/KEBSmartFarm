@@ -4,7 +4,7 @@ import com.keb.kebsmartfarm.dto.*;
 import com.keb.kebsmartfarm.service.KitAndPlantManageService;
 import com.keb.kebsmartfarm.service.PlantPictureService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.UrlResource;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.MalformedURLException;
 import java.nio.file.Path;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RequestMapping("/kit")
@@ -26,7 +27,7 @@ public class KitController {
     private final PlantPictureService plantPictureService;
 
     @PostMapping("/validate")
-    public ResponseEntity<Boolean> validateKit(@RequestBody String serialNum){
+    public ResponseEntity<Boolean> validateKit(@RequestBody String serialNum) {
         return ResponseEntity.ok(kitAndPlantManageService.validateKit(serialNum));
     }
 
@@ -64,15 +65,15 @@ public class KitController {
     }
 
     @GetMapping("/{kitNo}/light")
-    public ResponseEntity<Boolean> lightKit(@PathVariable long kitNo){
+    public ResponseEntity<Boolean> lightKit(@PathVariable long kitNo) {
         return ResponseEntity.ok(kitAndPlantManageService.controlLight(kitNo));
 
     }
 
     @PostMapping("/plant/{plantNo}/picture")
     public ResponseEntity<?> addDiary(@PathVariable long plantNo,
-                                      @RequestParam("file")MultipartFile file,
-                                      @RequestParam("msg") String msg){
+                                      @RequestParam("file") MultipartFile file,
+                                      @RequestParam("msg") String msg) {
         PlantPictureRequestDto requestDto = PlantPictureRequestDto.builder()
                 .plantNum(plantNo)
                 .file(file)
@@ -98,10 +99,12 @@ public class KitController {
     }
 
 
-//    @GetMapping("/{kitNo}/details")
-//    public ResponseEntity<List<SensorDataDto>> getListOfSensorData(@PathVariable long kitNo, @RequestBody String regDate){
-//        // kitNo랑 regDate 받아오고
-//        // regDate 이후 데이터 중 최근 데이터 받아오기
-//        // orderBy desc -> 하나!
-//    }
+    @GetMapping("/{kitNo}/details")
+    public ResponseEntity<SensorDataDto> getListOfSensorData(@PathVariable long kitNo, @RequestBody Map<String, String> req) throws ParseException {
+        // kitNo랑 regDate 받아오고
+        // regDate 이후 데이터 중 최근 데이터 받아오기
+        // orderBy desc -> 하나!
+        String regDate = req.get("regDate");
+        return ResponseEntity.ok(kitAndPlantManageService.getLatestData(kitNo, regDate));
+    }
 }

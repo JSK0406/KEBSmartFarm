@@ -31,13 +31,16 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
 
     private final Map<String, String> COMMAND;
 
+    private final MqttReceiver mqttReceiver;
+
     @Autowired
     public KitAndPlantManageServiceImpl(ArduinoKitService arduinoKitService,
                                         ReleasedKitService releasedKitService,
                                         @Qualifier("mqttConfig.MyGateway") MqttConfig.MyGateway myGateway,
                                         PlantService plantService,
                                         PreviousPlantService previousPlantService,
-                                        @Value("${Adafruit.username}") String username) {
+                                        @Value("${Adafruit.username}") String username,
+                                        MqttReceiver mqttReceiver) {
         this.arduinoKitService = arduinoKitService;
         this.releasedKitService = releasedKitService;
         this.myGateway = myGateway;
@@ -46,6 +49,7 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
         this.TOPIC = String.format("%s/f/", username);
         this.COMMAND = new HashMap<>();
         COMMAND.put("command", "");
+        this.mqttReceiver = mqttReceiver;
     }
 
     @Override
@@ -133,4 +137,9 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
                 TOPIC+arduinoKit.getSerialNum() + "-command");
         return true;
     }
+
+    public SensorDataDto getLatestData(long kitNo, String regDate){
+        return mqttReceiver.getLatestSensorData(kitNo, regDate);
+    }
+
 }

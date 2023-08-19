@@ -27,4 +27,14 @@ public class SensorDataDto {
                 .illuminance(getIlluminance())
                 .build();
     }
+
+    @Builder
+    public static SensorDataDto of(SensorData sensorData) {
+        return SensorDataDto.builder()
+                .illuminance(sensorData.getIlluminance())
+                .temp(sensorData.getTemp())
+                .kitNo(sensorData.getArduinoKitNo())
+                .soil_moisture(sensorData.getSoilMoisture())
+                .build();
+    }
 }
