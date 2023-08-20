@@ -19,6 +19,7 @@ public class SensorDataDto {
     private int illuminance;
     private Long kitNo;
     private int soil_moisture;
+    private LocalDateTime date;
 
     public SensorData toSensorData() {
         return SensorData.builder()
@@ -38,6 +39,7 @@ public class SensorDataDto {
                 .temp(sensorData.getTemp())
                 .kitNo(sensorData.getArduinoKitNo())
                 .soil_moisture(sensorData.getSoilMoisture())
+                .date(sensorData.getReceivedDate())
                 .build();
     }
 }

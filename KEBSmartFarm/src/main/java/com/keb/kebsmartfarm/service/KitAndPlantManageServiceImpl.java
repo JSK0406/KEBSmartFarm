@@ -1,6 +1,5 @@
 package com.keb.kebsmartfarm.service;
 
-import com.keb.kebsmartfarm.Controller.KitController;
 import com.keb.kebsmartfarm.config.JsonUtil;
 import com.keb.kebsmartfarm.config.MqttConfig;
 import com.keb.kebsmartfarm.config.PictureUtils;
@@ -15,9 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;

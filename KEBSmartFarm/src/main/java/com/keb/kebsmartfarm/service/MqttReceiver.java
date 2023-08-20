@@ -18,6 +18,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -28,7 +30,14 @@ import java.util.Locale;
 public class MqttReceiver {
 
     private final SensorDataRepository sensorDataRepository;
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+
+    private final DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+            .appendPattern("yyyy-MM-dd'T'HH:mm:ss")
+            // msec를 9자리까지 설정
+            .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
+            .toFormatter();
+
+
 
     @Transactional
     public void handle(Message<?> msg) {
@@ -47,7 +56,7 @@ public class MqttReceiver {
     public List<SensorDataDto> getLatestSensorData(long kitNo, String date) {
         return sensorDataRepository.
                 findByArduinoKitNoAndReceivedDateAfterOrderByReceivedDateDesc(
-                        kitNo, LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")),
+                        kitNo, LocalDateTime.parse(date, formatter),
                         PageRequest.of(0, 1)
                 ).stream().map(SensorDataDto::of).toList();
     }
