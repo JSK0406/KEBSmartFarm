@@ -49,7 +49,8 @@ public class WebSecurityConfig {
                                 new AntPathRequestMatcher("/auth/**"),
                                 new AntPathRequestMatcher("/sensor/certificate"),
                                 new AntPathRequestMatcher("/v3/**"),
-                                new AntPathRequestMatcher("/swagger-ui/**")
+                                new AntPathRequestMatcher("/swagger-ui/**"),
+                                new AntPathRequestMatcher("/kit/files/**")
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
