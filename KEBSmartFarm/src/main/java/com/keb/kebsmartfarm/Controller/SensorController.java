@@ -9,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @Controller
 @RequestMapping("/sensor")
 @RestController
@@ -21,8 +19,8 @@ public class SensorController {
     private final ArduinoKitService arduinoKitService;
 
     @PostMapping("/certificate")
-    public ResponseEntity<Long> certificateKit(@RequestBody Map<String, String> req) {
-        ReleasedKit releasedKit = releasedKitService.validateKitSerialNumber(req.get("serialNum"))
+    public ResponseEntity<Long> certificateKit(@RequestBody String serialNumber) {
+        ReleasedKit releasedKit = releasedKitService.validateKitSerialNumber(serialNumber)
                 .orElseThrow(() -> new IllegalStateException("해당 키트가 존재하지 않습니다."));
         return ResponseEntity.ok(releasedKit.getReleaseNum());
     }
