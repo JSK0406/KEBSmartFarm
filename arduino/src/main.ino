@@ -21,6 +21,8 @@ int tempSensor = A2;
 int RED_LED = D2;
 int moisSensor = A3, soil_moisture;
 
+int motorA = D4, motorB = D5;
+
 // True -> sendData
 bool hasPlant = false, switchState = false;
 
@@ -51,8 +53,8 @@ Adafruit_MQTT_Publish sensorData =
     Adafruit_MQTT_Publish(&mqtt, IO_USERNAME "/f/data/json");
 
 // Setup a subscribing feeds
-Adafruit_MQTT_Subscribe command =
-    Adafruit_MQTT_Subscribe(&mqtt, IO_USERNAME "/f/" SERIAL_NUMBER "-command");
+Adafruit_MQTT_Subscribe command = Adafruit_MQTT_Subscribe(
+    &mqtt, IO_USERNAME "/f/" SERIAL_NUMBER "-command", MQTT_QOS_1);
 /************** Feeds *************/
 
 // For subscription
@@ -77,9 +79,12 @@ void saveConfigHandler(AsyncWebServerRequest *);
 void MQTT_connect();
 void calcTempCeclious();
 void handleCommand(Adafruit_MQTT_Subscribe *);
+void cmdCallBack();
 void setup() {
     Serial.begin(115200);
     oled.setup();
+    pinMode(motorA, OUTPUT);
+    pinMode(motorB, OUTPUT);
     SPIFFS.begin(true);
     if (SPIFFS.exists("/config.json")) {
         loadConfig();
@@ -89,7 +94,8 @@ void setup() {
 
         while (kitNo < 0) {
             // Getting KitNo from releasedKit
-            httpclient.begin("https://kebsmartfarm.duckdns.org:8080/sensor/certificate");
+            httpclient.begin(
+                "https://kebsmartfarm.duckdns.org:8080/sensor/certificate");
             int statusCode = httpclient.POST(SERIAL_NUMBER);
 
             if (statusCode == HTTP_CODE_OK) {
@@ -100,8 +106,19 @@ void setup() {
             delay(5000);
         }
 
+        // get flag from server
+        httpclient.begin(
+                // "https://kebsmartfarm.duckdns.org:8080/sensor/" + String(kitNo) + "/plant");
+                "https://172.30.1.33:8080/sensor/" + String(kitNo) + "/plant");
+        if(httpclient.GET() == HTTP_CODE_OK){
+            String res = httpclient.getString();
+            hasPlant = res.equals("true");
+        }
+        Serial.println(hasPlant ? "true" : "false");
+
         // Setup MQTT subscription for receiving command
         mqtt.subscribe(&command);
+
     } else {
         startAP();
         serveInitialConfigPage();
@@ -112,7 +129,7 @@ void loop() {
     if (SPIFFS.exists("/config.json")) {
         MQTT_connect();
         Adafruit_MQTT_Subscribe *subs;
-
+        mqtt.processPackets(1000);
         if (subs = mqtt.readSubscription(5000)) {
             if (subs == &command) {
                 handleCommand(subs);
@@ -120,7 +137,6 @@ void loop() {
             cmdJson.clear();
         }
     }
-
     unsigned long currentMillis = millis();
     if (currentMillis - previousMillis >= interval && hasPlant) {
         previousMillis = currentMillis;
@@ -236,34 +252,10 @@ void MQTT_connect() {
         return;
     }
 
-    Serial.println("Connecting to MQTT");
+    Serial.println("Connecting to MQTT...");
     uint8_t retries = 3;
 
     while ((ret = mqtt.connect()) != 0) { // connect will return 0 for connected
-        switch (ret) {
-        case 1:
-            Serial.println(F("Wrong protocol"));
-            break;
-        case 2:
-            Serial.println(F("ID rejected"));
-            break;
-        case 3:
-            Serial.println(F("Server unavail"));
-            break;
-        case 4:
-            Serial.println(F("Bad user/pass"));
-            break;
-
-        case 5:
-            Serial.println(F("Not authed"));
-            break;
-        case 6:
-            Serial.println(F("Failed to subscribe"));
-            break;
-        default:
-            Serial.println(F("Connection failed"));
-            break;
-        }
         Serial.println(mqtt.connectErrorString(ret));
         Serial.println("Retrying MQTT connection in 5 seconds");
         mqtt.disconnect();
@@ -312,11 +304,26 @@ void handleCommand(Adafruit_MQTT_Subscribe *subs) {
         oled.setLine(2, "this Kit...");
         oled.display();
         ESP.restart();
-    } else if((strcmp(cmd, "growth") == 0) || (strcmp(cmd, "delPlant") == 0)){
+    } else if ((strcmp(cmd, "growth") == 0) || (strcmp(cmd, "delPlant") == 0)) {
         Serial.println("yes Plant");
         hasPlant = false;
-    } else if(strcmp(cmd, "addPlant") == 0){
+    } else if (strcmp(cmd, "addPlant") == 0) {
         Serial.println("no Plant");
         hasPlant = true;
+    } else if (strcmp(cmd, "water") == 0 && hasPlant) {
+        Serial.println("supply Water");
+        digitalWrite(motorA, HIGH);
+        digitalWrite(motorB, LOW);
+        delay(6000);
+
+        digitalWrite(motorA, LOW);
+        digitalWrite(motorB, LOW);
     }
+
+    
+}
+
+int cmdCallBack(bool isDone) {
+    Serial.print("Command Works : ");
+    Serial.println(isDone ? "true" : "false");
 }

@@ -47,7 +47,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(
                         (httpRequest) -> httpRequest.requestMatchers(
                                 new AntPathRequestMatcher("/auth/**"),
-                                new AntPathRequestMatcher("/sensor/certificate"),
+                                new AntPathRequestMatcher("/sensor/**"),
                                 new AntPathRequestMatcher("/v3/**"),
                                 new AntPathRequestMatcher("/swagger-ui/**"),
                                 new AntPathRequestMatcher("/kit/files/**")

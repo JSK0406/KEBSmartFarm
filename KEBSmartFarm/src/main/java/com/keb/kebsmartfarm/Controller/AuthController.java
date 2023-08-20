@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RequestMapping("/auth")
 @RestController
 @RequiredArgsConstructor
@@ -34,16 +36,16 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(userRequestDto));
     }
 
-//    @PostMapping("/findId")
-//    public ResponseEntity<?> findUserId(@RequestBody UserRequestDto requestDto) {
-//
-//    }
+    @PostMapping("/findId")
+    public ResponseEntity<Map<String , String>> findUserId(@RequestBody UserRequestDto requestDto) {
+        return ResponseEntity.ok(authService.findIdByNameAndEmail(requestDto.getUserEmail(), requestDto.getUserName()));
+    }
 
     @PostMapping("/findPw")
     public ResponseEntity<String> findUserPassword(@RequestBody UserRequestDto request) {
         long befTime = System.currentTimeMillis(), aftTime;
         try{
-            authService.findPasswordByNameAndEmail(request.getUserEmail(), request.getUserId());
+            authService.findPasswordByIdAndEmail(request.getUserEmail(), request.getUserId());
             MailDto mailDto = sendMailService.createMailAndChangePassword(request.getUserEmail(), request.getUserId());
             sendMailService.mailSend(mailDto);
         }catch (Exception e){

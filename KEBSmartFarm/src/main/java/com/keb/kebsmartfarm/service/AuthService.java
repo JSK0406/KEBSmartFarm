@@ -14,6 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -37,10 +40,19 @@ public class AuthService {
         return tokenProvider.generateTokenDto(authentication);
     }
 
-    public void findPasswordByNameAndEmail(String userEmail, String userId) {
+    public void findPasswordByIdAndEmail(String userEmail, String userId) {
         User user = this.userRepository.findByUserEmail(userEmail).orElseThrow(()-> new RuntimeException(userEmail + "에 해당하는 회원이 없습니다"));
         if(!user.getUserId().equalsIgnoreCase(userId)){
             throw  new RuntimeException(userId + "에 맞는 회원이 없습니다.");
         }
+    }
+
+    public Map<String, String> findIdByNameAndEmail(String userEmail, String userName) {
+        Map<String, String> ret = new HashMap<>();
+        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new RuntimeException(userEmail + "에 해당하는 회원이 없습니다."));
+        if(!user.getUserName().equalsIgnoreCase(userName)){
+            ret.put("userId", user.getUserId());
+        }
+        return ret;
     }
 }

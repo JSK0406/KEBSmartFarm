@@ -102,6 +102,8 @@ public class MqttConfig {
         void sendToMqtt(String payload, @Header(MqttHeaders.TOPIC) String topic);
 
         void sendToMqtt(String payload, @Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) int qos);
+
+        int sendToMQTT(String payload);
     }
 
 }
