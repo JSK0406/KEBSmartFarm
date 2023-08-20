@@ -3,11 +3,14 @@ package com.keb.kebsmartfarm.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+@Builder
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +32,8 @@ public class User {
 
     private String userNickname;
 
+    private LocalDateTime userRegDate;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ArduinoKit> arduinoKitList;
 
@@ -40,25 +45,5 @@ public class User {
 
     public void setUserNickname(String userNickname) {
         this.userNickname = userNickname;
-    }
-    @Builder
-    public User(Long userSeqNum,
-                String userName,
-                String userId,
-                String userPassword,
-                String userPhoneNum,
-                String userEmail,
-                String userNickname,
-                Authority authority,
-                List<ArduinoKit> arduinoKitList) {
-        this.userSeqNum = userSeqNum;
-        this.userName = userName;
-        this.userId = userId;
-        this.userPassword = userPassword;
-        this.userPhoneNum = userPhoneNum;
-        this.userEmail = userEmail;
-        this.userNickname = userNickname;
-        this.authority = authority;
-        this.arduinoKitList = arduinoKitList;
     }
 }
