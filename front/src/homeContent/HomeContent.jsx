@@ -14,7 +14,10 @@ function HomeContent() {
     const isConnected = useSelector(state => state.isConnected.value); // 현재 기기연결 상태 가져오기
     const isRegistered = useSelector(state => state.isRegistered.value); // 현재 식물등록 상태 가져오기
     const userKitList = useSelector(state => state.userInfo.value.infos.userKitList)
+    const userInfo = useSelector(state => state.userInfo.value)
     const dispatch = useDispatch();
+
+    console.log(userInfo);
 
     const [image, setImage] = useState('');
 

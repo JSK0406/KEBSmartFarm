@@ -11,8 +11,11 @@ function IlluminanceSensor({ plantDetail, kitIlluminance }) {
     console.log(kitIlluminance)
 
     useEffect(() => {
-        setSeries([kitIlluminance / 100]);
-        console.log(series);
+        if (kitIlluminance === '') {
+            setSeries(['notYet']);
+        } else {
+            setSeries([kitIlluminance / 100]);
+        }
     }, [kitIlluminance]);
 
 

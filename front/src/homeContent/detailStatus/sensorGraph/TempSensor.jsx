@@ -10,7 +10,11 @@ function TempSensor({ plantDetail, kitTemp }) {
 
     // useEffect를 사용하여 kitTemp가 변경될 때마다 series 상태를 업데이트
     React.useEffect(() => {
-        setSeries([kitTemp * 2.5]);
+        if (kitTemp === '') {
+            setSeries(['notYet'])
+        } else {
+            setSeries([kitTemp * 2.5]);
+        }
     }, [kitTemp]);
 
     console.log(series);
@@ -29,7 +33,7 @@ function TempSensor({ plantDetail, kitTemp }) {
         if (measuredTemp < plantAvgTemp[0]) {
             return (
                 <div style={{ textAlign: 'center' }}>
-                    {`${plantAvgTemp[0] - measuredTemp}°C Below`}
+                    {`${(plantAvgTemp[0] - measuredTemp).toFixed(2)}°C Below`}
                 </div>
             )
         }
@@ -38,7 +42,7 @@ function TempSensor({ plantDetail, kitTemp }) {
         if (measuredTemp > plantAvgTemp[1]) {
             return (
                 <div style={{ textAlign: 'center' }}>
-                    {`${measuredTemp - plantAvgTemp[1]}°C Above`} 
+                    {`${(measuredTemp - plantAvgTemp[1]).toFixed(2)}°C Above`} 
                 </div>
             )
         }

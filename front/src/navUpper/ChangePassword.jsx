@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { RiLockPasswordFill } from 'react-icons/ri'
 
 function ChangePassword() {
 
@@ -37,14 +38,14 @@ function ChangePassword() {
   return (
     <div>
       <div>
-        <button type="button" className='btn' style={{
-           color: 'white',
-           backgroundColor:
-           '#7AA278',
+        <button type="button" className='btn hover-button' style={{
+           color: 'black',
            paddingLeft:
            '7px',
            paddingRight: '7px',
-           }} onClick={() => setModalVisible(!modalVisible)}>Change Password</button>
+           width: '100%',
+           fontSize: '18px',
+        }} onClick={() => setModalVisible(!modalVisible)}><RiLockPasswordFill /> Change Password</button>
 
               {modalVisible && (
                 <div style={{

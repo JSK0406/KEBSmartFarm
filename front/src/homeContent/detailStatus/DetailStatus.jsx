@@ -94,15 +94,15 @@ function DetailStatus({ kit }) {
                             <div style={{ width: '98%' }}>
                                 <div className='sensorContent' style={{ display: 'flex', height: '40%', backgroundColor: '#F8F9F8', borderRadius: '20px' }}>
                                     <div style={{ width: '33.3%' }}>
-                                        {/* <TempSensor plantDetail={plantDetail} kitTemp={kitDetail?.temp.toFixed(2)}></TempSensor> */}
-                                        <TempSensor plantDetail={plantDetail} kitTemp={kitDetail?.sensorData[0].temp.toFixed(2)}></TempSensor>
+                                        <TempSensor plantDetail={plantDetail} kitTemp={kitDetail?.sensorData[0]?.temp?.toFixed(2) || ''}></TempSensor>
                                     </div>
-                                    <div style={{ width: '33.3%'}}>
-                                        <IlluminanceSensor plantDetail={plantDetail} kitIlluminance={kitDetail?.sensorData[0].illuminance} ></IlluminanceSensor>
+                                    <div style={{ width: '33.3%' }}>
+                                        <IlluminanceSensor plantDetail={plantDetail} kitIlluminance={kitDetail?.sensorData[0]?.illuminance || ''}></IlluminanceSensor>
                                     </div>
-                                    <div style={{ width: '33.3%'}}>
-                                        <HumiditySensor plantDetail={plantDetail} kitHumidity={kitDetail?.sensorData[0].soil_moisture} ></HumiditySensor>
+                                    <div style={{ width: '33.3%' }}>
+                                        <HumiditySensor plantDetail={plantDetail} kitHumidity={kitDetail?.sensorData[0]?.soil_moisture || ''}></HumiditySensor>
                                     </div>
+
                                 </div>
                                 <p style={{ fontWeight: '500', fontSize: '20px', marginBottom: '0', marginTop: '10px', alignSelf: 'flex-start', marginLeft: '2px' }}> Information</p>
                                 <div className='infoContent' style={{ backgroundColor: '#F8F9F8', borderRadius: '20px', height: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '10px' }}>
@@ -113,7 +113,7 @@ function DetailStatus({ kit }) {
                                 <p style={{ fontWeight: '500', fontSize: '20px', marginBottom: '0', marginTop: '10px', alignSelf: 'flex-start', marginLeft: '2px' }}> Watering Schedule</p>
                                 <div className='infoContent' style={{ backgroundColor: '#F8F9F8', borderRadius: '20px', height: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '10px' }}>
                                     <div className='detailPlantStatus' style={{ display: 'flex', justifyContent: 'center' }}>
-                                        <div style={{ width: '90%', fontSize: '20px', display: 'flex' }}>
+                                        <div style={{ width: '95%', fontSize: '20px', display: 'flex' }}>
                                             <Timeline wateringDates={kitDetail?.WateringDates}></Timeline>
                                         </div>
                                         <div style={{ margin: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', }}>

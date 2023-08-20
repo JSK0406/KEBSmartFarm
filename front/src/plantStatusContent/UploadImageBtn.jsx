@@ -7,7 +7,6 @@ function UploadImageBtn({ plantNum }) {
 
     const Server_IP = process.env.REACT_APP_Server_IP;
 
-
     const fileInputRef = useRef();
 
     const [form, setForm] = useState({
@@ -25,9 +24,13 @@ function UploadImageBtn({ plantNum }) {
                 'Content-Type': 'multipart/form-data',
                 "Authorization": `Bearer ${Cookies.get("accessToken")}`
             }
-        })
+            })
             .then((res) => {
                 alert("image is uploaded")
+                window.location.reload();
+            })
+            .catch((err) => {
+                console.log(err);
             })
     };
 
@@ -55,7 +58,7 @@ function UploadImageBtn({ plantNum }) {
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button onClick={handleUploadImage} style={{ borderRadius: '10px', backgroundColor: '#73BD72', color: "white" }} type="button" className="btn">Upload</button>
+                            <button data-bs-dismiss="modal" aria-label="Close" onClick={handleUploadImage} style={{ borderRadius: '10px', backgroundColor: '#73BD72', color: "white" }} type="button" className="btn">Upload</button>
                         </div>
                     </div>
                 </div>

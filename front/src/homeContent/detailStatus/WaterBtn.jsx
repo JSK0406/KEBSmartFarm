@@ -25,8 +25,28 @@ function WaterBtn({ kitNo, fetchWateringDates }) {
 
     return (
         <div>
-            <button type="button" style={{ color: 'white', backgroundColor: '#80cee1', fontSize: '12px', border: 'none', borderRadius: '10px', width: '50px', height: '25px', marginBottom: '5px' }} onClick={() => requestWater() } >Water</button>
+            <button
+                type="button"
+                style={{
+                    color: 'white',
+                    backgroundColor: '#80cee1',
+                    fontSize: '12px',
+                    border: 'none',
+                    borderRadius: '10px',
+                    // width: '50px',
+                    width: '7vmax',
+                    height: '25px',
+                    marginBottom: '5px',
+                    display: 'flex',      // Flex display 추가
+                    alignItems: 'center',  // 세로 중앙 정렬
+                    justifyContent: 'center'  // 가로 중앙 정렬
+                }}
+                onClick={() => requestWater()}
+            >
+                Water
+            </button>
         </div>
+
     )
 }
 

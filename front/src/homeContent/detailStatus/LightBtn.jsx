@@ -24,7 +24,7 @@ function LightBtn({ kitNo }) {
 
     return (
         <div>
-            <button type="button" style={{ color: 'white', backgroundColor: '#dfd880', fontSize: '12px', border: 'none', borderRadius: '10px' ,width: '50px', height: '25px', marginTop: '5px' }} onClick={() => requestLighting()} >Light</button>
+            <button type="button" style={{ color: 'white', backgroundColor: '#dfd880', fontSize: '12px', border: 'none', borderRadius: '10px', width: '7vmax', height: '25px', marginTop: '5px', padding: '0 auto' }} onClick={() => requestLighting()} >Light</button>
         </div>
     )
 }

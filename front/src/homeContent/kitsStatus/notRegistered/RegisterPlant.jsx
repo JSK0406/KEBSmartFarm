@@ -52,30 +52,36 @@ function RegisterPlant({kitNo}) {
     }
 
     const handleRegister = () => {
-        requestRegister(form.plantName, form.plantNickName)
+        requestRegister(form.plantImage, form.plantName, form.plantNickName)
         dispatch(fetchUser());
         window.location.reload();
     }
 
-    const requestRegister = async (plantName, plantNickName) => {
-        await axios.post(`${Server_IP}/kit/${kitNo}/plant`, { plantName: plantName, plantNickName: plantNickName },
-            {
+    const requestRegister = async (plantImage, plantName, plantNickName) => {
+        const formData = new FormData();
+        formData.append('plantImage', plantImage);
+        formData.append('plantName', plantName);
+        formData.append('plantNickName', plantNickName);
+
+        try {
+            const response = await axios.post(`${Server_IP}/kit/${kitNo}/plant`, formData, {
                 headers: {
-                    "Content-Type": "application/json",
                     "Authorization": `Bearer ${accessToken}`
                 },
-            })
-            .then((res) => {
-                alert('Your plant is registered!')
-            })
-            .catch((error) => {
-                alert("Please try again");
-            })
+            });
+
+            alert('Your plant is registered!');
+        } catch (error) {
+            alert("Please try again");
+        }
     }
+
+
 
     return (
         <div>
-            <button type="button" style={{ color: 'white', backgroundColor: '#73BD72', paddingLeft: '7px', paddingRight: '7px' }} className="btn" data-bs-toggle="modal" data-bs-target={`#registerPlant${kitNo}Modal`} data-bs-whatever="@getbootstrap">Register Plant</button>
+            {/* <button type="button" style={{ color: 'white', backgroundColor: '#73BD72', paddingLeft: '7px', paddingRight: '7px' }} className="btn" data-bs-toggle="modal" data-bs-target={`#registerPlant${kitNo}Modal`} data-bs-whatever="@getbootstrap">Register Plant</button> */}
+            <button type="button" style={{ color: 'white', backgroundColor: '#7E8287', paddingLeft: '7px', paddingRight: '7px' }} className="btn" data-bs-toggle="modal" data-bs-target={`#registerPlant${kitNo}Modal`} data-bs-whatever="@getbootstrap">Register Plant</button>
             <div className="modal fade" id={`registerPlant${kitNo}Modal`} tabindex="-1" aria-labelledby="registerPlantLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content" style={{ height: isShowPossibility ? '600px' : '600px' }}>

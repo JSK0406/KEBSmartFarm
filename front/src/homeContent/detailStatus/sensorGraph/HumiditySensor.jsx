@@ -3,20 +3,24 @@ import ReactApexChart from 'react-apexcharts';
 import './humiditySensor.css';
 
 function HumiditySensor({ plantDetail, kitHumidity }) {
-    const [series, setSeries] = React.useState([kitHumidity * 1.0]); // 그대로
+    const [series, setSeries] = React.useState([(kitHumidity - 4095) * 100 / 1095]); // 그대로
     const plantAvgHumidity = plantDetail?.plantHumidity?.split('~') || [];
 
     console.log(series)
 
     React.useEffect(() => {
-        const normalizedHumidity = (kitHumidity - 4095) * 100 / 1095;
-        setSeries([normalizedHumidity]);
+        if (kitHumidity === '') {
+            setSeries(['NaN'])
+        } else {
+            const normalizedHumidity = (kitHumidity - 4095) * 100 / 1095;
+            setSeries([normalizedHumidity]);
+        }
     }, [kitHumidity]);
 
 
     function getHumidityStatus(plantAvgHumidity, series) {
         // const measuredHumidity = (series - 4095) * 100 / 1095  // 변환되어야 함
-        const measuredHumidity = series;  // 변환되어야 함
+        const measuredHumidity = series * 1.0;  // 변환되어야 함
 
         console.log(measuredHumidity)
 
@@ -80,7 +84,8 @@ function HumiditySensor({ plantDetail, kitHumidity }) {
                         fontSize: '22px',
                         formatter: function (val) {  // 현재 온도 값을 직접 표시하는 부분입니다.
                             // return (val - 4095) * 100 / 1095 + '%';
-                            return val.toFixed(2) + '%';
+                            // return val.toFixed(2) + '%';
+                            return val + '%';
                             // return (val - 4095) * 100 / 1095 + '%';
                         }
                     }

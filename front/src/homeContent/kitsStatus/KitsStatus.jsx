@@ -9,6 +9,8 @@ function KitsStatus() {
 
   const userKitList = useSelector(state => state.userInfo.value.infos.userKitList)
 
+  console.log(userKitList)
+
   return (
     <div className='row' style={{ width: '100%' }}>
       {userKitList.map((kit, index) =>

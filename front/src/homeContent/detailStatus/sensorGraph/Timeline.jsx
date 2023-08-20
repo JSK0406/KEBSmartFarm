@@ -21,18 +21,35 @@ function Timeline({ wateringDates: initialWateringDates }) {
 
     console.log(wateringDates);
 
+    // return (
+    //     <div className="timeline-container" style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
+    //         {wateringDates? [...wateringDates].reverse().map((item, index) => (
+    //             <div key={index} className="timeline-item">
+    //                 <div className="timeline-date" style={{ fontSize: '2.3vmin' }} >{item.wateringDate.substring(5, 16).replace("T", " ")}</div>
+    //                 <div className="timeline-event">
+    //                     <FontAwesomeIcon icon={faDroplet} style={{ color: '#80cee1', }} />
+    //                 </div>
+    //             </div>
+    //         )) : <div>There is no record of watering</div>}
+    //     </div>
+    // );
+
     return (
-        <div className="timeline-container" style={{ width: '100%' }}>
-            {wateringDates?.map((item, index) => (
+        <div className="timeline-container" style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
+            {wateringDates ? [...wateringDates].reverse().map((item, index) => (
                 <div key={index} className="timeline-item">
-                    <div className="timeline-date">{item.wateringDate.substring(5, 16).replace("T", " ")}</div>
+                    <div className="timeline-date" style={{ fontSize: '2.3vmin', fontWeight: index === 4 ? '600' : '500' }}>
+                        {item.wateringDate.substring(5, 16).replace("T", " ")}
+                    </div>
                     <div className="timeline-event">
                         <FontAwesomeIcon icon={faDroplet} style={{ color: '#80cee1', }} />
                     </div>
                 </div>
-            ))}
+            )) : <div>There is no record of watering</div>}
         </div>
     );
+
+
 }
 
 export default Timeline;

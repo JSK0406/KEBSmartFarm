@@ -12,6 +12,7 @@ export const fetchUser = createAsyncThunk(
                 "Authorization": `Bearer ${Cookies.get("accessToken")}`
             }
         });
+        console.log(res.data)
         return res.data
     }
 );
@@ -24,6 +25,7 @@ const userInfoSlice = createSlice({
                 userNickname: '',
                 userId: '',
                 userKitList: [],
+                userRegDate: '',
             }
         }
     },
@@ -32,6 +34,7 @@ const userInfoSlice = createSlice({
             state.value.infos.userId = action.payload.userId;
             state.value.infos.userNickname = action.payload.userNickname;
             state.value.infos.userKitList = action.payload.userKitList;
+            state.value.infos.userRegDate = action.payload.userRegDate;
         });
     }
 });

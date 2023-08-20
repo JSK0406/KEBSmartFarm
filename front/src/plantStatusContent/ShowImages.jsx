@@ -5,10 +5,8 @@ import Cookies from 'js-cookie';
 
 function ShowImages({ plantNum, statusType }) {
 
-    // statusType : pre, cur
-
     const fetchImages = async () => {
-        await axios.get(`${Server_IP}/kit/plant/3/pictures`,
+        await axios.get(`${Server_IP}/kit/plant/${plantNum}/pictures`,
             {
                 headers: {
                     // "Content-Type": "application/json",
@@ -17,7 +15,7 @@ function ShowImages({ plantNum, statusType }) {
             })
             .then((res) => {
                 console.log(res)
-                console.log(res.data)
+                console.log(res.data)  // msg, imageUrl, plantNo, date
                 setImages(res.data);
             })
             .catch((error) => {
@@ -37,48 +35,61 @@ function ShowImages({ plantNum, statusType }) {
 
     return (
         <div>
-            <div id="carouselExampleDark" class="carousel carousel-dark slide">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            {/* <div id="carouselExampleDark" className="carousel carousel-dark slide"> */}
+            <div id={`carouselExampleDark${plantNum}`} className="carousel slide">
+                <div className="carousel-indicators" style={{ top: '20px' }}  >
+                    {images?.reverse().map((image, index) => (
+                        <button
+                            key={index}
+                            type="button"
+                            data-bs-target={`#carouselExampleDark${plantNum}`}
+                            data-bs-slide-to={index}
+                            className={index === 0 ? "active" : ""}
+                            aria-current="true"
+                            aria-label={`Slide ${index + 1}`}
+                        ></button>
+                    ))}
                 </div>
-                {/* <img src={images[0]}></img> */}
-                <img src={`${Server_IP}/${images[0]?.split('file:/')[1]}`} alt="Server content" />;
-                <div class="carousel-inner">
-                    <div class="carousel-item active" data-bs-interval="10000">
-                        <img src="Aimg.png" class="d-block w-100" alt="..."/>
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>First slide label</h5>
-                                <p>Some representative placeholder content for the first slide.</p>
+
+                <div className="carousel-inner" style={{ marginTop: '10px' }}>
+                    {images.map((image, index) => (
+                        <div
+                            key={index}
+                            className={`carousel-item ${index === 0 ? "active" : ""}`}
+                            data-bs-interval="10000"
+                        >
+                            <img
+                                src={`${image.imageUrl}`}
+                                className="d-block w-100"
+                                // alt="Server content"
+                                style={{  }}
+                            />
+                            {/* <div className="carousel-caption d-none d-md-block"> */}
+                            <div style={{ marginTop: '20px', position: 'relative' }}>
+                                <div style={{ fontSize: '20px', wordWrap: 'break-word', maxWidth: '90%' }}>
+                                    {image.msg}
+                                </div>
+                                <div style={{ marginTop: '10px' }}>
+                                    <h5 style={{ marginRight: '0px', textAlign: 'right', fontSize: '12px', fontWeight: 'bold', color: 'grey' }}> <span style={{ fontSize: '15px' }}>Memory in </span>  {image.date.split(".")[0].replace("T", " ")}</h5>
+                                </div>
                             </div>
-                    </div>
-                    <div class="carousel-item" data-bs-interval="2000">
-                        <img src="..." class="d-block w-100" alt="..."/>
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>Second slide label</h5>
-                                <p>Some representative placeholder content for the second slide.</p>
-                            </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="Aimg.png" class="d-block w-100" alt="..."/>
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>Third slide label</h5>
-                                <p>Some representative placeholder content for the third slide.</p>
-                            </div>
-                    </div>
+                        </div>
+                    ))}
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
+
+
+                <button className="carousel-control-prev" type="button" data-bs-target={`#carouselExampleDark${plantNum}`} data-bs-slide="prev">
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
+                <button className="carousel-control-next" type="button" data-bs-target={`#carouselExampleDark${plantNum}`} data-bs-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="visually-hidden">Next</span>
                 </button>
             </div>
         </div>
     )
+
 }
 
 export default ShowImages

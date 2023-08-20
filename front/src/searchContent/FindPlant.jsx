@@ -64,14 +64,17 @@ function FindPlant() {
                 <input ref={fileInputRef} onChange={(e) => setPlantImage(e.target.files[0])} style={{ display: 'none' }} type="file" id="input-file" />
             </div>
 
-            <div style={{ marginTop: '30px', marginBottom: '30px', display: 'flex'  }}>
-                <input style={{ borderRadius: '15px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px', fontWeight: 'bold' }} autocomplete="off"  list='plants' placeholder="Plant's name" type="text" className="form-control" id="recipient-name" value={plantName} onChange={(e) => setPlantName(e.target.value)} />
-                <datalist id="plants">
-                    {plants.map((plant, index) => (
-                        <option key={index} value={plant} />
-                    ))}
-                </datalist>
-                <button style={{ color: 'white', backgroundColor: '#73BD72', border: 'none', borderRadius: '15px', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }} type='button' onClick={() => setSearchName(plantName)} >Search</button>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                {/* <div style={{ marginTop: '30px', marginBottom: '30px', display: 'flex', width: '70%'  }}> */}
+                <div style={{ marginTop: '30px', marginBottom: '30px', display: 'flex', width: '70vmin'  }}>
+                    <input style={{ borderRadius: '15px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px', fontWeight: 'bold' }} autocomplete="off"  list='plants' placeholder="Plant's name" type="text" className="form-control" id="recipient-name" value={plantName} onChange={(e) => setPlantName(e.target.value)} />
+                    <datalist id="plants">
+                        {plants.map((plant, index) => (
+                            <option key={index} value={plant} />
+                        ))}
+                    </datalist>
+                    <button style={{ color: 'white', backgroundColor: '#73BD72', border: 'none', borderRadius: '15px', borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px' }} type='button' onClick={() => setSearchName(plantName)} >Search</button>
+                </div>
             </div>
             {plantDetail ?
                 <div style={{ minHeight: '400px' }}>

@@ -86,8 +86,11 @@ function AddDevice() {
     return (
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <button style={{
-                backgroundColor: '#73BD72',
-                color: "white",
+                // backgroundColor: '#009FB7',
+                // backgroundColor: '#FCFCFC',
+                backgroundColor: '#EEEEFF',
+                // color: "white",
+                color: "black",
                 borderRadius: '50px',
                 position: 'fixed',
                 width: '100px',
