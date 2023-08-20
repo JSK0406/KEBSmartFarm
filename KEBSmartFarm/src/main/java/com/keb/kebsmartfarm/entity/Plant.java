@@ -32,9 +32,11 @@ public class Plant {
     @JsonIgnore
     private ArduinoKit arduinoKit;
 
+    @JsonIgnore
     @NotEmpty
     private String orgFileName;
 
+    @JsonIgnore
     @NotEmpty
     private String storedFilePath;
 
