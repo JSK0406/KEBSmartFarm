@@ -16,6 +16,7 @@ import java.util.List;
 public class ArduinoKitService {
     private final ArduinoKitRepository arduinoKitRepository;
 
+    @Transactional
     public ArduinoResponseDto createArduinoKit(ArduinoRequestDto requestDto, ReleasedKit releasedKit) {
         if(isKitRegistered(requestDto.getSerialNum())){
             throw new IllegalStateException("이미 등록된 키트입니다.");

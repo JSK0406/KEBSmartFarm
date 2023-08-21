@@ -23,7 +23,7 @@ public class UserController {
 
     @PostMapping("/nickname")
     public ResponseEntity<UserResponseDto> setUserNickname(@RequestBody UserRequestDto userRequestDto) {
-        return ResponseEntity.ok(userService.changeUserNickname(userRequestDto.getUserPassword(), userRequestDto.getUserNickname()));
+        return ResponseEntity.ok(userService.changeUserNickname(userRequestDto.getUserId(), userRequestDto.getUserNickname()));
     }
 
     @PostMapping("/password")
