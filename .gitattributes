@@ -1,0 +1,5 @@
+ai_server filter=lfs diff=lfs merge=lfs -text
+ai_server/15labels/variableses/variables.data-00000-of-00001 filter=lfs diff=lfs merge=lfs -text
+*.pb filter=lfs diff=lfs merge=lfs -text
+ai_server/15labels/*.pb filter=lfs diff=lfs merge=lfs -text
+ai_server/15labels/variables/* filter=lfs diff=lfs merge=lfs -text
