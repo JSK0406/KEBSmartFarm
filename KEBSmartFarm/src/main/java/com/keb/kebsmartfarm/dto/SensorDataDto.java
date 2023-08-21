@@ -34,11 +34,14 @@ public class SensorDataDto {
 
     @Builder
     public static SensorDataDto of(SensorData sensorData) {
+        int moisture = sensorData.getSoilMoisture();
+        moisture = moisture > 2500 ? sensorData.getSoilMoisture() : 0;
+
         return SensorDataDto.builder()
                 .illuminance(sensorData.getIlluminance())
                 .temp(sensorData.getTemp())
                 .kitNo(sensorData.getArduinoKitNo())
-                .soil_moisture(sensorData.getSoilMoisture())
+                .soil_moisture(moisture)
                 .date(sensorData.getReceivedDate())
                 .build();
     }
