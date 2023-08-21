@@ -3,7 +3,7 @@ import NowGrowth from './ThisPlantInfo'
 import NowStatus from './NowStatus'
 import Schedule from './Schedule'
 import { useDispatch } from 'react-redux';
-import { logout } from '../../store/isLoginSlice';
+// import { logout } from '../../store/isLoginSlice';
 import { deregister } from '../../store/isRegistered';
 import PlantFinish from './PlantFinish';
 import axios from 'axios';
@@ -74,6 +74,7 @@ function DetailStatus({ kit }) {
 
     console.log(kitDetail)
     console.log(kitDetail?.sensorData)
+    // console.log(kitDetail?.date)
     // console.log(kitDetail?.illuminance)
     
 
@@ -90,7 +91,10 @@ function DetailStatus({ kit }) {
                         </div>
                         {/* <div className="main-content" style={{ height: '80vh', minHeight: '60vh', margin: '10px 20px 20px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}> */}
                         <div className="main-content" style={{ minHeight: '60vh', margin: '10px 20px 20px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                            <p style={{ fontWeight: '500', fontSize: '20px', marginBottom: '0', marginTop: '10px', alignSelf: 'flex-start', marginLeft: '8px' }}> Now Status</p>
+                            <p style={{ fontWeight: '500', fontSize: '20px', marginBottom: '0', marginTop: '10px', alignSelf: 'flex-start', marginLeft: '8px' }}>
+                                 Now Status
+                                 {kitDetail?.date}
+                            </p>
                             <div style={{ width: '98%' }}>
                                 <div className='sensorContent' style={{ display: 'flex', height: '40%', backgroundColor: '#F8F9F8', borderRadius: '20px' }}>
                                     <div style={{ width: '33.3%' }}>

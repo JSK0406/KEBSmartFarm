@@ -4,7 +4,6 @@ import './App.css';
 import LoginPage from './login/LoginPage';
 import NavUpper from './navUpper/NavUpper';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useSelector } from 'react-redux';
 import HomeContent from './homeContent/HomeContent';
 import IntroContent from './introContent/IntroContent';
 import PlantStatusContent from './plantStatusContent/PlantStatusContent';
@@ -14,7 +13,6 @@ import { fetchUser, refreshUserInfo } from './store/userInfoSlice';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { login, logout } from './store/isLoginSlice';
 import SearchContent from './searchContent/SearchContent';
 
 const checkLogin = () => {
@@ -26,11 +24,11 @@ const checkLogin = () => {
 }
 
 function App() {
-
+  
   const dispatch = useDispatch()
   let isLogin = '';
   const isToken = checkLogin();
-
+  
   if (isToken) {
     dispatch(fetchUser());
     isLogin = true;
@@ -38,7 +36,13 @@ function App() {
     isLogin = false;
   }
 
-  console.log(isLogin)
+  useEffect(() => {
+    const intervalCheck = setInterval(() => {
+      if (isLogin && !checkLogin()) { window.location.reload(); }
+    }, 10000);
+
+    return () => clearInterval(intervalCheck)
+  }, []);
 
   return (
     <div className='App col-12 col-lg-10' style={{ margin: '0 auto' }}>

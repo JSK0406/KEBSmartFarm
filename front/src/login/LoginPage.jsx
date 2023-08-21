@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import './loginPage.css'; // CSS 파일을 import
 import { useDispatch } from 'react-redux';
-import { login } from '../store/isLoginSlice';
+// import { login } from '../store/isLoginSlice';
 import axios from 'axios';
 import { useState, useRef } from 'react';
 import SignUp from './SignUp';
