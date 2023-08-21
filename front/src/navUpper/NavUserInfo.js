@@ -1,14 +1,9 @@
 import React from 'react'
-import { useDispatch } from 'react-redux';
-// import { logout } from '../store/isLoginSlice';
 import { useCookies } from 'react-cookie';
 import { useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AddDevice from '../homeContent/AddDevice';
 import ChangePassword from './ChangePassword';
 import { CiLogout } from 'react-icons/ci'
-import { MdDriveFileRenameOutline } from 'react-icons/md'
 import { PiPottedPlantFill } from 'react-icons/pi'
 import { CgUiKit } from 'react-icons/cg'
 import { SiLeaflet } from 'react-icons/si'
@@ -31,10 +26,9 @@ function NavUserInfo() {
     })
     return cnt
   }
+
   let growingPlantCnt = countGrowingPlant();
 
-  const isRegistered = useSelector(state => state.isRegistered.value); // 현재 식물등록 상태 가져오기
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   console.log(useSelector(state => state.userInfo.value.infos))
@@ -65,7 +59,6 @@ function NavUserInfo() {
               {userNickname ? `Welcome ${userNickname}!` : 'Please try to login'}
             </div>
             <div style={{
-              // fontSize: '16px', marginTop: '30px', color: 'grey', borderTop: '2px #7AA278 solid', paddingTop: '20px' }}>
               fontSize: '16px', marginTop: '30px', color: 'grey', paddingTop: '10px' }}>
               <SiLeaflet /> Growing since {formatDateToEnglishStyle(userRegDate.split("T")[0])}
             </div>
@@ -77,11 +70,9 @@ function NavUserInfo() {
             </div>
           </div>
           <div style={{ marginTop: '30px', marginBottom: '30px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', borderTop: '2px #7AA278 solid', paddingTop: '20px'  }}>
-            {/* <div style={{ fontSize: '18px', paddingLeft: '7px' }}><MdDriveFileRenameOutline /> Change Nickname</div> */}
             <ChangeNickname exUserNickname={userNickname}></ChangeNickname>
             <ChangePassword></ChangePassword>
           </div>
-          {/* <div style={{ display: 'flex', justifyContent: 'right' }}> */}
           <div style={{
             borderTop: '2px #7AA278 solid', marginTop: '10px' }}>
             <button type="button" className='btn hover-button' style={

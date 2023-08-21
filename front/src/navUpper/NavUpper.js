@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faFileLines, faSeedling, faDroplet, faUser, faBars, faGear, faMagnifyingGlass, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import NavUserInfo from './NavUserInfo';
-import { PiPottedPlantDuotone } from 'react-icons/pi';
 import { useSelector } from 'react-redux';
 
 function NavUpper() {
@@ -32,12 +31,10 @@ function NavUpper() {
                         <Nav.Link as={Link} to="/home" className="nav-link-item">
                             <FontAwesomeIcon icon={faHouse} style={{ color: '#291528', paddingTop: '11px' }} /> Home
                         </Nav.Link>
-                        {/* <Nav.Link className="nav-link-item" as={Link} to="/intro"><FontAwesomeIcon icon={faFileLines} style={{ color: '#291528', paddingTop: '11px' }} /> Introduction</Nav.Link> */}
                         <Nav.Link className="nav-link-item" as={Link} to="/search"><FontAwesomeIcon icon={faMagnifyingGlass} style={{ color: '#291528', paddingTop: '11px' }} /> Search Plant</Nav.Link>
                         <Nav.Link className="nav-link-item" as={Link} to="/status"><FontAwesomeIcon icon={faSeedling} style={{ color: '#291528', paddingTop: '11px' }} /> Bloom Diary</Nav.Link>
                         <div data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                             <Nav.Link className="nav-link-item" style={{ marginLeft: '7px', fontWeight: '900', backgroundColor: 'none' }}>
-                                {/* <button className="btn" type="button" style={{ border: 0, backgroundColor: 'transparent', margin: 0, marginLeft: '2px', color: '#291528', letterSpacing: '2px' }}><FontAwesomeIcon icon={faUser} style={{ color: '#291528', fontSize: '16px' }} /> User Info</button> */}
                                 <button className="btn" type="button" style={{ border: 0, backgroundColor: 'transparent', margin: 0, marginLeft: '2px', color: '#291528', letterSpacing: '2px' }}><FontAwesomeIcon icon={faUser} style={{ color: '#291528', fontSize: '16px' }} />{userNickname ? ` ${userNickname}` : 'Please try to login'}</button>
                             </Nav.Link>
                         </div>

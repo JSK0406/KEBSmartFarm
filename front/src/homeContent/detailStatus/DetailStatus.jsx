@@ -1,21 +1,15 @@
 import React, { useState } from 'react'
-import NowGrowth from './ThisPlantInfo'
-import NowStatus from './NowStatus'
-import Schedule from './Schedule'
 import { useDispatch } from 'react-redux';
-// import { logout } from '../../store/isLoginSlice';
-import { deregister } from '../../store/isRegistered';
 import PlantFinish from './PlantFinish';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
-import ThisPlantInfo from './ThisPlantInfo';
+// import ThisPlantInfo from './ThisPlantInfo';
 import DetailPlantStatus from './DetailPlantStatus';
 import './detailStatus.css';
 import TempSensor from './sensorGraph/TempSensor';
 import IlluminanceSensor from './sensorGraph/IlluminanceSensor';
 import HumiditySensor from './sensorGraph/HumiditySensor';
-import MoistureSensor from './sensorGraph/MoistureSensor';
 import Timeline from './sensorGraph/Timeline';
 import LightBtn from './LightBtn';
 import WaterBtn from './WaterBtn';
@@ -63,7 +57,6 @@ function DetailStatus({ kit }) {
             },
         })
         .then((res) => {
-            console.log(res.data);
             setKitDetail(res.data);
         })
         .catch((err) => {
@@ -71,13 +64,6 @@ function DetailStatus({ kit }) {
         })
     }
     
-
-    console.log(kitDetail)
-    console.log(kitDetail?.sensorData)
-    // console.log(kitDetail?.date)
-    // console.log(kitDetail?.illuminance)
-    
-
     return (
         <div>
             <button type="button" style={{ color: 'white', backgroundColor: '#73BD72' }} className="btn" data-bs-toggle="modal" data-bs-target={`#detailStatusModal${kit.kitNo}`} data-bs-whatever="@getbootstrap">Detail Status</button>

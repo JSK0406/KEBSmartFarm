@@ -24,7 +24,7 @@ function SignUp() {
     const handleInputChange = (field, value) => {
         const updatedForm = { ...form, [field]: value };
         setForm(updatedForm);
-        handleValidation(updatedForm);  // Pass the updated form for validation
+        handleValidation(updatedForm);
     };
 
     const handleSignUp = () => {

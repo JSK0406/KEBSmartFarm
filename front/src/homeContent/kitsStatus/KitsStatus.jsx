@@ -1,5 +1,3 @@
-// 여기서 not registered or registered를 기기의 정보에 따라 조건부 렌더링
-
 import React from 'react'
 import { useSelector } from 'react-redux';
 import NotRegistered from './notRegistered/NotRegistered';

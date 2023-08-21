@@ -5,9 +5,7 @@ import LoginPage from './login/LoginPage';
 import NavUpper from './navUpper/NavUpper';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomeContent from './homeContent/HomeContent';
-import IntroContent from './introContent/IntroContent';
 import PlantStatusContent from './plantStatusContent/PlantStatusContent';
-import GuideContent from './guideContent/GuideContent';
 import { Navigate, Outlet } from 'react-router-dom';
 import { fetchUser, refreshUserInfo } from './store/userInfoSlice';
 import Cookies from 'js-cookie';
@@ -50,10 +48,8 @@ function App() {
         {isLogin && <NavUpper />}
         <Routes>
           <Route path="/home" element={isLogin ? <HomeContent /> : < LoginPage />}/>
-          <Route path="/intro" element={isLogin ? <IntroContent /> : < LoginPage />} />
           <Route path="/search" element={isLogin ? <SearchContent /> : < LoginPage />} />
           <Route path="/status" element={isLogin ? <PlantStatusContent /> : < LoginPage />} />
-          <Route path="/guide" element={isLogin ? <GuideContent /> : < LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<Navigate to="/home" />}></Route>
         </Routes>

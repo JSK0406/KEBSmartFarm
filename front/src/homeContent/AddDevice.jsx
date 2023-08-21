@@ -86,10 +86,7 @@ function AddDevice() {
     return (
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <button style={{
-                // backgroundColor: '#009FB7',
-                // backgroundColor: '#FCFCFC',
                 backgroundColor: '#EEEEFF',
-                // color: "white",
                 color: "black",
                 borderRadius: '50px',
                 position: 'fixed',
@@ -125,7 +122,6 @@ function AddDevice() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            {/* <button style={{ backgroundColor: '#73BD72', color: 'white' }} type="button" className="btn" data-bs-dismiss="modal" onClick = { handleDeviceNumber }>Add</button> */}
                             <button style={{ backgroundColor: '#73BD72', color: 'white' }} type="button" className="btn" data-bs-dismiss="modal" onClick={handleDeviceNumber} disabled={!isChecked || !deviceName}>Add</button>
                         </div>
                     </div>

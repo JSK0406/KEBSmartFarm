@@ -1,7 +1,6 @@
 import React from 'react'
 import { useState, useRef } from 'react'
 import axios from 'axios'
-import { register } from '../../../store/isRegistered'
 import { useDispatch } from 'react-redux'
 import Cookies from 'js-cookie'
 import { fetchUser } from '../../../store/userInfoSlice'
@@ -40,7 +39,7 @@ function RegisterPlant({kitNo}) {
         })
         .then((res) => {
             console.log(res.data)
-            setPossibilityObject(res.data)  // idx마다 plantName, possibility가 키
+            setPossibilityObject(res.data)
             setIsShowPossibility(true)
         })
     }

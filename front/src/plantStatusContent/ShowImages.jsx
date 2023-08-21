@@ -3,20 +3,17 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
-function ShowImages({ plantNum, statusType }) {
+function ShowImages({ plantNum }) {
 
     const fetchImages = async () => {
         await axios.get(`${Server_IP}/kit/plant/${plantNum}/pictures`,
             {
                 headers: {
-                    // "Content-Type": "application/json",
                     "Authorization": `Bearer ${Cookies.get("accessToken")}`
                 },
             })
             .then((res) => {
-                console.log(res)
-                console.log(res.data)  // msg, imageUrl, plantNo, date
-                setImages(res.data);
+                setImages(res.data.reverse());
             })
             .catch((error) => {
                 alert("기기번호를 다시 확인해주세요");
@@ -25,9 +22,6 @@ function ShowImages({ plantNum, statusType }) {
 
     const Server_IP = process.env.REACT_APP_Server_IP;
     const [images, setImages] = useState([]); // 이미지 데이터를 저장할 state
-    const [loading, setLoading] = useState(true); // 로딩 상태를 나타내는 state
-
-    console.log(images)
 
     useEffect(() => {
         fetchImages();
@@ -38,7 +32,7 @@ function ShowImages({ plantNum, statusType }) {
             {/* <div id="carouselExampleDark" className="carousel carousel-dark slide"> */}
             <div id={`carouselExampleDark${plantNum}`} className="carousel slide">
                 <div className="carousel-indicators" style={{ top: '20px' }}  >
-                    {images?.reverse().map((image, index) => (
+                    {images.map((image, index) => (
                         <button
                             key={index}
                             type="button"

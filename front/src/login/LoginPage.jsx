@@ -2,14 +2,12 @@
 import React, { useEffect } from 'react';
 import './loginPage.css'; // CSS 파일을 import
 import { useDispatch } from 'react-redux';
-// import { login } from '../store/isLoginSlice';
 import axios from 'axios';
 import { useState, useRef } from 'react';
 import SignUp from './SignUp';
 import FindId from './FindId';
 import FindPassword from './FindPassword';
 import { useCookies } from 'react-cookie';
-import { refreshUserId, refreshUserNickname, refreshUserKitList } from '../store/userInfoSlice';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,12 +16,11 @@ export default function LoginPage() {
     const [userId, setUserId] = useState("");
     const [password, setPassword] = useState("");
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
-    const foucsRef = useRef();
+    const focusRef = useRef();
     const navigate = useNavigate();
-    const dispatch = useDispatch(); // action을 dispatch하는 함수 가져오기
     
     useEffect(() => {
-        foucsRef.current.focus()
+        focusRef.current.focus()
     }, [])
 
     const handleIdChange = (e) => {
@@ -81,15 +78,12 @@ export default function LoginPage() {
 
     return (
         <>
-            {/* <img className='login-icon' style={{ width: '100px' }} src='/icon.png' /> */}
-            <h2 className="login-title">Green Buddy</h2> {/* 새로운 요소인 h2 태그를 추가 */}
-            <div className="center-container" style={{ display: 'flex', flexDirection: 'column' }}> {/* 새로운 CSS 클래스 추가 */}
-                <div className="login-container"> {/* 새로운 CSS 클래스 추가 */}
-                    <input type="text" ref={ foucsRef } placeholder="ID" className="input-field" value={ userId } onChange={ handleIdChange } />
+            <h2 className="login-title">Green Buddy</h2>
+            <div className="center-container" style={{ display: 'flex', flexDirection: 'column' }}> 
+                <div className="login-container">
+                    <input type="text" ref={ focusRef } placeholder="ID" className="input-field" value={ userId } onChange={ handleIdChange } />
                     <input type="password" placeholder="Password" className="input-field" value={password} onChange={handlePasswordChange} onKeyPress={handleOnKeyPress} />
-                    {/* <button type="button" className="login-button" style={{ width: '100%' }} onClick={() => handleLogin() }>Login</button> */}
                     <button type="button" className="login-button" style={{ width: '100%' }}  onClick={() => handleLogin() }>Login</button>
-                    {/* <button type="button" className="login-button" style={{ width: '100%' }} onClick={() => dispatch(login()) }>로그인</button> */}
                 </div>
                 <div className='additional-container' style={{ marginTop: '50px', display: 'flex', justifyContent: 'space-between'  }}>
                     <FindId style={{ marginRight: '10px' }}></FindId>

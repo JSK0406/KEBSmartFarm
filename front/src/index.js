@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <CookiesProvider>
     <Provider store = { store }>
-      {/* <React.StrictMode> */}
+      <React.StrictMode>
       <div
         className='body'
         style={{
@@ -21,12 +21,11 @@ root.render(
           width: "100%",
           minHeight: "100vh",
           backgroundColor: "rgba(244, 250, 235, 0.8)",
-          // backgroundColor: "#eee4e4",
         }}
       >
         <App />
       </div>
-      {/* </React.StrictMode> */}
+      </React.StrictMode>
     </Provider >
   </CookiesProvider>
 );

@@ -1,6 +1,5 @@
 import React from 'react'
 import { useEffect, useState, useRef } from 'react';
-import ThisPlantInfo from '../homeContent/detailStatus/ThisPlantInfo';
 import axios from 'axios';
 
 function FindPlant() {

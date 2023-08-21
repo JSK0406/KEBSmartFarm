@@ -61,7 +61,6 @@ function ChangeNickname({ exUserNickname }) {
                         <div className='changeNicknameContent'>
                             <h2> Change Nickname</h2><br />
                             <div style={{ marginBottom: '20px', fontSize: '18px' }}>Current Nickname is {exUserNickname}</div>
-                            {/* <div>Please write down the nickname <br/> you want to change </div> */}
                             <input type="text" placeholder="New Nickname" className="input-field" value={form.newNickname} onChange={(e) => setForm({ ...form, newNickname: e.target.value })} />
                             <div style={{ display: 'flex', justifyContent: 'right' }}>
                                 <button type="button" onClick={handleChangePassword} style={{ color: 'white', backgroundColor: '#73BD72', paddingLeft: '7px', paddingRight: '7px' }} className="btn">Submit</button>
