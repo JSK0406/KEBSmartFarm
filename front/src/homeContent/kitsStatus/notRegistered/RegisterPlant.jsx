@@ -68,7 +68,6 @@ function RegisterPlant({kitNo}) {
                     "Authorization": `Bearer ${accessToken}`
                 },
             });
-
             alert('Your plant is registered!');
         } catch (error) {
             alert("Please try again");
@@ -101,7 +100,7 @@ function RegisterPlant({kitNo}) {
                                         <input ref={fileInputRef} onChange={(e) => setForm({ ...form, plantImage: e.target.files[0] })} style={{ display: 'none' }} type="file" id="input-file" />
                                     </div>
                                     {isShowPossibility ?
-                                        <div style={{ marginTop: '10px' }}>
+                                        <div style={{ marginTop: '10px', fontSize: '15px' }}>
                                             Choose your plant
                                             {Object.entries(possibilityObject).map((value, index) => {
                                                 console.log(value)

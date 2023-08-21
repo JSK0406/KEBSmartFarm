@@ -8,8 +8,6 @@ function IlluminanceSensor({ plantDetail, kitIlluminance }) {
     const [series, setSeries] = React.useState([kitIlluminance / 100]); 
     const plantLeastIlluminance = plantDetail?.plantLeastIlluminance || '';
 
-    console.log(kitIlluminance)
-
     useEffect(() => {
         if (kitIlluminance === '') {
             setSeries(['notYet']);
@@ -21,8 +19,6 @@ function IlluminanceSensor({ plantDetail, kitIlluminance }) {
 
     function getIlluminanceStatus(plantLeastIlluminance, series) {
         const measuredIlluminance = series * 100;  
-
-        console.log(measuredIlluminance);
 
         // If the measured temperature is within the optimal range
         if (measuredIlluminance >= plantLeastIlluminance && measuredIlluminance <= 10000) {
@@ -49,8 +45,6 @@ function IlluminanceSensor({ plantDetail, kitIlluminance }) {
 
         return 'No Data'; // For other cases (though this might not actually occur, it's added for exception handling.)
     }
-
-    console.log(getIlluminanceStatus(plantLeastIlluminance, series));
 
     const options = {
         chart: {

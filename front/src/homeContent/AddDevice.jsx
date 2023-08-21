@@ -19,7 +19,6 @@ function AddDevice() {
         if (isInputFocused === false && deviceNumber) {
             checkSerialNumber(deviceNumber)
         }
-        console.log(isChecked)
     }, [isInputFocused])
 
     const handleInputFocus = () => {
@@ -31,7 +30,6 @@ function AddDevice() {
     };
 
     const checkSerialNumber = async (deviceNumber) => {
-        console.log(deviceNumber)
         await axios.post(`${Server_IP}/kit/validate`, { serialNum: deviceNumber },
             {
                 headers: {
@@ -62,8 +60,7 @@ function AddDevice() {
     }
 
     const registerDeviceNumber = async (deviceNumber, deviceName , accessToken) => {
-        console.log('기기등록')
-        await axios.post(`${Server_IP}/users/kit`, { serialNum: deviceNumber, deviceName: deviceName },
+        await axios.post(`${Server_IP}/kit`, { serialNum: deviceNumber, deviceName: deviceName },
         {
             headers: {
                 "Content-Type": "application/json",
@@ -105,13 +102,12 @@ function AddDevice() {
                             <h1 className="modal-title fs-5" id="exampleModalLabel">Add Device</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div className="modal-body">
+                        <div className="modal-body" style={{ fontSize: '15px' }}>
                             <form>
                                 <div className="mb-3">
                                     <label htmlFor="recipient-name" className="col-form-label" >Device SerialNumber</label>
                                     <input type="text" className="form-control" id="recipient-name" onFocus={handleInputFocus}
                                         onBlur={handleInputBlur} value={deviceNumber} onChange={(e) => setDeviceNumber(e.target.value)} />
-                                    {/* {isChecked ? <div>{isChecked}ABCABC</div> : ''} */}
                                     <label htmlFor="recipient-name" className="col-form-label" >Device Name</label>
                                 <input type="text" className="form-control" id="recipient-name" value={deviceName} onChange={(e) => setDeviceName(e.target.value)} />
                                 </div>

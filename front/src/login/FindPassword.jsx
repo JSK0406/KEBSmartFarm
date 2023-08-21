@@ -41,7 +41,7 @@ function FindPassword(props) {
                             <h1 className="modal-title fs-5" id="exampleModalLabel">Find Pw</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div className="modal-body">
+                        <div className="modal-body" style={{ fontSize: '15px' }} >
                             <form>
                                 <div className="mb-3">
                                     <label htmlFor="recipient-name" className="col-form-label" >ID</label>

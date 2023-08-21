@@ -16,7 +16,6 @@ function NavUserInfo() {
   const userKitList = useSelector(state => state.userInfo.value.infos.userKitList)
   const userRegDate = useSelector(state => state.userInfo.value.infos.userRegDate)
 
-  
   const countGrowingPlant = () => {
     let cnt = 0;
     userKitList.map((lst) => {
@@ -30,8 +29,6 @@ function NavUserInfo() {
   let growingPlantCnt = countGrowingPlant();
 
   const navigate = useNavigate();
-
-  console.log(useSelector(state => state.userInfo.value.infos))
 
   function formatDateToEnglishStyle(dateString) {
     const months = [

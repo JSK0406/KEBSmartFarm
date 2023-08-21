@@ -28,10 +28,15 @@ function SignUp() {
     };
 
     const handleSignUp = () => {
-        if (handleValidation()) {
-            createAccount(form.userName, form.userId, form.userPassword, form.userEmail, form.userPhoneNum, form.userNickname);
-        }
+        console.log(form.userEmail);
+        createAccount(form.userName, form.userId, form.userPassword, form.userEmail, form.userPhoneNum, form.userNickname);
     };
+    // const handleSignUp = () => {
+    //     console.log(form.userEmail);
+    //     if (handleValidation(updatedForm)) {
+    //         createAccount(form.userName, form.userId, form.userPassword, form.userEmail, form.userPhoneNum, form.userNickname);
+    //     }
+    // };
 
     const isFormComplete = () => {
         for (let key in form) {
@@ -42,7 +47,7 @@ function SignUp() {
         return !validationMsg.userEmail && !validationMsg.userPhoneNum;
     }
 
-    const Server_IP = process.env.Server_IP
+    const Server_IP = process.env.REACT_APP_Server_IP;
 
     const [form, setForm] = useState({
         userName: '',
@@ -61,7 +66,7 @@ function SignUp() {
                 },
             })
             .then((res) => {
-                alert("Succeess")
+                alert("Success")
             })
             .catch((error) => {
                 alert("오류가 발생했습니다. 다시 시도해주세요.");
@@ -80,7 +85,7 @@ function SignUp() {
                         </div>
                         <div className="modal-body">
                             <form>
-                                <div className="mb-3">
+                                <div className="mb-3" style={{ fontSize: '15px' }} >
                                     <label htmlFor="recipient-name" className="col-form-label" >ID</label>
                                     <input type="text" className="form-control" id="recipient-id" value={form.userId} onChange={(e) => setForm({...form, userId: e.target.value})} />
                                     <label htmlFor="recipient-name" className="col-form-label" >Password</label>

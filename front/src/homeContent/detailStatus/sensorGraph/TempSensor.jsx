@@ -17,14 +17,9 @@ function TempSensor({ plantDetail, kitTemp }) {
         }
     }, [kitTemp]);
 
-    console.log(series);
-
     function getTemperatureStatus(plantAvgTemp, plantLeastTemp, series) {
         const measuredTemp = series / 2.5;  // Get the measured temperature (since series had been multiplied by 2.5 as mentioned in the comments)
 
-        console.log(measuredTemp);
-
-        // If the measured temperature is within the optimal range
         if (measuredTemp >= plantAvgTemp[0] && measuredTemp <= plantAvgTemp[1]) {
             return 'Optimal';
         }

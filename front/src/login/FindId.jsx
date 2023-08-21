@@ -16,16 +16,19 @@ function FindId(props) {
     }
 
     const requestFindId = async (userName, userEmail) => {
-        await axios.post(`${Server_IP}/auto/findid`, { userName: userName, userEmail: userEmail },
+        await axios.post(`${Server_IP}/auth/findId`, { userName: userName, userEmail: userEmail },
             {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                withCredentials: true
             })
             .then((res) => {
                 console.log("아이디 찾기");
-                alert(`당신의 아이디는 ${res.foundId} 입니다.`)
+                if (res?.data?.userId) {
+                    alert(`Your ID is ${res.data.userId}`)
+                } else {
+                    alert('Not found')
+                }
             })
             .catch((error) => {
                 alert("오류가 발생했습니다. 다시 시도해주세요.");
@@ -44,7 +47,7 @@ function FindId(props) {
                         </div>
                         <div className="modal-body">
                             <form>
-                                <div className="mb-3">
+                                <div className="mb-3" style={{ fontSize: '15px' }}>
                                     <label htmlFor="recipient-name" className="col-form-label" >Your name</label>
                                     <input type="text" className="form-control" id="recipient-name" value={form.userName} onChange={(e) => setForm({ ...form, userName: e.target.value })} />
                                     <label htmlFor="recipient-name" className="col-form-label" >Your Email</label>

@@ -16,7 +16,7 @@ function Registered({kit, index}) {
             top: '10px',
             overflow: 'hidden',
             borderRadius: '50%',
-            border: '1px solid black',
+            // border: '1px solid black',
             display: 'flex',          // flexbox를 사용
             justifyContent: 'center', // 가로 방향으로 중앙 정렬
             alignItems: 'center',     // 세로 방향으로 중앙 정렬

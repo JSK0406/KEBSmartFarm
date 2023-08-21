@@ -12,7 +12,6 @@ export const fetchUser = createAsyncThunk(
                 "Authorization": `Bearer ${Cookies.get("accessToken")}`
             }
         });
-        console.log(res.data)
         return res.data
     }
 );

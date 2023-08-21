@@ -6,10 +6,8 @@ function HumiditySensor({ plantDetail, kitHumidity }) {
     const [series, setSeries] = React.useState([(kitHumidity - 4095) * 100 / 1095]); // 그대로
     const plantAvgHumidity = plantDetail?.plantHumidity?.split('~') || [];
 
-    console.log(series)
-
     React.useEffect(() => {
-        if (kitHumidity === '') {
+        if (kitHumidity === '' || kitHumidity === 0) {
             setSeries(['NaN'])
         } else {
             const normalizedHumidity = (kitHumidity - 4095) * 100 / 1095;
@@ -21,8 +19,6 @@ function HumiditySensor({ plantDetail, kitHumidity }) {
     function getHumidityStatus(plantAvgHumidity, series) {
         // const measuredHumidity = (series - 4095) * 100 / 1095  // 변환되어야 함
         const measuredHumidity = series * 1.0;  // 변환되어야 함
-
-        console.log(measuredHumidity)
 
         // If the measured temperature is within the optimal range
         if (measuredHumidity >= plantAvgHumidity[0] && measuredHumidity <= plantAvgHumidity[1]) {

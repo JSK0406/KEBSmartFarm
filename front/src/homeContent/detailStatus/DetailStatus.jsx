@@ -4,7 +4,6 @@ import PlantFinish from './PlantFinish';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
-// import ThisPlantInfo from './ThisPlantInfo';
 import DetailPlantStatus from './DetailPlantStatus';
 import './detailStatus.css';
 import TempSensor from './sensorGraph/TempSensor';
@@ -25,10 +24,8 @@ function DetailStatus({ kit }) {
         const date1 = new Date(formattedDate);
         const date2 = new Date(); // 현재 날짜
 
-        // 두 날짜의 차이를 밀리초 단위로 계산
         const differenceInTime = date2 - date1;
 
-        // 밀리초를 일로 변환
         const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
         return (Math.floor(differenceInDays) + 1)
@@ -49,7 +46,6 @@ function DetailStatus({ kit }) {
     }
 
     const receiveKitDetail = async () => {
-        console.log(kit.plant.plantRegDate);
         const paramList = kit.plant.plantRegDate.split("T");
         await axios.get(`${Server_IP}/kit/${kit.kitNo}/details?regDate=${kit.plant.plantRegDate}`, {
             headers: {
@@ -75,11 +71,12 @@ function DetailStatus({ kit }) {
                             <span style={{ fontSize: '20px', color: 'gray', opacity: '80%', marginRight: '10px' }}>{kit.plant.plantName}</span>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        {/* <div className="main-content" style={{ height: '80vh', minHeight: '60vh', margin: '10px 20px 20px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}> */}
                         <div className="main-content" style={{ minHeight: '60vh', margin: '10px 20px 20px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                             <p style={{ fontWeight: '500', fontSize: '20px', marginBottom: '0', marginTop: '10px', alignSelf: 'flex-start', marginLeft: '8px' }}>
-                                 Now Status
-                                 {kitDetail?.date}
+                                 Latest Status
+                                 <span style={{ marginLeft: '10px', fontSize: '14px', color: 'grey' }}>
+                                    {kitDetail?.sensorData[0]?.date.split('.')[0].replace("T", " ").substring(5,)}
+                                 </span>
                             </p>
                             <div style={{ width: '98%' }}>
                                 <div className='sensorContent' style={{ display: 'flex', height: '40%', backgroundColor: '#F8F9F8', borderRadius: '20px' }}>
