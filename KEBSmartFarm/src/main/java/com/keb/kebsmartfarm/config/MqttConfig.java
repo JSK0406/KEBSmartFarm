@@ -3,6 +3,7 @@ package com.keb.kebsmartfarm.config;
 import com.keb.kebsmartfarm.service.MqttReceiver;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -100,10 +101,6 @@ public class MqttConfig {
     public interface MyGateway {
 
         void sendToMqtt(String payload, @Header(MqttHeaders.TOPIC) String topic);
-
-        void sendToMqtt(String payload, @Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) int qos);
-
-        int sendToMQTT(String payload);
     }
 
 }

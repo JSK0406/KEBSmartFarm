@@ -18,11 +18,11 @@ public class ArduinoKitService {
 
     public ArduinoResponseDto createArduinoKit(ArduinoRequestDto requestDto, ReleasedKit releasedKit) {
         if(isKitRegistered(requestDto.getSerialNum())){
+            throw new IllegalStateException("이미 등록된 키트입니다.");
+        }else{
             ArduinoKit arduinoKit = requestDto.toArduinoKit();
             arduinoKit.setReleasedKit(releasedKit);
             return ArduinoResponseDto.of(arduinoKitRepository.save(arduinoKit));
-        }else{
-            throw new IllegalStateException("이미 등록된 키트입니다.");
         }
     }
 

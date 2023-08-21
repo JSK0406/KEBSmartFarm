@@ -89,8 +89,8 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
         arduinoKitService.deleteKit(arduinoKit);
         // 지운 후 키트에 저장된 와이파이 정보 삭제
         COMMAND.replace("command", "delKit");
-        myGateway.sendToMqtt(JsonUtil.toJson(COMMAND),
-                arduinoKit.getSerialNum(), 2);
+        myGateway.sendToMqtt(JsonUtil.toJson(COMMAND), arduinoKit.getSerialNum());
+
     }
 
     @Override
@@ -99,7 +99,7 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
         ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
         COMMAND.replace("command", "addPlant");
         myGateway.sendToMqtt(JsonUtil.toJson(COMMAND),
-                TOPIC + arduinoKit.getSerialNum() + "-command", 2);
+                TOPIC + arduinoKit.getSerialNum() + "-command");
         PlantResponseDto plant = plantService.createPlant(arduinoKit, plantRequestDto);
         plant.setProfileImg(PictureUtils.getUrl(plant.getStoredPath()));
         return plant;
@@ -111,7 +111,7 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
         ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
         COMMAND.replace("command", "growth");
         myGateway.sendToMqtt(JsonUtil.toJson(COMMAND),
-                TOPIC + arduinoKit.getSerialNum() + "-command", 2);
+                TOPIC + arduinoKit.getSerialNum() + "-command");
         return previousPlantService.movePlantToPreviousPlant(arduinoKit);
     }
 
@@ -121,7 +121,7 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
         ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
         COMMAND.replace("command", "delPlant");
         myGateway.sendToMqtt(JsonUtil.toJson(COMMAND),
-                TOPIC + arduinoKit.getSerialNum() + "-command", 2);
+                TOPIC + arduinoKit.getSerialNum() + "-command");
         plantService.deletePlant(arduinoKit);
     }
 
@@ -168,7 +168,7 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
         ArduinoKit arduinoKit = arduinoKitService.findKitByKitNo(kitNo);
         COMMAND.replace("command", "water");
         myGateway.sendToMqtt(JsonUtil.toJson(COMMAND),
-                TOPIC + arduinoKit.getSerialNum() + "-command", 2);
+                TOPIC + arduinoKit.getSerialNum() + "-command");
         ret.put("date", plantWateringService.supplyWater(arduinoKit).getWateringDate());
         return ret;
     }
@@ -178,8 +178,8 @@ public class KitAndPlantManageServiceImpl implements KitAndPlantManageService {
     public List<PlantPictureResponseDto> loadAllPicsByPlantNum(long plantNo) {
         List<PlantPictureResponseDto> plantPictureResponseDtoList = plantPictureService.loadAllByPlantNum(plantNo);
         plantPictureResponseDtoList.forEach(
-                        ppr -> ppr.setImageUrl(PictureUtils.getUrl(ppr.getStoredPath()))
-                );
+                ppr -> ppr.setImageUrl(PictureUtils.getUrl(ppr.getStoredPath()))
+        );
         return plantPictureResponseDtoList;
     }
 
