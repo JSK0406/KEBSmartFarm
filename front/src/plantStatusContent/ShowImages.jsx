@@ -55,7 +55,6 @@ function ShowImages({ plantNum }) {
                             <img
                                 src={`${image.imageUrl}`}
                                 className="d-block w-100"
-                                // alt="Server content"
                                 style={{  }}
                             />
                             {/* <div className="carousel-caption d-none d-md-block"> */}

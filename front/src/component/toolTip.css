@@ -1,0 +1,9 @@
+.custom-tooltip .tooltip-inner {
+    background-color: white;
+    color: black;
+}
+
+.custom-tooltip .arrow::before {
+    border-bottom-color: white;
+    /* 이 부분은 툴팁의 화살표 부분의 색상을 조절합니다. */
+}

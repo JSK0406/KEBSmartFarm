@@ -15,7 +15,7 @@ function CurrentPlantStatus({ plant }) {
                 <p style={{ fontSize: '16px', color: 'black', opacity: '50%' }} >{plant.plantRegDate.split('T')[0]} ~ Now</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <UploadImageBtn plantNum={plant.plantNum}></UploadImageBtn>
-                        <ShowImagesBtn plantNickName={plant.plantNickName} plantNum={plant.plantNum} statusType='cur'></ShowImagesBtn>
+                    <ShowImagesBtn plantNickName={plant.plantNickName} plantNum={plant.plantNum} statusType='cur'></ShowImagesBtn>
                 </div>
             </div>
         </div>

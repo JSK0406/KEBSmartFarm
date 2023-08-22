@@ -64,7 +64,6 @@ function FindPlant() {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                {/* <div style={{ marginTop: '30px', marginBottom: '30px', display: 'flex', width: '70%'  }}> */}
                 <div style={{ marginTop: '30px', marginBottom: '30px', display: 'flex', width: '70vmin'  }}>
                     <input style={{ borderRadius: '15px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px', fontWeight: 'bold' }} autocomplete="off"  list='plants' placeholder="Plant's name" type="text" className="form-control" id="recipient-name" value={plantName} onChange={(e) => setPlantName(e.target.value)} />
                     <datalist id="plants">

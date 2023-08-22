@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import Cookies from 'js-cookie'
 import { fetchUser } from '../../../store/userInfoSlice'
 import './registerPlant.css'
+import ToolTip from '../../../component/Tooltip'
 
 function RegisterPlant({kitNo}) {
 
@@ -93,6 +94,7 @@ function RegisterPlant({kitNo}) {
                                     <div className='imgContent' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}>
                                         <h5> Upload your plant Image</h5>
                                         <img style={{ border: '1px solid black', width: '100px', height: '100px'}} src={form.plantImage ? URL.createObjectURL(form.plantImage) : 'plantplant.png'} class="rounded-circle" alt="..."></img>
+                                    <ToolTip></ToolTip>
                                     </div>
                                     <div class='sendImgContent' style={{ display: 'flex', justifyContent: 'right' }}>
                                         <button onClick={() => fileInputRef.current.click()} id='uploadBtn' style={{ borderRadius: '10px', borderRight: '1px solid white', borderTopRightRadius: '0px', borderBottomRightRadius: '0px', backgroundColor: '#73BD72', color: "white" }} type="button" className="btn">Select</button>
