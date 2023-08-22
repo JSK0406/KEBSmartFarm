@@ -12,7 +12,7 @@
 #define SERIAL_NUMBER "C4487DA4-0D4E-4036-A157-75095B6C0CAC"
 
 // initial AP MODE
-const char *AP_SSID = "kit_C4487DA4";
+const char *AP_SSID = "KIT_C4487DA4";
 const char *AP_PASSWORD = "password";
 OLED_U8G2 oled;
 // Setting sensors
@@ -79,7 +79,9 @@ void saveConfigHandler(AsyncWebServerRequest *);
 void MQTT_connect();
 void calcTempCeclious();
 void handleCommand(Adafruit_MQTT_Subscribe *);
-void cmdCallBack();
+void zzCallBack(uint32_t);
+void cmdCallBack(char *, uint16_t);
+
 void setup() {
     Serial.begin(115200);
     oled.setup();
@@ -108,14 +110,14 @@ void setup() {
 
         // get flag from server
         httpclient.begin(
-                // "https://kebsmartfarm.duckdns.org:8080/sensor/" + String(kitNo) + "/plant");
-                "https://172.30.1.33:8080/sensor/" + String(kitNo) + "/plant");
+                "https://kebsmartfarm.duckdns.org:8080/sensor/" + String(kitNo) + "/plant");
         if(httpclient.GET() == HTTP_CODE_OK){
             String res = httpclient.getString();
             hasPlant = res.equals("true");
         }
         Serial.println(hasPlant ? "true" : "false");
 
+        command.setCallback(cmdCallBack);
         // Setup MQTT subscription for receiving command
         mqtt.subscribe(&command);
 
@@ -129,13 +131,7 @@ void loop() {
     if (SPIFFS.exists("/config.json")) {
         MQTT_connect();
         Adafruit_MQTT_Subscribe *subs;
-        mqtt.processPackets(1000);
-        if (subs = mqtt.readSubscription(5000)) {
-            if (subs == &command) {
-                handleCommand(subs);
-            }
-            cmdJson.clear();
-        }
+        mqtt.processPackets(5000);
     }
     unsigned long currentMillis = millis();
     if (currentMillis - previousMillis >= interval && hasPlant) {
@@ -146,7 +142,7 @@ void loop() {
         String jsonStr;
         // 등록시 찾아서 넣도록 변경
         // webServer에서 요청 보내서 -> 스프링 서버에서 받아오기
-        data["kitNo"] = 1;
+        data["kitNo"] = kitNo;
         // data["serialNumber"] = SERIAL_NUMBER;
         data["temp"] = Tc;
         data["illuminance"] = lux;
@@ -283,8 +279,8 @@ void calcTempCeclious() {
     Tc = T - 273.15; // celsius
 }
 
-void handleCommand(Adafruit_MQTT_Subscribe *subs) {
-    deserializeJson(cmdJson, (char *)command.lastread);
+void cmdCallBack(char * order, uint16_t len){
+    deserializeJson(cmdJson, order);
     const char *cmd = cmdJson["command"];
 
     if (strcmp(cmd, "switch") == 0) {
@@ -319,11 +315,5 @@ void handleCommand(Adafruit_MQTT_Subscribe *subs) {
         digitalWrite(motorA, LOW);
         digitalWrite(motorB, LOW);
     }
-
-    
-}
-
-int cmdCallBack(bool isDone) {
-    Serial.print("Command Works : ");
-    Serial.println(isDone ? "true" : "false");
+    cmdJson.clear();
 }
