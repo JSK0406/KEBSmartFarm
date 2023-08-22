@@ -31,12 +31,6 @@ function SignUp() {
         console.log(form.userEmail);
         createAccount(form.userName, form.userId, form.userPassword, form.userEmail, form.userPhoneNum, form.userNickname);
     };
-    // const handleSignUp = () => {
-    //     console.log(form.userEmail);
-    //     if (handleValidation(updatedForm)) {
-    //         createAccount(form.userName, form.userId, form.userPassword, form.userEmail, form.userPhoneNum, form.userNickname);
-    //     }
-    // };
 
     const isFormComplete = () => {
         for (let key in form) {
@@ -69,7 +63,7 @@ function SignUp() {
                 alert("Success")
             })
             .catch((error) => {
-                alert("오류가 발생했습니다. 다시 시도해주세요.");
+                alert("Server error");
             })
     } 
 

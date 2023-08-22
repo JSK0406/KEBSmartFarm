@@ -12,11 +12,11 @@ function FindPassword(props) {
         userEmail: '',
     })
 
-    const handleFindId = () => {
-        requestFindId(form.userId, form.userEmail)
+    const handleFindPassword = () => {
+        requestFindPassword(form.userId, form.userEmail)
     }
 
-    const requestFindId = async (userId, userEmail) => {
+    const requestFindPassword = async (userId, userEmail) => {
         await axios.post(`${Server_IP}/auth/findPw`, { userId: userId, userEmail: userEmail },
             {
                 headers: {
@@ -25,9 +25,10 @@ function FindPassword(props) {
             })
             .then((res) => {
                 alert(res.data);
+                
             })
             .catch((error) => {
-                alert("입력하신 정보를 다시 확인해주세요.");
+                alert("Server error");
             })
     }
 
@@ -53,7 +54,7 @@ function FindPassword(props) {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleFindId}>Check</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleFindPassword}>Check</button>
                         </div>
                     </div>
                 </div>

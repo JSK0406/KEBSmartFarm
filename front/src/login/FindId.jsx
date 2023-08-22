@@ -23,7 +23,6 @@ function FindId(props) {
                 },
             })
             .then((res) => {
-                console.log("아이디 찾기");
                 if (res?.data?.userId) {
                     alert(`Your ID is ${res.data.userId}`)
                 } else {
@@ -31,7 +30,7 @@ function FindId(props) {
                 }
             })
             .catch((error) => {
-                alert("오류가 발생했습니다. 다시 시도해주세요.");
+                alert("Server Error");
             })
     }
 

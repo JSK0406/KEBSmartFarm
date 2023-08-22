@@ -16,7 +16,7 @@ function ShowImages({ plantNum }) {
                 setImages(res.data.reverse());
             })
             .catch((error) => {
-                alert("기기번호를 다시 확인해주세요");
+                alert("Server error");
             })
     }
 
@@ -55,9 +55,7 @@ function ShowImages({ plantNum }) {
                             <img
                                 src={`${image.imageUrl}`}
                                 className="d-block w-100"
-                                style={{  }}
                             />
-                            {/* <div className="carousel-caption d-none d-md-block"> */}
                             <div style={{ marginTop: '20px', position: 'relative' }}>
                                 <div style={{ fontSize: '20px', wordWrap: 'break-word', maxWidth: '90%' }}>
                                     {image.msg}

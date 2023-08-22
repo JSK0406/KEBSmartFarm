@@ -24,14 +24,10 @@ const checkLogin = () => {
 function App() {
   
   const dispatch = useDispatch()
-  let isLogin = '';
-  const isToken = checkLogin();
+  let isLogin = checkLogin();
   
-  if (isToken) {
+  if (isLogin) {
     dispatch(fetchUser());
-    isLogin = true;
-  } else {
-    isLogin = false;
   }
 
   useEffect(() => {
@@ -47,11 +43,11 @@ function App() {
       <Router>
         {isLogin && <NavUpper />}
         <Routes>
-          <Route path="/home" element={isLogin ? <HomeContent /> : < LoginPage />}/>
-          <Route path="/search" element={isLogin ? <SearchContent /> : < LoginPage />} />
-          <Route path="/status" element={isLogin ? <PlantStatusContent /> : < LoginPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="*" element={<Navigate to="/home" />}></Route>
+          <Route path="/home" element={isLogin ? <HomeContent /> : <Navigate to="/login" />}/>
+          <Route path="/search" element={isLogin ? <SearchContent /> : <Navigate to="/login" />} />
+          <Route path="/status" element={isLogin ? <PlantStatusContent /> : <Navigate to="/login" />} />
+          <Route path="/login" element={isLogin ? <Navigate to="/home" /> : <LoginPage />} />
+          <Route path="*" element={isLogin ? <Navigate to="/home" /> : <Navigate to="/login" />}></Route>
         </Routes>
       </Router>
     </div>

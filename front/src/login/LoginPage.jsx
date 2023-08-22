@@ -44,7 +44,6 @@ export default function LoginPage() {
     const accessToken = Cookies.get('accessToken');
 
     const loginRequest = async (userId, password) => {
-        console.log(Server_IP)
         await axios.post(`${Server_IP}/auth/login`, { userId: userId, userPassword: password },
             {
                 headers: {
@@ -52,29 +51,44 @@ export default function LoginPage() {
                 },
             })
             .then((res) => {
-                console.log("성공");
-                if (res.data.accessToken) {
-                    axios.get(`${Server_IP}/users/me`, {
-                        headers: {
-                            "Authorization": `Bearer ${res.data.accessToken}`
-                        }
-                    })
-                        .then((userRes) => {
-                            console.log(userRes.data)
-                            setCookie('accessToken', res.data.accessToken);
-                            navigate("/");
-                            window.location.reload();
-                        }).catch((error) => {
-                            console.log(error)
-                        });
-                        
-                }
+                setCookie('accessToken', res.data.accessToken);
+                navigate("/");
+                window.location.reload();
             })
             .catch((error) => {
-                console.log(error);
-                alert("아이디와 비밀번호를 확인해 주세요.");
+                alert("Please check your Id and Password.");
             });
     };
+
+    
+    // const loginRequest = async (userId, password) => {
+    //     await axios.post(`${Server_IP}/auth/login`, { userId: userId, userPassword: password },
+    //         {
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //         })
+    //         .then((res) => {
+    //             if (res.data.accessToken) {
+    //                 axios.get(`${Server_IP}/users/me`, {
+    //                     headers: {
+    //                         "Authorization": `Bearer ${res.data.accessToken}`
+    //                     }
+    //                 })
+    //                     .then((userRes) => {
+    //                         setCookie('accessToken', res.data.accessToken);
+    //                         navigate("/");
+    //                         window.location.reload();
+    //                     }).catch((error) => {
+    //                         console.log(error)
+    //                     });
+                        
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             alert("Please check your Id and Password.");
+    //         });
+    // };
 
     return (
         <>

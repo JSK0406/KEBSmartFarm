@@ -97,7 +97,7 @@ function AddDevice() {
             }} type="button" className="btn" data-bs-toggle="modal" data-bs-target="#addDevice" data-bs-whatever="@getbootstrap"><FontAwesomeIcon icon={faPlus} /> Device</button>
             <div className="modal fade" id="addDevice" tabindex="-1" aria-labelledby="findModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
-                    <div className="modal-content" style={{ height: '500px'  }}>
+                    <div className="modal-content" style={{ height: '600px'  }}>
                         <div className="modal-header">
                             <h1 className="modal-title fs-5" id="exampleModalLabel">Add Device</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -111,8 +111,12 @@ function AddDevice() {
                                     <label htmlFor="recipient-name" className="col-form-label" >Device Name</label>
                                 <input type="text" className="form-control" id="recipient-name" value={deviceName} onChange={(e) => setDeviceName(e.target.value)} />
                                 </div>
-                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', scale: '200%', marginTop: '70px' }}>
-                                    <img src='/Aimg.png' width='50px' height='50px' />
+                                <div style={{ fontSize: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}> 
+                                    <span style={{ color: 'orange' }}>1. Connect Wifi</span>
+                                    <span style={{ color: '#e2bd15', paddingTop: '10px' }}>2. Please enter the address and register for Wi-Fi</span>
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', scale: '200%', marginTop: '70px' }}>
+                                    <img src='/DeviceWifi.png' width='90px' height='60px' />
                                 </div>
                             </form>
                         </div>
