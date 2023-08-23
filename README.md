@@ -52,7 +52,7 @@
 ## Architecture
 ![architecture](./image/architecture.png)
 ## API Doc
-![API Doc](image/Screenshot%202023-08-23%20at%2012.08.43.JPG)
+[![API Doc](image/Screenshot%202023-08-23%20at%2012.08.43.JPG)](https://kebsmartfarm.duckdns.org:8080/swagger-ui/index.html#/)
 ## Class Diagram
 # Project ER Diagram
 ```mermaid
