@@ -54,24 +54,6 @@ function RegisterPlant({kitNo}) {
         window.location.reload();
     }
 
-    // const requestRegister = async (plantImage, plantName, plantNickName) => {
-    //     const formData = new FormData();
-    //     formData.append('plantImage', plantImage);
-    //     formData.append('plantName', plantName);
-    //     formData.append('plantNickName', plantNickName);
-
-    //     try {
-    //         const response = await axios.post(`${Server_IP}/kit/${kitNo}/plant`, formData, {
-    //             headers: {
-    //                 "Authorization": `Bearer ${accessToken}`
-    //             },
-    //         });
-    //         alert('Your plant is registered!');
-    //     } catch (error) {
-    //         alert("Please try again");
-    //     }
-    // }
-
     const requestRegister = (plantImage, plantName, plantNickName) => {
         const formData = new FormData();
         formData.append('plantImage', plantImage);

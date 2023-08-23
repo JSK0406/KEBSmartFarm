@@ -21,7 +21,7 @@ function ShowImages({ plantNum }) {
     }
 
     const Server_IP = process.env.REACT_APP_Server_IP;
-    const [images, setImages] = useState([]); // 이미지 데이터를 저장할 state
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
         fetchImages();

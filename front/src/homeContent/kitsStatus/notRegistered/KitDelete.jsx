@@ -25,7 +25,6 @@ function KitDelete({kitNo}) {
     await axios.delete(`${Server_IP}/users/kit/${kitNo}`,
       {
         headers: {
-          // "Content-Type": "application/json",
           "Authorization": `Bearer ${accessToken}`
         },
       })
@@ -34,7 +33,7 @@ function KitDelete({kitNo}) {
         dispatch(fetchUser());
       })
       .catch((error) => {
-        alert("기기번호를 다시 확인해주세요");
+        alert("Server error");
       })
   }
 

@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 
 function AddDevice() {
     const Server_IP = process.env.REACT_APP_Server_IP;
-    const dispatch = useDispatch(); // action을 dispatch하는 함수 가져오기
+    const dispatch = useDispatch();
     const [deviceNumber, setDeviceNumber] = useState("");
     const [deviceName, setDeviceName] = useState("");
     const [isInputFocused, setIsInputFocused] = useState(false);
@@ -75,7 +75,7 @@ function AddDevice() {
             }
         })
         .catch((error) => {
-            alert("기기번호를 다시 확인해주세요");
+            alert("Server Error");
         })
     }
 

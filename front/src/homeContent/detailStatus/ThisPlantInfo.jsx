@@ -3,7 +3,7 @@ import React from 'react'
 function ThisPlantInfo({plantDetail}) {
 
   const getSeason = () => {
-    const month = new Date().getMonth() + 1; // 월은 0에서 시작하므로 1을 더합니다.
+    const month = new Date().getMonth() + 1;
 
     if (month >= 3 && month <= 5) return 'Spring';
     if (month >= 6 && month <= 8) return 'Summer';

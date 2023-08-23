@@ -60,36 +60,6 @@ export default function LoginPage() {
             });
     };
 
-    
-    // const loginRequest = async (userId, password) => {
-    //     await axios.post(`${Server_IP}/auth/login`, { userId: userId, userPassword: password },
-    //         {
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //         })
-    //         .then((res) => {
-    //             if (res.data.accessToken) {
-    //                 axios.get(`${Server_IP}/users/me`, {
-    //                     headers: {
-    //                         "Authorization": `Bearer ${res.data.accessToken}`
-    //                     }
-    //                 })
-    //                     .then((userRes) => {
-    //                         setCookie('accessToken', res.data.accessToken);
-    //                         navigate("/");
-    //                         window.location.reload();
-    //                     }).catch((error) => {
-    //                         console.log(error)
-    //                     });
-                        
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             alert("Please check your Id and Password.");
-    //         });
-    // };
-
     return (
         <>
             <h2 className="login-title">Green Buddy</h2>

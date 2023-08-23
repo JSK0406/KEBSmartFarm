@@ -1,6 +1,5 @@
 .possibilityBtn {
     transition: transform 1s linear;
-    /* Transition only the transform property */
 }
 
 .possibilityBtn:hover {

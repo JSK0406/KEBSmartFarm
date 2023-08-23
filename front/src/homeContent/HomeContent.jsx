@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import AddDevice from './AddDevice';
-// import { useSelector } from 'react-redux';
-// import { useDispatch } from 'react-redux';
 import KitsStatus from './kitsStatus/KitsStatus';
 
 
 function HomeContent() {
-
-    // const userKitList = useSelector(state => state.userInfo.value.infos.userKitList)
-    // const userInfo = useSelector(state => state.userInfo.value)
-    // const dispatch = useDispatch();
-
-    // const [image, setImage] = useState('');
 
     return(
         <div>

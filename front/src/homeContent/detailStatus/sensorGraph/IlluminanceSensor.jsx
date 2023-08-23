@@ -20,12 +20,10 @@ function IlluminanceSensor({ plantDetail, kitIlluminance }) {
     function getIlluminanceStatus(plantLeastIlluminance, series) {
         const measuredIlluminance = series * 100;  
 
-        // If the measured temperature is within the optimal range
         if (measuredIlluminance >= plantLeastIlluminance && measuredIlluminance <= 10000) {
             return 'Optimal';
         }
 
-        // If the measured temperature is below the optimal range
         if (measuredIlluminance < plantLeastIlluminance) {
             return (
                 <div style={{ textAlign: 'center' }}>
@@ -34,7 +32,6 @@ function IlluminanceSensor({ plantDetail, kitIlluminance }) {
             )
         }
 
-        // If the measured temperature is above the optimal range
         if (measuredIlluminance > 10000) {
             return (
                 <div style={{ textAlign: 'center' }}>
@@ -43,7 +40,7 @@ function IlluminanceSensor({ plantDetail, kitIlluminance }) {
             )
         }
 
-        return 'No Data'; // For other cases (though this might not actually occur, it's added for exception handling.)
+        return 'No Data';
     }
 
     const options = {
@@ -77,7 +74,7 @@ function IlluminanceSensor({ plantDetail, kitIlluminance }) {
                     value: {
                         offsetY: 25,
                         fontSize: '18px',
-                        formatter: function (val) {  // 현재 온도 값을 직접 표시하는 부분입니다.
+                        formatter: function (val) { 
                             return val * 100 + 'Lux';
                         }
                     }
@@ -99,8 +96,8 @@ function IlluminanceSensor({ plantDetail, kitIlluminance }) {
             <ReactApexChart id='chart' options={options} series={series} type="radialBar" height='100%' paddingBottom="10px" />
             <div style={{
                 position: 'absolute',
-                left: '50%',  // 가로 중앙에 배치하기 위해 50%로 설정
-                transform: 'translateX(-50%)',  // 가로 방향으로 자기 자신의 반만큼 이동
+                left: '50%',
+                transform: 'translateX(-50%)', 
                 fontSize: '16px',
                 top: '70%',
                 bottom: '20%'

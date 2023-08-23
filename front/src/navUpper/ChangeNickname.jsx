@@ -33,8 +33,7 @@ function ChangeNickname({ exUserNickname }) {
                 window.location.reload();
             })
             .catch((error) => {
-                alert(error)
-                alert("오류가 발생했습니다. 다시 시도해주세요.");
+                alert(error);
             })
     }
 

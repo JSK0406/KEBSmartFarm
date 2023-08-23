@@ -6,5 +6,4 @@
 .hover-button:hover {
     transform: scale(1.1);
     transition: transform 0.3s ease-in-out;
-    /* 부드럽게 크기를 조정하는 효과 */
 }

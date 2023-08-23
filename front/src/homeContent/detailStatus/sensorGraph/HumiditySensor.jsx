@@ -17,15 +17,12 @@ function HumiditySensor({ plantDetail, kitHumidity }) {
 
 
     function getHumidityStatus(plantAvgHumidity, series) {
-        // const measuredHumidity = (series - 4095) * 100 / 1095  // 변환되어야 함
         const measuredHumidity = series * 1.0;  // 변환되어야 함
 
-        // If the measured temperature is within the optimal range
         if (measuredHumidity >= plantAvgHumidity[0] && measuredHumidity <= plantAvgHumidity[1]) {
             return 'Optimal';
         }
 
-        // If the measured temperature is below the optimal range
         if (measuredHumidity < plantAvgHumidity[0]) {
 
             return (
@@ -35,7 +32,7 @@ function HumiditySensor({ plantDetail, kitHumidity }) {
             )
         }
 
-        // If the measured temperature is above the optimal range
+
         if (measuredHumidity > plantAvgHumidity[1]) {
             return (
                 <div style={{ textAlign: 'center' }}>
@@ -44,7 +41,7 @@ function HumiditySensor({ plantDetail, kitHumidity }) {
             )
         }
 
-        return 'No Data'; // For other cases (though this might not actually occur, it's added for exception handling.)
+        return 'No Data';
     }
 
     const options = {
@@ -78,11 +75,8 @@ function HumiditySensor({ plantDetail, kitHumidity }) {
                     value: {
                         offsetY: 25,
                         fontSize: '22px',
-                        formatter: function (val) {  // 현재 온도 값을 직접 표시하는 부분입니다.
-                            // return (val - 4095) * 100 / 1095 + '%';
-                            // return val.toFixed(2) + '%';
+                        formatter: function (val) {
                             return val + '%';
-                            // return (val - 4095) * 100 / 1095 + '%';
                         }
                     }
                 },
@@ -94,14 +88,14 @@ function HumiditySensor({ plantDetail, kitHumidity }) {
                 shade: 'light',
                 type: 'horizontal',
                 shadeIntensity: 0.5,
-                gradientToColors: ['#A9CFF1'],  // 파스텔 계열의 빨간색으로 변경
+                gradientToColors: ['#A9CFF1'],
                 inverseColors: false,
                 opacityFrom: 1,
                 opacityTo: 1,
                 stops: [0, 100]
             }
         },
-        series: series,  // 현재 온도 값을 여기에 설정합니다.
+        series: series,
         stroke: {
             lineCap: 'round'
         },

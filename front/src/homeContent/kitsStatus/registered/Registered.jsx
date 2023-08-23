@@ -16,10 +16,9 @@ function Registered({kit, index}) {
             top: '10px',
             overflow: 'hidden',
             borderRadius: '50%',
-            // border: '1px solid black',
-            display: 'flex',          // flexbox를 사용
-            justifyContent: 'center', // 가로 방향으로 중앙 정렬
-            alignItems: 'center',     // 세로 방향으로 중앙 정렬
+            display: 'flex',    
+            justifyContent: 'center', 
+            alignItems: 'center',   
           }}>
             <img
               className='profile-img'
@@ -28,7 +27,6 @@ function Registered({kit, index}) {
                 width: '100%',
                 height: '100%',
                 scale: '1.3',
-                // objectFit: 'cover',
                 position: 'relative',
                 top: '0px',
                 right: '0px'

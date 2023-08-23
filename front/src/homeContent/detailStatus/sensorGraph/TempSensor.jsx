@@ -8,7 +8,6 @@ function TempSensor({ plantDetail, kitTemp }) {
     const plantAvgTemp = plantDetail?.plantTemp?.split('~') || '';
     const plantLeastTemp = plantDetail?.plantWinterTemp || '';
 
-    // useEffect를 사용하여 kitTemp가 변경될 때마다 series 상태를 업데이트
     React.useEffect(() => {
         if (kitTemp === '') {
             setSeries(['notYet'])
@@ -18,13 +17,12 @@ function TempSensor({ plantDetail, kitTemp }) {
     }, [kitTemp]);
 
     function getTemperatureStatus(plantAvgTemp, plantLeastTemp, series) {
-        const measuredTemp = series / 2.5;  // Get the measured temperature (since series had been multiplied by 2.5 as mentioned in the comments)
+        const measuredTemp = series / 2.5;  
 
         if (measuredTemp >= plantAvgTemp[0] && measuredTemp <= plantAvgTemp[1]) {
             return 'Optimal';
         }
 
-        // If the measured temperature is below the optimal range
         if (measuredTemp < plantAvgTemp[0]) {
             return (
                 <div style={{ textAlign: 'center' }}>
@@ -33,7 +31,6 @@ function TempSensor({ plantDetail, kitTemp }) {
             )
         }
 
-        // If the measured temperature is above the optimal range
         if (measuredTemp > plantAvgTemp[1]) {
             return (
                 <div style={{ textAlign: 'center' }}>
@@ -42,7 +39,7 @@ function TempSensor({ plantDetail, kitTemp }) {
             )
         }
 
-        return 'No Data'; // For other cases (though this might not actually occur, it's added for exception handling.)
+        return 'No Data'; 
     }
 
     const options = {
@@ -76,7 +73,7 @@ function TempSensor({ plantDetail, kitTemp }) {
                     value: {
                         offsetY: 25,
                         fontSize: '22px',
-                        formatter: function (val) {  // 현재 온도 값을 직접 표시하는 부분입니다.
+                        formatter: function (val) { 
                             return val/2.5 + '°C';
                         }
                     }
@@ -89,14 +86,14 @@ function TempSensor({ plantDetail, kitTemp }) {
                 shade: 'light',
                 type: 'horizontal',
                 shadeIntensity: 0.5,
-                gradientToColors: ['#FF8888'],  // 파스텔 계열의 빨간색으로 변경
+                gradientToColors: ['#FF8888'], 
                 inverseColors: false,
                 opacityFrom: 1,
                 opacityTo: 1,
                 stops: [0, 40]
             }
         },
-        series: series,  // 현재 온도 값을 여기에 설정합니다.
+        series: series,
         stroke: {
             lineCap: 'round'
         },
@@ -108,8 +105,8 @@ function TempSensor({ plantDetail, kitTemp }) {
             <ReactApexChart id='chart' options={options} series={series} type="radialBar" height='100%' paddingBottom="10px" />
             <div style={{
                 position: 'absolute',
-                left: '50%',  // 가로 중앙에 배치하기 위해 50%로 설정
-                transform: 'translateX(-50%)',  // 가로 방향으로 자기 자신의 반만큼 이동
+                left: '50%',
+                transform: 'translateX(-50%)',
                 fontSize: '16px',
                 top: '70%',
                 bottom: '20%'

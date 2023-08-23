@@ -37,9 +37,9 @@ function WaterBtn({ kitNo, fetchWateringDates }) {
                     width: '7vmax',
                     height: '25px',
                     marginBottom: '5px',
-                    display: 'flex',      // Flex display 추가
-                    alignItems: 'center',  // 세로 중앙 정렬
-                    justifyContent: 'center'  // 가로 중앙 정렬
+                    display: 'flex',  
+                    alignItems: 'center',
+                    justifyContent: 'center'  
                 }}
                 onClick={() => requestWater()}
             >

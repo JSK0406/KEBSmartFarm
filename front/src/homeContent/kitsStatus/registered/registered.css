@@ -1,5 +1,3 @@
-/* Registered.css */
-
 .profile-img {
     width: 60px;
     height: 60px;
@@ -12,7 +10,6 @@
 
 @media (min-width: 992px) {
 
-    /* Bootstrap의 lg breakpoint */
     .profile-img {
         width: 80px;
         height: 80px;

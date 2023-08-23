@@ -25,13 +25,12 @@ function ChangePassword() {
           },
         })
         .then((res) => {
-          alert("비밀번호 변경이 완료되었습니다.")
+          alert("Success.")
           Cookies.remove("accessToken");
           window.location.reload();
         })
         .catch((error) => {
           alert(error)
-          alert("오류가 발생했습니다. 다시 시도해주세요.");
         })
     }
 
