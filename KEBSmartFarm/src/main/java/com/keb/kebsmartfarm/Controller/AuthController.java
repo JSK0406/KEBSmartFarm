@@ -51,10 +51,10 @@ public class AuthController {
         }catch (Exception e){
             aftTime = System.currentTimeMillis();
             logger.info("걸린 시간 : " + (aftTime - befTime));
-            return ResponseEntity.ok("아이디/이메일이 일치하지 않습니다.");
+            return ResponseEntity.ok("ID or Password doesn't match");
         }
         aftTime = System.currentTimeMillis();
         logger.info("걸린 시간 : " + (aftTime - befTime));
-        return ResponseEntity.ok("이메일을 보냈습니다");
+        return ResponseEntity.ok("Sent Email to given Email Address");
     }
 }
