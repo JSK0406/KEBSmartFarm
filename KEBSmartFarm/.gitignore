@@ -41,3 +41,6 @@ out/
 /src/main/resources/pictures/
 
 ../arduino
+
+### apple Finder ####
+.DS_Store
